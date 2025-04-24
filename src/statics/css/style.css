@@ -122,11 +122,11 @@ a,
 .btn {
 	text-decoration: none !important;
 	outline: none !important;
-	-webkit-transition: all .3s ease-in-out;
+	/* -webkit-transition: all .3s ease-in-out;
 	-moz-transition: all .3s ease-in-out;
 	-ms-transition: all .3s ease-in-out;
 	-o-transition: all .3s ease-in-out;
-	transition: all .3s ease-in-out;
+	transition: all .3s ease-in-out; */
 }
 
 .btn-custom {
@@ -160,6 +160,7 @@ ol {
 ul {
 	display: flex;
 	justify-content: center;
+	gap: 10px;
 }
 
 button:focus {
@@ -886,7 +887,7 @@ span.icon img {
     -webkit-transition-duration: 0.3s;
     transition-duration: 0.3s;
     color: #fff;
-    float: left;
+    /* float: left; */
     width: 165px;
     height: 45px;
     text-align: center;
@@ -2253,3 +2254,84 @@ section.inner_banner h3 {
 	background: #fff;
 	color: #12385b;
 }
+
+/* ..............................................section bar menu ................................... */
+
+.menu-out {
+	border-radius: 5px;
+    /* display: inline-block; */
+    /* vertical-align: middle;
+    -webkit-transform: perspective(1px) translateZ(0); */
+    transform: perspective(1px) translateZ(0);
+    box-shadow: 0 0 1px rgba(0, 0, 0, 0);
+    /* position: relative; */
+    overflow: hidden;
+    /* background: #095a83; */
+    /* -webkit-transition-property: color; */
+    transition-property: color;
+    /* -webkit-transition-duration: 0.3s; */
+    transition-duration: 0.3s;
+    /* color: #fff; */
+    /* float: left; */
+    /* width: 165px; */
+    /* height: 45px; */
+    text-align: center;
+    /* line-height: 45px; */
+    /* margin-top: 20px; */
+    /* font-weight: 600; */
+    /* text-indent: -10px; */
+}
+
+.menu-out:after {
+    content: "";
+    display: flex;
+    width: 1.5px;
+    height: 100px;
+    background: #fff;
+    position: absolute;
+    /* z-index: 11; */
+    top: 0;
+    right: 25px;
+    transform: skew(-20deg);
+}
+
+.menu-out::before {
+	content: "";
+	position: absolute;
+	z-index: -1;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	background: #000000;
+	border-radius: 100%;
+	/* -webkit-transform: scale(0); */
+	transform: scale(0);
+	/* -webkit-transition-property: transform; */
+	transition-property: transform;
+	/* -webkit-transition-duration: 0.3s; */
+	transition-duration: 0.3s;
+	/* -webkit-transition-timing-function: ease-out; */
+	transition-timing-function: ease-out;
+}
+
+.menu-out:hover::before,
+.menu-out:focus::before,
+.menu-out:active::before {
+	transform: scale(2);
+}
+
+/* a {
+	color: #1f1f1f;
+} */
+
+.menu-out-anchor:hover,
+.menu-out-anchor:focus {
+	color: #fff;
+	/* background-color: #000; */
+}
+
+
+/* .silver_bg .menu-out:after {
+    background: #eee;
+} */
