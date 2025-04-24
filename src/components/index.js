@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import Banner from "./Banner";
 import SectionBar from "./SectionBar";
 import WelcomeSection from "./WelcomeSection"
-import Footer from "./Footer"
+// import Footer from "./Footer"
 import { DateHook } from "../hooks/DateHook";
 
 export default function Home() {
