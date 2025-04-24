@@ -1,4 +1,3 @@
-import footer from "../statics/images/footer_logo.png"
 import i5 from "../statics/images/i5.png"
 import i6 from "../statics/images/i6.png"
 import i7 from "../statics/images/i7.png"
@@ -10,18 +9,6 @@ export default function Footer() {
 					
 						<div className="row"
 						style={{display: "flex", justifyContent: "space-between"}}>
-						
-							{/* <div className="col-xs-12 col-sm-6 col-md-6 col-lg-3">
-								<div className="footer_blog">
-									<div className="full margin-bottom_30">
-										<img src={footer} alt="#" />
-									</div>
-									<div className="full white_fonts">
-										<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. 
-										Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip </p>
-									</div>
-								</div>
-							</div> */}
 							
 							<div className="col-xs-12 col-sm-6 col-md-6 col-lg-3">
 								<div className="footer_blog footer_menu white_fonts">
