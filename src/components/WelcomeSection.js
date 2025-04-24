@@ -39,10 +39,3 @@ export default function WelcomeSection() {
 		</div>
 	)
 }
-
-const styles = {
-	welcome: {
-		display: "flex",
-		justifyContent: "center"
-	},
-}
