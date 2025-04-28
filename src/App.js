@@ -12,12 +12,15 @@ import "./statics/css/responsive.css"
 // import "./statics/css/timeline.css"
 import Home from './components/index';
 import Header from './components/Header';
+import AppRoutes from './Routes';
 
 function App() {
   return (
     <>
-      <Home />
       <Header />
+      <AppRoutes>
+        <Home />
+      </AppRoutes>
     </>
   );
 }
