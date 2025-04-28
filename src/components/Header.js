@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 import appLogo from "../statics/images/logo.png"
 import search from "../statics/images/search_icon.png"
 
@@ -44,14 +45,18 @@ export default function Header () {
 		style={{backgroundColor: lastScrollY ? null:"white"}}>
 			<nav className="navbar header-nav navbar-expand-lg">
 				<div className="container-fluid">
-					<a className="navbar-brand" href="index.html">
+					<Link className="navbar-brand" to="/">
 						<img src={appLogo} alt="images"/>
-					</a>
+					</Link>
 					<div className="collapse navbar-collapse justify-content-end" id="navbar-wd">
 						<ul className="navbar-nav">
 							{/* <li><a className="nav-link active" href="index.html">Home</a></li> */}
 							{/* <li><a className="nav-link" href="about.html">About</a></li> */}
-							<li><a className="nav-link" href="contact.html">Contact us</a></li>
+							<li><Link className="nav-link" to="#">History</Link></li>
+							<li><Link className="nav-link" to="/create">Create</Link></li>
+							<li><Link className="nav-link" to="#">Scramble</Link></li>
+							<li><Link className="nav-link" to="#">Mark</Link></li>
+							<li><Link className="nav-link" to="/contact">Contact us</Link></li>
 						</ul>
 					</div>
 					<div className="search-box">
