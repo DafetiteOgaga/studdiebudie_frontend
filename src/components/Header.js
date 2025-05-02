@@ -39,7 +39,7 @@ export default function Header () {
 	
 		return () => sections.forEach((section) => observer.unobserve(section));
 	}, []);
-	console.log({ isVisible, lastScrollY, activeSection });
+	// console.log({ isVisible, lastScrollY, activeSection });
 	return (
 		<header className={`top-header ${isVisible ? "show-header" : "hide-header"}`}
 		style={{backgroundColor: lastScrollY ? null:"white"}}>
@@ -54,8 +54,8 @@ export default function Header () {
 							{/* <li><a className="nav-link" href="about.html">About</a></li> */}
 							<li><Link className="nav-link" to="#">History</Link></li>
 							<li><Link className="nav-link" to="/create">Create</Link></li>
-							<li><Link className="nav-link" to="#">Scramble</Link></li>
-							<li><Link className="nav-link" to="#">Mark</Link></li>
+							{/* <li><Link className="nav-link" to="#">Scramble</Link></li> */}
+							<li><Link className="nav-link" to="#">Test</Link></li>
 							<li><Link className="nav-link" to="/contact">Contact us</Link></li>
 						</ul>
 					</div>
