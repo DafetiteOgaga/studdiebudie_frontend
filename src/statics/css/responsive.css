@@ -451,5 +451,8 @@
 	.newsletter_form input {
         width: 100%;
     }
+    .center_elements {
+        margin: 0 35px;
+    }
 
 }
