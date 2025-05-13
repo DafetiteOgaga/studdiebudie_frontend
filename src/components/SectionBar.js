@@ -11,6 +11,7 @@ export default function SectionBar() {
 		'#e4e4e2',
 		'lightblue',
 		'rgb(212, 168, 30)',
+		// '#12385b'
 		'#095a83'
 	]
 	return (

@@ -31,7 +31,7 @@ export default function ContactUs() {
 							</div>
 						</div>
 						<div className="layout_padding col-lg-6 col-md-6 col-sm-12">
-							<div className="contact_form">
+							<div className="c_form">
 								<form action="contact.html">
 									<fieldset>
 										<div className="full field">
