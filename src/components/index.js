@@ -4,8 +4,10 @@ import SectionBar from "./SectionBar";
 import WelcomeSection from "./WelcomeSection"
 // import Footer from "./Footer"
 import { DateHook } from "../hooks/DateHook";
+import * as Ficons from "react-icons/fa";
 
 export default function Home() {
+	// console.log(Ficons)
 	const {todayYear} = DateHook();
 	const [lastScrollY, setLastScrollY] = useState(0);
 	useEffect(() => {
