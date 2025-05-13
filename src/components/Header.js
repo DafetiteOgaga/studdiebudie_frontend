@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import appLogo from "../statics/images/logo.png"
 import search from "../statics/images/search_icon.png"
+import { ConvertCase } from '../hooks/ConvertCase';
 
 export default function Header () {
+	const location = useLocation().pathname.split("/")[1];
 	const [isVisible, setIsVisible] = useState(true);
 	const [lastScrollY, setLastScrollY] = useState(0);
-	const [activeSection, setActiveSection] = useState("#home");
+	// const [activeSection, setActiveSection] = useState("#home");
 	useEffect(() => {
 		const handleScroll = () => {
 			if (window.scrollY > lastScrollY) {
@@ -22,41 +24,59 @@ export default function Header () {
 		window.addEventListener("scroll", handleScroll);
 		return () => window.removeEventListener("scroll", handleScroll);
 	}, [lastScrollY]);
-	useEffect(() => {
-		// Intersection Observer to detect which section is visible
-		const sections = document.querySelectorAll("section");
-		const observer = new IntersectionObserver(
-			(entries) => {
-				const visibleSection = entries.find((entry) => entry.isIntersecting);
-				if (visibleSection) {
-				setActiveSection(`#${visibleSection.target.id}`);
-				}
-			},
-			{ threshold: 0.5 }
-		);
-	
-		sections.forEach((section) => observer.observe(section));
-	
-		return () => sections.forEach((section) => observer.unobserve(section));
-	}, []);
-	// console.log({ isVisible, lastScrollY, activeSection });
+	// useEffect(() => {
+	// 	// Intersection Observer to detect which section is visible
+	// 	const sections = document.getElementsByClassName("section");
+	// 	console.log({sections})
+	// 	const observer = new IntersectionObserver(
+	// 		(entries) => {
+	// 			const visibleSection = entries.find((entry) => entry.isIntersecting);
+	// 			// console.log('visibleSection:', visibleSection.target.id)
+	// 			if (visibleSection) {
+	// 				setActiveSection(`#${visibleSection.target.id}`);
+	// 			}
+	// 		},
+	// 		{ threshold: 0.5 }
+	// 	);
+
+	// 	sections.forEach((section) => observer.observe(section));
+
+	// 	return () => sections.forEach((section) => observer.unobserve(section));
+	// });
+	// console.log({ isVisible, lastScrollY, location });
+	const headerMenus = [
+		{ name: "home", link: "/" },
+		{ name: "history", link: "#" },
+		{ name: "create", link: "/create" },
+		{ name: "test", link: "#" },
+		{ name: "contact us", link: "/contact" },
+	]
+	// console.log('location:', location)
 	return (
 		<header className={`top-header ${isVisible ? "show-header" : "hide-header"}`}
-		style={{backgroundColor: lastScrollY ? null:"white"}}>
+		// style={{backgroundColor: lastScrollY ? null:"white"}}
+		>
 			<nav className="navbar header-nav navbar-expand-lg">
 				<div className="container-fluid">
-					<Link className="navbar-brand" to="/">
+					<Link className="navbar-brand" to="#">
 						<img src={appLogo} alt="images"/>
 					</Link>
-					<div className="collapse navbar-collapse justify-content-end" id="navbar-wd">
+					<div className="collapse navbar-collapse justify-content-end header_menu" id="navbar-wd">
 						<ul className="navbar-nav">
-							{/* <li><a className="nav-link active" href="index.html">Home</a></li> */}
-							{/* <li><a className="nav-link" href="about.html">About</a></li> */}
-							<li><Link className="nav-link" to="#">History</Link></li>
-							<li><Link className="nav-link" to="/create">Create</Link></li>
-							{/* <li><Link className="nav-link" to="#">Scramble</Link></li> */}
-							<li><Link className="nav-link" to="#">Test</Link></li>
-							<li><Link className="nav-link" to="/contact">Contact us</Link></li>
+							{headerMenus.map((menu, index) => {
+								// console.log(
+								// 	'\nlocation:', location,
+								// 	'\nmenu.link:', menu.link,
+								// 	'\nlocation === menu.link:', location === menu.link,
+								// )
+								return (
+									<li key={index} className="nav-item">
+										<Link className={`nav-link ${location === menu.link.split('/')[1] ? "active" : ""}`} to={menu.link}>
+											{ConvertCase(menu?.name)}
+										</Link>
+									</li>
+								)
+							})}
 						</ul>
 					</div>
 					<div className="search-box">
