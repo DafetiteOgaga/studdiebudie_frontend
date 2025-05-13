@@ -1,19 +1,42 @@
+import { useState } from 'react';
 import { handleDocxFile } from "./fileHandlers/DocFileHandler";
 import { handleTxtFile } from "./fileHandlers/TextFileHandler";
 
-const handleFileUpload = (e) => {
-	const file = e.target.files[0];
-	if (!file) return;
+const useHandleFileUpload = () => {
+	const [text, setText] = useState(null);
+	// const [reference, setReference] = useState(0);
 
-	const fileExtension = file.name.split('.').pop().toLowerCase();
+	// console.log('\nisFile#1:', !!text)
+	const handleFileChange = async (e) => {
+		const file = e.target.files[0];
+		// console.log('\nisFile#2:', file)
+		if (!file) {
+			setText(null)
+			return
+		}
 
-	if (fileExtension === 'txt') {
-		handleTxtFile(file);
-	} else if (fileExtension === 'docx') {
-		handleDocxFile(file);
-	} else {
-		alert("Unsupported file type");
+		const fileExtension = file.name.split('.').pop().toLowerCase();
+		// let result;
+
+		if (fileExtension === 'txt') {
+			handleTxtFile(file, (txtText) => {
+				setText(txtText);
+			})
+		} else if (fileExtension === 'docx') {
+			handleDocxFile(file, (docText) => {
+				setText(docText);
+			});
+		} else {
+			alert("Unsupported file type");
+			return null
+		}
+		// setReference(1)
+		// console.log({result})
 	}
+	// console.log('\ntext:', !!text)
+	return { text, handleFileChange,
+		// reference, setReference
+	};
 };
 
-export {handleFileUpload}
+export {useHandleFileUpload}
