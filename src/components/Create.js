@@ -1,16 +1,15 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo,
+	// useRef
+} from "react";
 import defaultImage from '../statics/images/sample_image.png'
-import { handleFileUpload } from "../hooks/FileReaderHandler";
+import { useHandleFileUpload } from "../hooks/FileReaderHandler";
+import { generateFilesAndDownload } from "../hooks/fileDownloadHandlers/GenerateAndDownloadInZip";
+import { Questions } from "./questions/Questions";
+import { MoreInfo } from "./MoreInfo";
+
+const serverOrigin = 'http://localhost:4000'
 
 const formValues = {
-	// school: "lssmc",
-	// email: "me@me.com",
-	// subject: "maths",
-	// phone: "22222",
-	// class: "ss2",
-	// term: "second",
-	// duration: "3",
-	// totalQs: "4",
 	school: "",
 	email: "",
 	subject: "",
@@ -20,6 +19,7 @@ const formValues = {
 	duration: "",
 	totalQs: "",
 	session: "",
+	instruction: "",
 }
 const questionObject = {
 	number: '',
@@ -33,20 +33,67 @@ const questionObject = {
 	imageMode: '',
 }
 
+const txtContent = "School: Altaviz High\nSubject: Math\nQuestion 1: ...";
+const docContent = {
+	school: "School: Altaviz High",
+	subject: "Subject: Physics",
+	question1: "Question 1: Describe Newton's 2nd Law.",
+	question2: "Question 2: What is acceleration due to gravity?",
+}
+
+const fileDownloadHandler = (type) => {
+	if (type==='txt') {
+		generateFilesAndDownload(txtContent, type, 'myText')
+	} else {
+		generateFilesAndDownload(docContent, type, 'myText')
+	}
+}
+
 export default function Create() {
 	// const numberOfQuestions = 2
+	// const inputRef = useRef();
+	const [showSubmitArray, setShowSubmitArray] = useState([false, false]);
+	const [downloadLink, setDownloadLink] = useState(null);
 	const [totalNumberOfQuestions, setTotalNumberOfQuestions] = useState(0)
 	const [questions, setQuestions] = useState([questionObject]);
+	const [fileUploadQuestions, setFileUploadQuestions] = useState([questionObject]);
+	const [newFileUploadQuestions, setNewFileUploadQuestions] = useState(null);
+	const [schoolData, setSchoolData] = useState(null);
 	const [formData, setFormData] = useState(formValues);
-	const [isImageVisible, setIsImageVisible] = useState([Array(totalNumberOfQuestions).fill(false)]);
+	const [totalFileUploadQuestions, setTotalFileUploadQuestions] = useState(0)
+	const [isImageVisible, setIsImageVisible] = useState([Array(totalFileUploadQuestions?totalFileUploadQuestions:totalNumberOfQuestions).fill(false)]);
 	const [isFile, setIsFile] = useState(false)
+	// const [UploadedContent, setUploadedContent] = useState(null)
 
+	const { text, handleFileChange } = useHandleFileUpload();
+	// console.log({reference})
+	// if (reference&&inputRef.current.value) {
+	// 	inputRef.current.value = ''
+	// 	setReference(0)
+	// }
+	// const useResponseHandler = (e) => {
+	// 	const response = useHandleFileUpload(e)
+	// 	console.log('response:', response)
+	// 	setUploadedContent(response)
+	// }
+	let infoItems
 	const toggleFile = () => {
-		setIsFile(!isFile)
+		setIsFile((prev) => {
+			// console.log('prev:', prev)
+			if (prev===true) {
+				// setFormData(formValues)
+				infoItems = null
+			} else {
+				setTotalFileUploadQuestions(0)
+			}
+			setFormData(formValues)
+			return !prev
+		})
 	}
 	const handleQuestionChange = (index, e) => {
 		const { name, value, files } = e.target;
 		let updatedQuestions = [...questions];
+		// if (totalFileUploadQuestions) updatedQuestions = [...fileUploadQuestions]
 		updatedQuestions[index]["number"] = index + 1; // auto-add/update question number
 		if (name === "image") {
 			const file = files[0];
@@ -55,34 +102,77 @@ export default function Create() {
 		} else {
 			updatedQuestions[index][name] = value;
 		}
-		setQuestions(updatedQuestions);
+		setQuestions(updatedQuestions)
 		setFormData((prev) => ({...prev, ...updatedQuestions}))
+		setShowSubmitArray(prev => {
+			const updated = [...prev];
+			updated[1] = true;
+			return updated;
+		});
 	};
 
 	const handleChange = (e) => {
 		const { name, value } = e.target;
+		if (name === 'totalQs') {
+			setTotalNumberOfQuestions(Number(value))
+			setTotalFileUploadQuestions(Number(0))
+			setFormData(formValues)
+			if (!value) {
+				setShowSubmitArray(prev => {
+					const updated = [...prev];
+					updated[0] = false;
+					return updated;
+				});
+			} else if (value) {
+				setShowSubmitArray(prev => {
+					const updated = [...prev];
+					updated[0] = true;
+					return updated;
+				});
+			}
+		}
 		setFormData((prev) => ({
 			...prev,
 			[name]: value,
 		}));
-		if (name === 'totalQs') {
-			setTotalNumberOfQuestions(Number(value))
-		}
 	};
 
 	const addQuestion = () => {
-		setQuestions([
-			...questions,
+		console.log('addQuestion')
+		console.log('fileUploadQuestions:', fileUploadQuestions)
+		const newQuestionObject = [
+			// ...questions,
 			{
+				number: '',
 				question: '',
 				correct_answer: '',
 				wrong_answer1: '',
 				wrong_answer2: '',
 				wrong_answer3: '',
 				image: null,
+				previewImage: defaultImage,
+				imageMode: '',
 			}
-		]);
+		]
+		// setQuestions();
+		if (totalFileUploadQuestions) {
+			setNewFileUploadQuestions((prev)=>(prev?[...prev, newQuestionObject]:[...fileUploadQuestions, newQuestionObject]))
+			// setTotalFileUploadQuestions(prev=>prev+1)
+		} else {
+			setQuestions((prev)=>[...prev, newQuestionObject[0]])
+			setFormData((prev) => ({
+				...prev,
+				totalQs: Number(prev.totalQs)+1
+			}));
+			// setTotalNumberOfQuestions(prev=>prev+1)
+		}
 	};
+	// useEffect(() => {
+	// 	console.log('fileUploadQuestions:', fileUploadQuestions)
+	// 	console.log('fileUploadQuestions:', fileUploadQuestions.length)
+	// 	if (fileUploadQuestions.length) {setTotalFileUploadQuestions(fileUploadQuestions.length-1)}
+	// 	if (questions.length) {setTotalNumberOfQuestions(questions.length-1)}
+	// }, [fileUploadQuestions, questions])
 
 	useEffect(() => {
 		const newQuestions = Array.from({ length: totalNumberOfQuestions }, () => ({
@@ -100,45 +190,184 @@ export default function Create() {
 	}, [totalNumberOfQuestions]);
 
 	const removeQuestion = (index) => {
-		const updatedQuestions = [...questions];
+		console.log('removeQuestion:', index)
+		const updatedQuestions = totalFileUploadQuestions?[...fileUploadQuestions]:[...questions];
+		console.log({fileUploadQuestions}, {updatedQuestions})
+		// if (totalFileUploadQuestions) {updatedQuestions = [...fileUploadQuestions]}
 		updatedQuestions.splice(index, 1);
-		setQuestions(updatedQuestions);
+		// if (totalFileUploadQuestions) {
+		if (totalFileUploadQuestions) {
+			setNewFileUploadQuestions(updatedQuestions)
+		} else {
+			setQuestions(updatedQuestions)
+			setFormData((prev) => ({
+				...prev,
+				totalQs: Number(prev.totalQs)-1
+			}));
+		}
+		// } else {
+		// 	// setQuestions(updatedQuestions);
+		// }
 	};
 
 	const toggleImage = (index) => {
+		// console.log('image toggled to:', !isImageVisible)
+		console.log('index:', index)
 		setIsImageVisible((prev) => prev.map((visible, i) => (i === index ? !visible : visible))
 		);
 	};
 
 	useEffect(() => {
-		setIsImageVisible(Array(totalNumberOfQuestions).fill(false));
-	}, [totalNumberOfQuestions]);
+		setIsImageVisible(Array(totalFileUploadQuestions?totalFileUploadQuestions:totalNumberOfQuestions).fill(false));
+	}, [totalFileUploadQuestions, totalNumberOfQuestions]);
 
+	// let cleanedData;
 	const submitHandler = (e) => {
 		e.preventDefault(); // prevent default page refresh
+		const cleanedData = {...formData}
+		const questions = []
+		// console.log('formData:', formData)
+		// console.log('cleanedData1:', cleanedData)
 		Object.entries(formData).forEach(([key, value]) => {
 			// console.log('\n', {key}, {value}, typeof(value))
-			if (typeof(value) === 'object' && !value.question) {
-				delete formData[key]
+			if (!isNaN(Number(key))) {
+				// console.log('key:', Number(key))
+				questions.push({
+					...value,
+					index: Number(key)+1,
+				})
+				delete cleanedData[key]
+			}
+			if (typeof(value) === 'object'&&!value.question) {
+				delete cleanedData[key]
 			}
 		});
-		console.log('Form submitted with data:', formData);
+		cleanedData.postQuestions = questions
+		fetch(`${serverOrigin}/randomize/`, {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json',
+			},
+			body: JSON.stringify(cleanedData),
+		})
+		.then((response) => {
+			if (!response.ok) {
+				throw new Error('Network response was not ok');
+			}
+			return response.json();
+		})
+		.then((data) => {
+			console.log('Success:', data);
+			setDownloadLink(data?.downloadLink)
+			// Handle success response
+		})
+		.catch((error) => {
+			console.error('Error:', error);
+			// Handle error response
+		});
+		// console.log('Form submitted with data:', cleanedData);
 		alert('Submitted!');
 	};
-	// const input = document.querySelectorAll('.c_form_input, .c_form textarea')
-	// input.forEach(inputElement => {
-	// 	inputElement.addEventListener('input', () => {
-	// 	if (inputElement.value.trim() !== '') {
-	// 		inputElement.classList.add('not_empty')
-	// 	} else {
-	// 		inputElement.classList.remove('not_empty')
-	// 	}
-	// })})
-	// console.log('isImageVisible:', isImageVisible)
+	const fileQuestionsHandle = (fileQuestions) => {
+		setFormData((prev) => ({...prev, ...fileQuestions}))
+	}
+	const args = {
+		questions,
+		totalNumberOfQuestions,
+		isImageVisible,
+		toggleImage,
+		addQuestion,
+		removeQuestion,
+		handleQuestionChange,
+		totalFileUploadQuestions,
+		setTotalFileUploadQuestions,
+		setFileUploadQuestions,
+		newFileUploadQuestions,
+		questionObject,
+		setSchoolData,
+		formData,
+		setFormData,
+		fileQuestionsHandle,
+		showSubmitArray,
+		setShowSubmitArray,
+		type: 'create',
+		text: null,
+	}
+	// console.log('image toggled to:', isImageVisible)
+	// console.log({totalFileUploadQuestions})
+	// console.log({newFileUploadQuestions})
+	// console.log({schoolData})
+	// let infoItems
+	infoItems = useMemo(() => {
+		if (!schoolData) return null;
+
+		const lines = schoolData.split('\n').filter(Boolean);
+		return Object.assign({}, ...lines.map((item, index) => {
+			const [key, value] = item.includes(':') ? item.split(':') : [null, item.trim()];
+			return {...(key?{[key.toLowerCase().trim()]: value.trim()}:{[index]: item})}
+			// return key
+			// 	? { [key.toLowerCase().trim()]: value.trim() }
+			// 	: { [index]: item };
+		}));
+	}, [schoolData]);
+
+	useEffect(() => {
+		// console.log('infoItems:', infoItems)
+		// console.log('infoItems.subject:', infoItems?.subject)
+		// console.log({formData})
+		if (!infoItems) return;
+
+		setFormData((prev) => ({
+		...prev,
+		school: infoItems.school || "",
+		email: infoItems.email || "",
+		subject: infoItems.subject || "",
+		phone: infoItems.phone || "",
+		class: infoItems.class || "",
+		term: infoItems.term.toLowerCase().includes('first')?'first':infoItems.term.toLowerCase().includes('second')?'second':infoItems.term.toLowerCase().includes('third')?'third':'none',
+		duration: infoItems.duration || "",
+		totalQs: "",
+		session: infoItems.session || "",
+		instruction: infoItems.instruction || "",
+		}));
+		setShowSubmitArray(prev => {
+			const updated = [...prev];
+			updated[0] = true;
+			return updated;
+		});
+	}, [infoItems]);
+	// console.log('infoItems:', infoItems)
+	// const [NoOfQs, setNoOfQs] = useState({
+	// 	required: true,
+	// 	disabled: false,
+	// });
+	  
+	// useEffect(() => {
+	// 	setNoOfQs({
+	// 		required: !isFile,
+	// 		disabled: !!isFile,
+	// 	});
+	// }, [infoItems, isFile]);
+	// console.log('NoOfQs:', NoOfQs)
+	// console.log(
+	// // 	'\nisimageVisible:', isImageVisible,
+	// // 	'\ntotalNumberOfQuestions', totalNumberOfQuestions,
+	// // 	'\ntotalFileUploadQuestions:', totalFileUploadQuestions,
+	// 	// '\nformData:', formData,
+	// )
+	// const completeDownloadLink = `${serverOrigin}${downloadLink}`
+	// console.log('completeDownloadLink:', completeDownloadLink)
+	// const showSubmit = Object.keys(formData).map((key, index) => (isNaN(Number(key))?`1-${key}`:`2-${key}`))
+	// const showSubmitArray = Object.keys(formData).some((key, index) => (!isNaN(Number(key))))
+	const showSubmit = showSubmitArray.every((item => item))
+	console.log(
+		'\nshowSubmitArray:', showSubmitArray,
+		'\nshowSubmit:', showSubmit,
+	)
 	return (
 		<>
 			{/* <!-- head --> */}
-			<div className="section layout_padding padding_bottom-0">
+			<div id="create" className="section layout_padding padding_bottom-0">
 				<div className="container">
 					<div className="row">
 						<div className="col-md-12">
@@ -155,17 +384,25 @@ export default function Create() {
 			</div>
 			{/* <!-- end head --> */}
 			{/* <!-- body --> */}
-			<div className="section contact_section"
-			style={{
-				background: "#12385b",
-				paddingBottom: 40
-			}}
+			<div className="section contact_section create_bg"
+			// style={{
+				
+			// }}
 			>
 				<form onSubmit={submitHandler}>
-					<div className="col-sm-12" style={{padding: '40px 0'}}>
+					<div className="col-sm-12" style={{padding: '3% 0 0.5% 0'}}>
 						<div className="c_form">
 							<fieldset style={{margin: '0 20%'}}>
 								<div className="full field">
+									<div style={styles.totalQs}>
+										{/* totalQs */}
+										<input
+										className="c_form_input" placeholder="No. of Questions"
+										value={formData.totalQs} onChange={handleChange}
+										required={!!!isFile}
+										disabled={!!isFile}
+										type="tel" name="totalQs" />
+									</div>
 									<div>
 										{/* school name */}
 										<input
@@ -175,227 +412,145 @@ export default function Create() {
 										type="text" name="school" />
 									</div>
 
-									{/* email and subject */}
+									{/* email, phone and subject */}
 									<div style={styles.rowForm}>
+										{/* email */}
 										<input
 										className="c_form_input" placeholder="Email Address"
 										value={formData.email} onChange={handleChange}
 										required
 										type="email" name="email" />
 
+										{/* phone */}
+										<input
+											className="c_form_input" placeholder="Phone Number"
+											value={formData.phone} onChange={handleChange}
+											required
+											type="tel" name="phone" />
+
+										{/* subject */}
 										<input
 										className="c_form_input" placeholder="Subject"
 										value={formData.subject} onChange={handleChange}
 										type="text" name="subject" />
 									</div>
 
-									{/* phone, class, term, duration, totalQs */}
+									{/* class, session, term, duration, totalQs and instruction */}
 									<div style={styles.rowForm}>
 
-										{/* phone */}
-										<div style={styles.rowForm}>
-											<input
-											className="c_form_input" placeholder="Phone Number"
-											value={formData.phone} onChange={handleChange}
-											required
-											type="tel" name="phone" />
-											
-										</div>
-
-										{/* term, duration and totalQs */}
-										<div style={styles.rowForm}>
+										{/* class and sesion */}
+										<div style={{...styles.rowForm, width: '70%',}}>
 											{/* class */}
 											<input
 											className="c_form_input" placeholder="Class"
 											value={formData.class} onChange={handleChange}
 											type="text" name="class" />
-											<select style={{
-												width: '70%',
-												background: formData.term ? '#f3f3f3':null
-											}}
-											className="c_form_input"
-											value={formData.term} onChange={handleChange}
-											name="term">
-												<option value="" disabled>Term</option>
-												<option value="none">None</option>
-												<option value="first">First</option>
-												<option value="second">Second</option>
-												<option value="third">Third</option>
-											</select>
+										</div>
+									
+										{/* session */}
+										<input
+										className="c_form_input" placeholder="Session"
+										value={formData.session} onChange={handleChange}
+										required
+										type="text" name="session" />
+										
+
+										{/* term */}
+										<select style={{width: '60%', background: formData.term ? '#f3f3f3':null}}
+										className="c_form_input"
+										value={formData.term} onChange={handleChange}
+										name="term">
+											<option value="" disabled>Term</option>
+											<option value="none">None</option>
+											<option value="first">First</option>
+											<option value="second">Second</option>
+											<option value="third">Third</option>
+										</select>
+
+										{/* duration, totalQs */}
+										{/* <div style={styles.rowForm}> */}
+											{/* duration */}
 											<input
 											style={{width: '60%'}}
 											className="c_form_input" placeholder="Duration"
 											value={formData.duration} onChange={handleChange}
 											required
 											type="tel" name="duration" />
+
+										{/* </div> */}
+
+										{/* <div style={{...styles.rowForm, width: '50%'}}> */}
+											{/* instruction */}
 											<input
-											className="c_form_input" placeholder="Total Questions"
-											value={formData.totalQs} onChange={handleChange}
+											className="c_form_input" placeholder="Instruction"
+											value={formData.instruction} onChange={handleChange}
 											required
-											type="tel" name="totalQs" />
-											<input
-											className="c_form_input" placeholder="Session"
-											value={formData.session} onChange={handleChange}
-											required
-											type="text" name="session" />
-										</div>
+											type="text" name="instruction" />
+										{/* </div> */}
 									</div>
 								</div>
 							</fieldset>
 						</div>
 					</div>
-					<button
-					className="image_upload"
-					type="button"
-					onClick={() => toggleFile()}
-					>
-						Upload File
-					</button>
-					{totalNumberOfQuestions ?
-						<div className="row">
-							<div className="col-sm-12">
-								<div className="vertical_scroll">
-								{/* questions, one correct and three wrong answers (for each sections), and optional image  */}
-									{/* {Array.from({ length: totalNumberOfQuestions }).map((q, index) => ( */}
-									{questions.map((q, index) => (
-										<div className="c_form" key={index}>
-											<fieldset style={{margin: '0 15%'}}>
-												<div className="full field">
-													{/* questions */}
-													<textarea
-													className=""
-													placeholder={`Question ${index + 1}`}
-													value={q.question}
-													onChange={(e)=>handleQuestionChange(index, e)}
-													required
-													style={{background: q.question?'#f3f3f3':null}}
-													name="question" />
-
-													{/* correct answers */}
-													<input
-													className="c_form_option_input"
-													name="correct_answer" type="text"
-													placeholder="Correct Answer"
-													value={q.correct_answer}
-													onChange={(e)=>handleQuestionChange(index, e)}
-													required/>
-
-													{/* wrong answer1 */}
-													<input
-													className="c_form_option_input"
-													name="wrong_answer1" type="text"
-													placeholder="Wrong Answer"
-													value={q.wrong_answer1}
-													onChange={(e)=>handleQuestionChange(index, e)}
-													required />
-
-													{/* wrong answer2 */}
-													<input
-													className="c_form_option_input"
-													name="wrong_answer2" type="text"
-													placeholder="Wrong Answer"
-													value={q.wrong_answer2}
-													onChange={(e)=>handleQuestionChange(index, e)}
-													required />
-
-													{/* wrong answer3 */}
-													<input
-													className="c_form_option_input"
-													name="wrong_answer3" type="text"
-													placeholder="Wrong Answer"
-													value={q.wrong_answer3}
-													onChange={(e)=>handleQuestionChange(index, e)}
-													required />
-
-													{/* images and switch buttons */}
-													<div>
-														{isImageVisible[index] ? (
-															<>
-																<div>
-																	<img
-																		src={questions[index].previewImage}
-																		alt={`Preview ${index + 1}`}
-																		style={styles.previewImage}
-																	/>
-																</div>
-																<div style={{display: 'flex', gap: 10}}>
-																	<input
-																	className="image_upload image_file"
-																	type="file" accept="image/*"
-																	name="image"
-																	onChange={(e)=>handleQuestionChange(index, e)}
-																	/>
-																	<select
-																	className="c_form_input c_form_input_select2"
-																	value={q.imageMode}
-																	onChange={(e)=>handleQuestionChange(index, e)}
-																	style={{background: q.imageMode ? '#f3f3f3':null}}
-																	name="imageMode">
-																		<option value="" disabled>Mode</option>
-																		<option value="side">Side</option>
-																		<option value="top">Top</option>
-																	</select>
-																	<button
-																	className="image_upload remove_question_image"
-																	type="button"
-																	// onClick={() => handleQuestionChange(index, {name: 'image', files: [null]})}
-																	onClick={() => toggleImage(index)}
-																	>
-																		Remove Image
-																	</button>
-																</div>
-															</>
-														) : (
-															<button
-															className="image_upload"
-															type="button"
-															// onClick={() => document.getElementById(`image-${index}`).click()}
-															onClick={() => toggleImage(index)}
-															>
-																Add Image
-															</button>
-														)}
-													</div>
-													<button
-													style={{margin: '5px 0 50px 0'}}
-													className="image_upload remove_question_image"
-													type="button"
-													// className="remove-btn"
-													onClick={() => removeQuestion(index)}
-													>
-														Remove Question {index + 1}
-													</button>
-												</div>
-												{index === totalNumberOfQuestions-1 ?
-												<button
-												className="image_upload add_question"
-												type="button" onClick={addQuestion}>
-													Add New Question
-												</button>
-												:
-												null}
-											</fieldset>
-										</div>
-									))}
-								</div>
-								<div>
-									{/* submit button */}
-									<div className="center">
-										<button
-										type="submit" className="c_form_button">Send</button>
-									</div>
-								</div>
-							</div>
+					{downloadLink ?
+					<div style={{...styles.uploadButton, marginBottom: '1%', display: 'flex', gap: 5, alignItems: 'center'}}>
+						<MoreInfo info="Download information ..." />
+						<a
+						href={`${serverOrigin}${downloadLink}`}
+						download
+						className="image_upload downloadBtn"
+						role="button"
+						>
+							Download File
+						</a>
+					</div>
+					:
+					null}
+					{(totalNumberOfQuestions&&!isFile) ?
+						<div style={styles.questionsComp}>
+							<Questions {...args} />
 						</div>
 						:
-						(isFile ?
-							<div>
-								<input type="file" accept=".txt,.docx" onChange={handleFileUpload} />
+						<div style={styles.uploadButton}>
+							<div style={{display: 'flex', alignItems: 'center', gap: 10}}>
+								<div style={{
+										display: 'flex',
+										alignItems: 'center',
+										gap: 3,
+									}}>
+									<MoreInfo info="Upload information ..." />
+									<button
+									className="image_upload"
+									type="button"
+									onClick={() => toggleFile()}>
+										Upload File
+									</button>
+								</div>
+								{isFile ?
+									<div>
+										<input type="file" accept=".txt,.docx" onChange={handleFileChange}/>
+									</div>
+									:
+									null}
 							</div>
-							:
-							null)
+							{isFile ?
+								<>
+									<div style={styles.questionsComp}>
+										<Questions {...args} type="file" text={text} />
+									</div>
+								</>
+								:
+								null}
+						</div>
 					}
+					{showSubmit &&
+					// submit button
+					<div className="center">
+						<button
+						type="submit" className="c_form_button">Send</button>
+					</div>}
 				</form>
+				
 			</div>
 			{/* <!-- end body --> */}
 		</>
@@ -408,16 +563,17 @@ const styles = {
 		display: 'flex',
 		gap: 10
 	},
-	previewImage: {
-		width: '100px',
-		height: 'auto',
-		marginBottom: '5px',
-		border: '1px solid #464642',
-		borderRadius: 5,
-		background: '#f3f3f3',
-		// backgroundSize: 'contain',
+	totalQs: {
+		width: '25%',
 	},
-	// select: {
-	// 	color: '#676767'
-	// }
+	uploadButton: {
+		margin: '0 20%'
+	},
+	downloadButton: {
+		margin: '0 15%'
+	},
+	questionsComp: {
+		marginTop: '5%'
+	},
 }
+
