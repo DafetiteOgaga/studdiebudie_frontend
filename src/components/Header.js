@@ -59,7 +59,7 @@ export default function Header () {
 		>
 			<nav className="navbar header-nav navbar-expand-lg">
 				<div className="container-fluid">
-					<Link className="navbar-brand" to="#">
+					<Link className="navbar-brand" to="/">
 						<img src={appLogo} alt="images"/>
 					</Link>
 					<div className="collapse navbar-collapse justify-content-end header_menu" id="navbar-wd">
