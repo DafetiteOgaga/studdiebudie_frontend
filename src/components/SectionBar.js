@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom"
 import i1 from "../statics/images/i1.png"
 import i2 from "../statics/images/i2.png"
 import i3 from "../statics/images/i3.png"
@@ -28,34 +29,34 @@ export default function SectionBar() {
 									</a>
 								</li>
 								<li className="menu-out" style={{backgroundColor: itemColor[1]}}>
-									<a href="#s" className="menu-out-anchor">
+									<Link to={'/scramble'} className="menu-out-anchor">
 										<span className="icon">
 											<img src={i2} alt="#" />
 										</span>
 										<span>
 											Create
 										</span>
-									</a>
+									</Link>
 								</li>
 								<li className="menu-out" style={{backgroundColor: itemColor[2]}}>
-									<a href="#s" className="menu-out-anchor">
+									<Link to={'/tests'} className="menu-out-anchor">
 										<span className="icon">
 											<img src={i3} alt="#" />
 										</span>
 										<span>
-											Scramble
+											Take Test
 										</span>
-									</a>
+									</Link>
 								</li>
 								<li className="menu-out" style={{backgroundColor: itemColor[3]}}>
-									<a href="#s" className="menu-out-anchor">
+									<Link to={'/contribute'} className="menu-out-anchor">
 										<span className="icon">
 											<img src={i4} alt="#" />
 										</span>
 										<span>
-											Mark
+											Contribute
 										</span>
-									</a>
+									</Link>
 								</li>
 								{/* <li><a href="#s"><span className="icon"><img src={i5} alt="#" /></span><span>Location</span></a></li>
 								<li><a href="#s"><span className="icon"><img src={i6} alt="#" /></span><span>Call us</span></a></li>
