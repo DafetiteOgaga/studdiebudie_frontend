@@ -4,8 +4,10 @@ import React, { useState, useEffect, useMemo,
 import defaultImage from '../statics/images/sample_image.png'
 import { useHandleFileUpload } from "../hooks/FileReaderHandler";
 import { generateFilesAndDownload } from "../hooks/fileDownloadHandlers/GenerateAndDownloadInZip";
-import { Questions } from "./questions/Questions";
+import { ShuffleQuestions } from "./questions/ShuffleQuestions";
 import { MoreInfo } from "./MoreInfo";
+import { ConvertCase } from "../hooks/ConvertCase";
+import { PageHead } from "./PageHead";
 
 const serverOrigin = 'http://localhost:4000'
 
@@ -49,7 +51,9 @@ const fileDownloadHandler = (type) => {
 	}
 }
 
-export default function Create() {
+const termArray = ['term', 'none', 'first', 'second', 'third']
+
+export default function ScrambleQuestions() {
 	// const numberOfQuestions = 2
 	// const inputRef = useRef();
 	const [showSubmitArray, setShowSubmitArray] = useState([false, false]);
@@ -360,29 +364,13 @@ export default function Create() {
 	// const showSubmit = Object.keys(formData).map((key, index) => (isNaN(Number(key))?`1-${key}`:`2-${key}`))
 	// const showSubmitArray = Object.keys(formData).some((key, index) => (!isNaN(Number(key))))
 	const showSubmit = showSubmitArray.every((item => item))
-	console.log(
-		'\nshowSubmitArray:', showSubmitArray,
-		'\nshowSubmit:', showSubmit,
-	)
+	// console.log(
+	// 	'\nshowSubmitArray:', showSubmitArray,
+	// 	'\nshowSubmit:', showSubmit,
+	// )
 	return (
 		<>
-			{/* <!-- head --> */}
-			<div id="create" className="section layout_padding padding_bottom-0">
-				<div className="container">
-					<div className="row">
-						<div className="col-md-12">
-							<div className="full">
-								<div className="heading_main text_align_center">
-									<h2>
-										<span>Create</span>
-									</h2>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-			{/* <!-- end head --> */}
+			<PageHead {...{title: 'create/scramble'}} />
 			{/* <!-- body --> */}
 			<div className="section contact_section create_bg"
 			// style={{
@@ -460,11 +448,11 @@ export default function Create() {
 										className="c_form_input"
 										value={formData.term} onChange={handleChange}
 										name="term">
-											<option value="" disabled>Term</option>
-											<option value="none">None</option>
-											<option value="first">First</option>
-											<option value="second">Second</option>
-											<option value="third">Third</option>
+											{termArray.map((term, index) => (
+												<option key={index} value={term==='term'?'':term} disabled={term==='term'?true:false}>
+													{ConvertCase(term||'')}
+												</option>
+											))}
 										</select>
 
 										{/* duration, totalQs */}
@@ -508,7 +496,7 @@ export default function Create() {
 					null}
 					{(totalNumberOfQuestions&&!isFile) ?
 						<div style={styles.questionsComp}>
-							<Questions {...args} />
+							<ShuffleQuestions {...args} />
 						</div>
 						:
 						<div style={styles.uploadButton}>
@@ -536,7 +524,7 @@ export default function Create() {
 							{isFile ?
 								<>
 									<div style={styles.questionsComp}>
-										<Questions {...args} type="file" text={text} />
+										<ShuffleQuestions {...args} type="file" text={text} />
 									</div>
 								</>
 								:

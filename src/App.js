@@ -4,7 +4,7 @@ import "./statics/css/style.css"
 import "./statics/css/responsive.css"
 import Home from './components/index';
 import Header from './components/Header';
-import AppRoutes from './Routes';
+import AppRoutes from './hooks/Routes';
 
 function App() {
   return (

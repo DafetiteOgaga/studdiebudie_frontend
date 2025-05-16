@@ -1,8 +1,10 @@
 // src/Routes.js
 import { Routes, Route } from 'react-router-dom';
-import Home from './components/index';
-import Create from './components/Create';
-import ContactUs from './components/ContactUs';
+import Home from '../components/index';
+import Scramble from '../components/ScrambleQuestions';
+import ContactUs from '../components/ContactUs';
+import Tests from '../components/Tests';
+import { CreateQuestions } from '../components/questions/CreateQuestions';
 // import History from './components/History';
 // import ContactUs from './components/ContactUs';
 
@@ -10,7 +12,9 @@ function AppRoutes() {
 	return (
 		<Routes>
 			<Route path="/" element={<Home />} />
-			<Route path="/create" element={<Create />} />
+			<Route path="/scramble" element={<Scramble />} />
+			<Route path="/tests" element={<Tests />} />
+			<Route path="/contribute" element={<CreateQuestions />} />
 			<Route path="/contact" element={<ContactUs />} />
 			{/* <Route path="/history" element={<History />} /> */}
 		</Routes>

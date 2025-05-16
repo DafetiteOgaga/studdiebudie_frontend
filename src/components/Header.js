@@ -47,8 +47,9 @@ export default function Header () {
 	const headerMenus = [
 		{ name: "home", link: "/" },
 		{ name: "history", link: "#" },
-		{ name: "create", link: "/create" },
-		{ name: "test", link: "#" },
+		{ name: "scramble questions", link: "/scramble" },
+		{ name: "take test", link: "/tests" },
+		{ name: "contribute", link: "/contribute" },
 		{ name: "contact us", link: "/contact" },
 	]
 	// console.log('location:', location)
