@@ -33,10 +33,19 @@ const useHandleFileUpload = () => {
 		// setReference(1)
 		// console.log({result})
 	}
+	let processedText;
+	if (text) {
+		processedText = text?.split(/(?:Q|q)\d+[.:]/)
+		processedText = processedText
+						.map(q => q.trim())       // clean up extra spaces
+						.filter(Boolean)          // remove any empty strings
+						.map((q, index) => ({
+							id: index,
+							question: q,
+						}));
+	}
 	// console.log('\ntext:', !!text)
-	return { text, handleFileChange,
-		// reference, setReference
-	};
+	return { text, processedText, handleFileChange};
 };
 
 export {useHandleFileUpload}
