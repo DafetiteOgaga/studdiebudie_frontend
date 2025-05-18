@@ -45,8 +45,8 @@ export default function Header () {
 	// });
 	// console.log({ isVisible, lastScrollY, location });
 	const headerMenus = [
-		{ name: "home", link: "/" },
-		{ name: "history", link: "#" },
+		// { name: "home", link: "/" },
+		// { name: "history", link: "#" },
 		{ name: "scramble questions", link: "/scramble" },
 		{ name: "take test", link: "/tests" },
 		{ name: "contribute", link: "/contribute" },
