@@ -1,12 +1,13 @@
 import { useEffect, useState } from 'react';
 import { ConvertCase } from '../../hooks/ConvertCase';
+import { QuestionInfo } from '../data/QuestionInfo';
 // import { DateTimeID } from '../../hooks/DateTimeID';
 
-const typeArray = ['type', 'primary/basic', 'secondary'];
-const primaryArray = ['class', 'basic 1', 'basic 2', 'basic 3', 'basic 4', 'basic 5'];
-const secondaryArray = ['class', 'jss 1', 'jss 2', 'jss 3', 'sss 1', 'sss 2', 'sss 3'];
-const primarySubjectArray = ['subject', 'math', 'english', 'science', 'social studies'];
-const secondarySubjectArray = ['subject', 'math', 'english', 'physics', 'chemistry', 'biology'];
+// const typeArray = ['type', 'primary/basic', 'secondary'];
+// const primaryArray = ['class', 'basic 1', 'basic 2', 'basic 3', 'basic 4', 'basic 5'];
+// const secondaryArray = ['class', 'jss 1', 'jss 2', 'jss 3', 'sss 1', 'sss 2', 'sss 3'];
+// const primarySubjectArray = ['subject', 'math', 'english', 'science', 'social studies'];
+// const secondarySubjectArray = ['subject', 'math', 'english', 'physics', 'chemistry', 'biology'];
 
 // const testInputs = {
 // 	name: "Dafetite",
@@ -22,6 +23,13 @@ function PreTest(args) {
 		setFormData,
 		submitButtonText,
 	} = args;
+	const {
+		typeArray,
+		primaryArray,
+		secondaryArray,
+		primarySubjectArray,
+		secondarySubjectArray
+	} = QuestionInfo();
 	// const [info, setInfo] = useState(testInputs);
 	const [info, setInfo] = useState({});
 	// const dateTimeID = DateTimeID();
@@ -158,9 +166,9 @@ const styles = {
 		maxWidth: 200,
 		maxHeight: 200,
 	},
-	createLayout: {
-		margin: '0 15%'
-	},
+	// createLayout: {
+	// 	margin: '0 15%'
+	// },
 	prevNextContainer: {
 		display: 'flex',
 		flexDirection: 'row',

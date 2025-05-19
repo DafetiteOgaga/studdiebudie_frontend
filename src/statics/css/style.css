@@ -2011,6 +2011,7 @@ ul.social_icon li {
 	/* background: #002147; */
 	background: #12385b;
     padding: 15px 0;
+	margin-top: 1%;
 }
 
 .footer_bottom p.crp {
@@ -2231,7 +2232,7 @@ section.inner_banner h3 {
     /* color: #676767; */
 	color: #002147;
 	border-radius: 5px;
-	padding: 2px 13px;
+	/* padding: 2px 13px; */
 }
 .image_file {
     background: #095a83;
@@ -2247,6 +2248,7 @@ section.inner_banner h3 {
 }
 .downloadBtn {
     background: #d4a81e;
+	padding: 0 13px;
 }
 
 .prev_next_container {
@@ -2464,6 +2466,13 @@ section.inner_banner h3 {
 	background: #12385b;
 	padding-bottom: 40px;
 	margin: 0 5%;
+	border-radius: 10px;
+}
+
+.contribute_bg {
+	background: #12385b;
+	padding: 40px 0;
+	margin: 0 12%;
 	border-radius: 10px;
 }
 

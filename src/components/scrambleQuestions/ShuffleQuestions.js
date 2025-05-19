@@ -35,18 +35,21 @@ function ShuffleQuestions(args) {
 		showSubmitArray,
 		setShowSubmitArray,
 		type,
-		text } = args;
+		text,
+		processedText,
+	} = args;
 	const [editFileQuestions, setEditFileQuestions] = useState([questionObject]);
 	// console.log({type}, {text})
 	// const uploadedQuestions = text?.split?.(`Q${[Number]}`||`q${[Number]}`);
-	const uploadedQuestions = text?.split(/(?:Q|q)\d+[.:]/)  // split using Q1., Q2: etc.
-	.map(q => q.trim())       // clean up extra spaces
-	.filter(Boolean)          // remove any empty strings
-	.map((q, index) => ({
-		id: index,
-		question: q,
-	}));
-	const uploadedQuestionsLength = uploadedQuestions?.length
+	// const uploadedQuestions = text?.split(/(?:Q|q)\d+[.:]/)  // split using Q1., Q2: etc.
+	// .map(q => q.trim())       // clean up extra spaces
+	// .filter(Boolean)          // remove any empty strings
+	// .map((q, index) => ({
+	// 	id: index,
+	// 	question: q,
+	// }));
+	const uploadedQuestionsLength = processedText?.length
+	// const uploadedQuestionsLength = uploadedQuestions?.length
 	let questionArray = questions
 	// useEffect(() => {
 	// 	const newQuestions = Array.from({ length: (uploadedQuestions?.length - 1) }, () => ({
@@ -64,10 +67,11 @@ function ShuffleQuestions(args) {
 	// }, [text]);
 	// if (text?.length) {questionArray = questionObject}
 	// if (text?.length) {questionArray = questionArrayState}
-	// const numberOfQuestions = 
+	// const numberOfQuestions =
 	// console.log('uploadedQuestions:', uploadedQuestions)
 	let info, fileQuestions
-	if (uploadedQuestions) {[info, ...fileQuestions] = uploadedQuestions}
+	if (processedText) {[info, ...fileQuestions] = processedText}
+	// if (uploadedQuestions) {[info, ...fileQuestions] = uploadedQuestions}
 	// if (text?.length) {questionArray = questionArrayState}
 	useEffect(() => {
 		// const newQuestions = Array.from({ length: (uploadedQuestions?.length - 1) }, () => fileQuestions.map((q, index) => {
@@ -114,6 +118,7 @@ function ShuffleQuestions(args) {
 	const fileUpload = text?.length
 	if (fileUpload) {
 		const total = newFileUploadQuestions?(newFileUploadQuestions.length):(uploadedQuestionsLength-1)
+		// const total = newFileUploadQuestions?(newFileUploadQuestions.length):(uploadedQuestionsLength-1)
 		// console.log(newFileUploadQuestions?'newFileUploadQuestions': 'editFileQuestions')
 		// console.log({newFileUploadQuestions})
 		// console.log('total num passed up:', total)
@@ -167,7 +172,7 @@ function ShuffleQuestions(args) {
 							value={q.question}
 							onChange={(e)=>fileUpload?handleFileQuestionChange(index, e):handleQuestionChange(index, e)}
 							required
-							style={{background: q.question?'#f3f3f3':null}}
+							style={{background: !q.question?'#f3f3f3':null}}
 							name="question" />
 
 							{/* correct answers */}

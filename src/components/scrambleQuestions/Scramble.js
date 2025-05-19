@@ -1,13 +1,13 @@
 import React, { useState, useEffect, useMemo,
 	// useRef
 } from "react";
-import defaultImage from '../statics/images/sample_image.png'
-import { useHandleFileUpload } from "../hooks/FileReaderHandler";
-import { generateFilesAndDownload } from "../hooks/fileDownloadHandlers/GenerateAndDownloadInZip";
-import { ShuffleQuestions } from "./questions/ShuffleQuestions";
-import { MoreInfo } from "./MoreInfo";
-import { ConvertCase } from "../hooks/ConvertCase";
-import { PageHead } from "./PageHead";
+import defaultImage from '../../statics/images/sample_image.png'
+import { useHandleFileUpload } from "../../hooks/FileReaderHandler";
+import { generateFilesAndDownload } from "../../hooks/fileDownloadHandlers/GenerateAndDownloadInZip";
+import { ShuffleQuestions } from "./ShuffleQuestions";
+import { MoreInfo } from "../MoreInfo";
+import { ConvertCase } from "../../hooks/ConvertCase";
+import { PageHead } from "../PageHead";
 
 const serverOrigin = 'http://localhost:4000'
 
@@ -53,7 +53,7 @@ const fileDownloadHandler = (type) => {
 
 const termArray = ['term', 'none', 'first', 'second', 'third']
 
-export default function ScrambleQuestions() {
+export default function Scramble() {
 	// const numberOfQuestions = 2
 	// const inputRef = useRef();
 	const [showSubmitArray, setShowSubmitArray] = useState([false, false]);
@@ -69,7 +69,7 @@ export default function ScrambleQuestions() {
 	const [isFile, setIsFile] = useState(false)
 	// const [UploadedContent, setUploadedContent] = useState(null)
 
-	const { text, handleFileChange } = useHandleFileUpload();
+	const { text, processedText, handleFileChange } = useHandleFileUpload();
 	// console.log({reference})
 	// if (reference&&inputRef.current.value) {
 	// 	inputRef.current.value = ''
@@ -296,6 +296,7 @@ export default function ScrambleQuestions() {
 		setShowSubmitArray,
 		type: 'create',
 		text: null,
+		processedText,
 	}
 	// console.log('image toggled to:', isImageVisible)
 	// console.log({totalFileUploadQuestions})
@@ -444,7 +445,7 @@ export default function ScrambleQuestions() {
 										
 
 										{/* term */}
-										<select style={{width: '60%', background: formData.term ? '#f3f3f3':null}}
+										<select style={{width: '60%', background: !formData.term ? '#f3f3f3':null}}
 										className="c_form_input"
 										value={formData.term} onChange={handleChange}
 										name="term">

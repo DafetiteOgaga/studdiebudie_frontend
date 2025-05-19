@@ -1,9 +1,9 @@
 import React, { useState, useEffect, useMemo } from "react";
-import { TestQuestions } from "./questions/TestQuestions";
-import { PreTest } from "./questions/PreTest";
-import { DateTimeID } from "../hooks/DateTimeID";
-import { FetchFromServer } from "../hooks/fetch/FetchFromServer";
-import { PageHead } from "./PageHead";
+import { TestQuestions } from "./TestQuestions";
+import { PreTest } from "./PreTest";
+import { DateTimeID } from "../../hooks/DateTimeID";
+import { FetchFromServer } from "../../hooks/fetch/FetchFromServer";
+import { PageHead } from "../PageHead";
 
 
 // const serverOrigin = 'http://localhost:4000'
@@ -110,7 +110,7 @@ const styles = {
 		margin: '0 15%'
 	},
 	questionsComp: {
-		margin: '0 15% 0 15%',
+		margin: '0 15%',
 	},
 }
 

@@ -46,6 +46,12 @@ html, body {
 }
 
 .main_bg {
+  display: flex;
+  flex-direction: column;
   background: #f5f8f8;
   min-height: 100vh;
+}
+
+.app_content {
+  flex: 1;
 }

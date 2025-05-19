@@ -1,12 +1,10 @@
 // src/Routes.js
 import { Routes, Route } from 'react-router-dom';
 import Home from '../components/index';
-import Scramble from '../components/ScrambleQuestions';
+import Scramble from '../components/scrambleQuestions/Scramble';
 import ContactUs from '../components/ContactUs';
-import Tests from '../components/Tests';
-import { CreateQuestions } from '../components/questions/CreateQuestions';
-// import History from './components/History';
-// import ContactUs from './components/ContactUs';
+import Tests from '../components/takeTests/Tests';
+import ContributeQuestions from '../components/contributeQuestions/ContributeQuestions';
 
 function AppRoutes() {
 	return (
@@ -14,7 +12,7 @@ function AppRoutes() {
 			<Route path="/" element={<Home />} />
 			<Route path="/scramble" element={<Scramble />} />
 			<Route path="/tests" element={<Tests />} />
-			<Route path="/contribute" element={<CreateQuestions />} />
+			<Route path="/contribute" element={<ContributeQuestions />} />
 			<Route path="/contact" element={<ContactUs />} />
 			{/* <Route path="/history" element={<History />} /> */}
 		</Routes>
