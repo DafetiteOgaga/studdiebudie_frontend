@@ -445,7 +445,7 @@ export default function Scramble() {
 										
 
 										{/* term */}
-										<select style={{width: '60%', background: formData.term ? '#f3f3f3':null}}
+										<select style={{width: '60%', background: !formData.term ? '#f3f3f3':null}}
 										className="c_form_input"
 										value={formData.term} onChange={handleChange}
 										name="term">
