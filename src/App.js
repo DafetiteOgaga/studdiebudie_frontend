@@ -9,7 +9,7 @@ import ShortFooter from './components/ShortFooter';
 
 function App() {
   return (
-    <div className="main_bg">
+    <div id="home" className="main_bg">
       <Header />
       <div className='app_content'>
         <AppRoutes>
