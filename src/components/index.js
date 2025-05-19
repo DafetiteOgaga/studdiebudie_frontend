@@ -16,10 +16,10 @@ export default function Home() {
 		return () => window.removeEventListener("scroll", handleScroll);
 	}, [lastScrollY]);
 	return (
-		<div id="home">
+		<>
 			<Banner />
 			<SectionBar />
 			<WelcomeSection />
-		</div>
+		</>
 	);
 }
