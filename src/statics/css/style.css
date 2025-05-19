@@ -2248,6 +2248,7 @@ section.inner_banner h3 {
 }
 .downloadBtn {
     background: #d4a81e;
+	padding: 0 13px;
 }
 
 .prev_next_container {
@@ -2471,7 +2472,7 @@ section.inner_banner h3 {
 .contribute_bg {
 	background: #12385b;
 	padding: 40px 0;
-	margin: 0 18%;
+	margin: 0 12%;
 	border-radius: 10px;
 }
 
