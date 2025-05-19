@@ -1,12 +1,11 @@
-import React, { useState, useEffect, useMemo,
-	// useRef
-} from "react";
+import React, { useState, useEffect } from "react";
 import defaultImage from '../../statics/images/sample_image.png'
 import { useHandleFileUpload } from "../../hooks/FileReaderHandler";
 import { MoreInfo } from "../MoreInfo";
-import { ConvertCase, ConvertToSentenceCase } from "../../hooks/ConvertCase";
+import { ConvertCase } from "../../hooks/ConvertCase";
 import { PageHead } from "../PageHead";
 import { QuestionInfo } from "../data/QuestionInfo";
+import { QuestionsSectionOfContribute } from "./QuestionsSectionOfContribute";
 
 const serverOrigin = 'http://localhost:4000'
 
@@ -17,25 +16,25 @@ const formValues = {
 	totalQs: "",
 }
 const questionObject = {
+	options: ['', '', '', ''],
 	number: '',
 	question: '',
-	correct_answer: '',
-	wrong_answer1: '',
-	wrong_answer2: '',
-	wrong_answer3: '',
 	image: null,
 	previewImage: defaultImage,
 	imageMode: '',
+	correct_answer: '',
 }
 
+const optionTypes = ['correct_answer', 'wrong_answer1', 'wrong_answer2', 'wrong_answer3']
 export default function ContributeQuestions() {
 	const { typeArray, primaryArray, secondaryArray, primarySubjectArray, secondarySubjectArray } = QuestionInfo();
 	const [showSubmitArray, setShowSubmitArray] = useState([false, false]);
+	const [totalNumberOfFileUploadQuestions, setTotalNumberOfFileUploadQuestions] = useState(0)
 	const [totalNumberOfQuestions, setTotalNumberOfQuestions] = useState(0)
 	const [questions, setQuestions] = useState([]);
 	// const [fileUploadQuestions, setFileUploadQuestions] = useState([questionObject]);
 	const [formData, setFormData] = useState({});
-	const [isImageVisible, setIsImageVisible] = useState([Array(totalNumberOfQuestions).fill(false)]);
+	const [isImageVisible, setIsImageVisible] = useState([Array(totalNumberOfFileUploadQuestions?totalNumberOfFileUploadQuestions:totalNumberOfQuestions).fill(false)]);
 	const [isFile, setIsFile] = useState(false)
 	const { text, processedText, handleFileChange } = useHandleFileUpload();
 	const toggleFile = () => {
@@ -58,18 +57,52 @@ export default function ContributeQuestions() {
 			'\nname:', name,
 			'\nvalue:', value,
 		)
+		// let updatedQuestions = [...questions];
 		let updatedQuestions = [...questions];
 		console.log('updatedQuestions ########## (1):', updatedQuestions)
 		// console.log('updatedQuestions:', updatedQuestions)
 		// if (totalFileUploadQuestions) updatedQuestions = [...fileUploadQuestions]
+		console.log('AAAAAAAAAA',
+			'\nupdatedQuestions:', updatedQuestions,
+			'\nupdatedQuestions[index]:', updatedQuestions[index],
+			// '\nupdatedQuestions[index][number]:', updatedQuestions[index][number],
+			'\nupdatedQuestions[index][name]:', updatedQuestions[index][name],
+			// '\nupdatedQuestions[index][name]===null:', updatedQuestions[index][name]===null,
+		)
 		updatedQuestions[index]["number"] = index + 1; // auto-add/update question number
-		console.log('updatedQuestions (number) ########## (1):', updatedQuestions)
+		// updatedQuestions.questions[index]["number"] = index + 1;
+		console.log(
+			'\nupdatedQuestions (number) ########## (1):', updatedQuestions,
+			'\nname:', name,
+			'\nvalue:', value,
+		)
+		// if (updatedQuestions.length !== 0) {
 		if (name === "image") {
 			const file = files[0];
 			updatedQuestions[index].image = file; // assign image file object
 			updatedQuestions[index].previewImage = URL.createObjectURL(file); // assign preview URL for the image
+		} else if (optionTypes.includes(name)&&updatedQuestions[index]['options']) {
+			const optionIndex = optionTypes.indexOf(name);
+			console.log(updatedQuestions)
+			console.log(updatedQuestions[index])
+			console.log(updatedQuestions[index]['options'])
+			console.log(updatedQuestions[index]['options'][optionIndex])
+			console.log('optionIndex:', optionIndex)
+			if (name==='correct_answer') {
+				updatedQuestions[index].correct_answer = value;
+			}
+			updatedQuestions[index].options[optionIndex] = value;
+			console.log(
+				'\nupdatedQuestions (option) ########## (1):', updatedQuestions,
+				'\nupdatedQuestions[index][name]:', updatedQuestions[index][name],
+			)
 		} else {
+			console.log('updateQuestions XXXXXXXXX', updatedQuestions)
 			updatedQuestions[index][name] = value;
+			console.log(
+				'\nupdateQuestions XXXXXXXXX', updatedQuestions,
+				'\nupdatedQuestions[index][name]:', updatedQuestions[index][name],
+			)
 		}
 		console.log('updatedQuestions (value) ########## (1):', updatedQuestions)
 		// console.log('questions ########## (1):', questions)
@@ -80,11 +113,15 @@ export default function ContributeQuestions() {
 			updated[1] = true;
 			return updated;
 		});
+		// }
 	};
 	const handleChange = (e) => {
 		const { name, value } = e.target;
 		if (name === 'totalQs') {
-			setTotalNumberOfQuestions(Number(value))
+			setTotalNumberOfQuestions(() => {
+				const num = +value;
+				return num > 0 ? num : 0;
+			});
 			setFormData({})
 			if (!value) {
 				setShowSubmitArray(prev => {
@@ -116,37 +153,8 @@ export default function ContributeQuestions() {
 		}
 	};
 
-	const addQuestion = () => {
-		console.log('addQuestion')
-		// console.log('fileUploadQuestions:', fileUploadQuestions)
-		const newQuestionObject = [questionObject]
-		console.log('questions ########## (2):', questions)
-		setQuestions((prev)=>[...prev, newQuestionObject[0]])
-		setFormData((prev) => ({
-			...prev,
-			totalQs: Number(prev.totalQs)+1
-		}));
-	};
-
-	
-
-	const removeQuestion = (index) => {
-		console.log('removeQuestion:', index)
-		const updatedQuestions = [...questions];
-		// console.log({fileUploadQuestions}, {updatedQuestions})
-		// if (totalFileUploadQuestions) {updatedQuestions = [...fileUploadQuestions]}
-		updatedQuestions.splice(index, 1);
-		console.log('questions ########## (3):', questions)
-		setQuestions(updatedQuestions)
-		setFormData((prev) => ({
-			...prev,
-			totalQs: Number(prev.totalQs)-1,
-			questions: updatedQuestions,
-		}));
-	};
-
 	const toggleImage = (index) => {
-		// console.log('image toggled to:', !isImageVisible)
+		console.log('image toggled from:', isImageVisible[index], 'to:', !isImageVisible[index])
 		console.log('index:', index)
 		setIsImageVisible((prev) => prev.map((visible, i) => (i === index ? !visible : visible))
 		);
@@ -156,15 +164,13 @@ export default function ContributeQuestions() {
 		console.log('questions:', questions)
 		const newQuestions = Array.from({ length: totalNumberOfQuestions }, () => (
 			{
+				options: ['', '', '', ''],
 				number: '',
 				question: '',
-				correct_answer: '',
-				wrong_answer1: '',
-				wrong_answer2: '',
-				wrong_answer3: '',
 				image: null,
 				previewImage: defaultImage,
 				imageMode: '',
+				correct_answer: '',
 			}
 		));
 		console.log(
@@ -177,30 +183,35 @@ export default function ContributeQuestions() {
 	}, [totalNumberOfQuestions]);
 
 	useEffect(() => {
-		setIsImageVisible(Array(totalNumberOfQuestions).fill(false));
-	}, [totalNumberOfQuestions]);
+		setIsImageVisible(Array(totalNumberOfFileUploadQuestions?totalNumberOfFileUploadQuestions:totalNumberOfQuestions).fill(false));
+		// setIsImageVisible(Array(totalNumberOfQuestions).fill(false));
+	}, [totalNumberOfQuestions, totalNumberOfFileUploadQuestions]);
 
 	// let cleanedData;
 	const submitHandler = (e) => {
 		e.preventDefault(); // prevent default page refresh
-		// const cleanedData = {...formData}
-		// const questions = []
-		// console.log('formData:', formData)
-		// console.log('cleanedData1:', cleanedData)
-		// Object.entries(formData).forEach(([key, value]) => {
-		// 	// console.log('\n', {key}, {value}, typeof(value))
-		// 	if (!isNaN(Number(key))) {
-		// 		// console.log('key:', Number(key))
-		// 		questions.push({
-		// 			...value,
-		// 			index: Number(key)+1,
-		// 		})
-		// 		delete cleanedData[key]
-		// 	}
-		// 	if (typeof(value) === 'object'&&!value.question) {
-		// 		delete cleanedData[key]
-		// 	}
-		// });
+		let cleanedData = { ...formData };
+		console.log('formData:', formData);
+
+		// if (cleanedData.totalQs) {
+		// 	cleanedData.questions = cleanedData.questions.map((question) => {
+		// 	const options = [];
+		// 	const newQuestion = { ...question };
+
+		// 	Object.entries(question).forEach(([key, value]) => {
+		// 		if (optionTypes.includes(key)) {
+		// 		options.push(value);
+		// 		delete newQuestion[key]; // remove the original option field
+		// 		}
+		// 	});
+
+		// 	newQuestion.options = options;
+		// 	return newQuestion;
+		// 	});
+		// }
+
+
+
 		// cleanedData.postQuestions = questions
 		// fetch(`${serverOrigin}/randomize/`, {
 		// 	method: 'POST',
@@ -224,44 +235,67 @@ export default function ContributeQuestions() {
 		// 	console.error('Error:', error);
 		// 	// Handle error response
 		// });
-		console.log('Form submitted with data:', formData);
+		console.log('Form submitted with data:', cleanedData);
 		alert('Submitted!');
 	};
-	const fileQuestionsHandle = (fileQuestions) => {
-		setFormData((prev) => ({...prev, ...fileQuestions}))
-	}
+	// const fileQuestionsHandle = (fileQuestions) => {
+	// 	setFormData((prev) => ({...prev, ...fileQuestions}))
+	// }
 	const showSubmit = showSubmitArray.every((item => item))
 	const uploadedQuestions = text?.split(/(?:Q|q)\d+[.:]/)
 	let fileInfo, finalQuestions = questions
 	const filePresent = isFile && processedText?.length > 0
 	// let testQ
+	console.log('questions (typed) RRRRRRRRRR:', questions)
 	if (filePresent) {
-		let [info, ...questions] = processedText
+		let [info, ...questionsFromFile] = processedText
 		fileInfo = info.question
-		.split('\n')
-		.filter(Boolean)
-		.map(item => {
-			const [key, value] = item.split(':');
-			return { [key?.trim().toLowerCase()]: value?.trim() };
-		})
-		.reduce((accumulator, currentItem) => {
-			const key = Object.keys(currentItem)[0];
-			const value = currentItem[key];
-			accumulator[key] = value;
-			return accumulator;
-		}, {});
-		// console.log('questions:', questions)
-		// testQ = questions?.map(questionItem => {
-		// 	// console.log('questionItem:', questionItem)
-		// 	const [question, ...options] = questionItem.question.split('\n').filter(Boolean)
-		// 	return {question, options}
-		// })
-		// questions = questions.split('\n')
-		finalQuestions = questions?.map(questionItem => {
-			// console.log('questionItem:', questionItem)
-			const [question, ...options] = questionItem.question.split('\n').filter(Boolean)
-			return {question, options}
-		})
+					.split('\n')
+					.filter(Boolean)
+					.map(item => {
+						const [key, value] = item.split(':');
+						return { [key?.trim().toLowerCase()]: value?.trim() };
+					})
+					.reduce((accumulator, currentItem) => {
+						const key = Object.keys(currentItem)[0];
+						const value = currentItem[key];
+						accumulator[key] = value;
+						return accumulator;
+					}, {});
+
+		console.log(
+			'\nquestionsFromFile (from file) RRRRRRRRRR:', questionsFromFile,
+			'\nquestions (typed) QQQQQQQQQQQQ:', questions,
+			'\nformData:', formData,
+		)
+		if (questions?.some(item => item.hasOwnProperty('number'))) {
+			console.log('111111111111111111111')
+			finalQuestions = questions
+		} else {
+			console.log('22222222222222222222')
+			finalQuestions = questionsFromFile?.map(questionItem => {
+				console.log('questionItem:', questionItem)
+				const [question, ...options] = questionItem.question.split('\n').filter(Boolean)
+				const id = questionItem.id
+				const number = questionItem.id
+				const correct_answer = options[0]
+				// console.log({correct_answer})
+				const image = null
+				const previewImage = defaultImage
+				const imageMode = ''
+				const objectToReturn = {
+					id,
+					number,
+					question,
+					options,
+					correct_answer,
+					image,
+					previewImage,
+					imageMode,
+				}
+				return objectToReturn
+			})
+		}
 	}
 	useEffect(() => {
 		if (filePresent&&fileInfo) {
@@ -276,20 +310,87 @@ export default function ContributeQuestions() {
 				},
 				questions: finalQuestions,
 			}));
+			setQuestions((prev) => ([
+				...prev,
+				...finalQuestions,
+			]));
 		}
-	}, [filePresent])
+		if (!!Number(formData.totalQs)) {
+			setTotalNumberOfFileUploadQuestions(0)
+		} else {
+			const value = processedText?.length
+			setTotalNumberOfFileUploadQuestions(() => {
+				const num = +value - 1;
+				return num > 0 ? num : 0;
+			});
+		}
+		
+	}, [filePresent, totalNumberOfQuestions])
+
+	const addQuestion = () => {
+		console.log('addQuestion')
+		// console.log('fileUploadQuestions:', fileUploadQuestions)
+		const newQuestionObject = [questionObject]
+		console.log('questions ########## (2):', questions)
+		setQuestions((prev)=>[...prev, newQuestionObject[0]])
+		console.log(
+			'\nnewQuestionObject:', newQuestionObject,
+			'\nquestions ########## (2):', questions,
+			'\nformData:', formData,
+		)
+		if (!filePresent) {
+			setFormData((prev) => ({
+				...prev,
+				totalQs: Number(prev.totalQs)+1
+			}));
+		}
+	};
+
+	useEffect(() => {
+		if (filePresent) {
+			setFormData((prev) => ({
+				...prev,
+				questions: [...questions],
+			}));
+		}
+	}, [questions])
+
+	const removeQuestion = (index) => {
+		console.log('removeQuestion:', index)
+		const updatedQuestions = [...questions];
+		// console.log({fileUploadQuestions}, {updatedQuestions})
+		// if (totalFileUploadQuestions) {updatedQuestions = [...fileUploadQuestions]}
+		updatedQuestions.splice(index, 1);
+		console.log('questions ########## (3):', questions)
+		setQuestions(updatedQuestions)
+		if (!filePresent) {
+			setFormData((prev) => ({
+				...prev,
+				totalQs: Number(prev.totalQs)-1
+			}));
+		}
+		// setFormData((prev) => ({
+		// 	...prev,
+		// 	totalQs: Number(prev.totalQs)-1,
+		// 	questions: updatedQuestions,
+		// }));
+	};
 	console.log(
-		'\nquestions:', questions,
 		'\nquestions[index]:', questions[0],
 		'\ntotalNumberOfQuestions:', totalNumberOfQuestions,
-		'\nisimageVisible:', isImageVisible,
-		'\nformData:', formData,
 		'\ntypeCategory:', formData?.typeCategory,
 		// '\ntext (from file):', text,
 		// '\nprocessedText:', processedText,
 		'\nfileInfo:', fileInfo,
+		'\nformData:', formData,
+		'\nquestions:', questions,
 		'\nfinalQuestions:', finalQuestions,
-		'\ntypeArray:', typeArray,
+		'\ntotalNumberOfFileUploadQuestions:', totalNumberOfFileUploadQuestions,
+		'\ntotalNumberOfQuestions:', totalNumberOfQuestions,
+		'\nisimageVisible:', isImageVisible,
+		'\nformData.totalQs:', formData.totalQs,
+		'\nformData.totalQs?', !!Number(formData.totalQs),
+		// '\ntypeArray:', typeArray,
 		// '\ntestQ:', testQ,
 	)
 	const contributeArgs = {
@@ -317,7 +418,7 @@ export default function ContributeQuestions() {
 				>
 						<div className="c_form">
 							<fieldset
-							style={{paddingBottom: '5%'}}
+							// style={{paddingBottom: '5%'}}
 							>
 								<div className="full field">
 									<div style={styles.totalQs}>
@@ -381,9 +482,10 @@ export default function ContributeQuestions() {
 							</fieldset>
 						</div>
 					</div>
-					{
-					!filePresent&&finalQuestions?.length ?
+					<>
+					{!filePresent&&finalQuestions?.length ?
 					// totalNumberOfQuestions ?
+					// <>
 					// <>
 						<QuestionsSectionOfContribute {...contributeArgs} />
 						:
@@ -411,7 +513,9 @@ export default function ContributeQuestions() {
 							</div>
 							<QuestionsSectionOfContribute {...contributeArgs} />
 						</>
+					// {/* </> */}
 					}
+					</>
 					{/* // } */}
 					{/* {showSubmit && */}
 					{/* // submit button */}
@@ -438,7 +542,7 @@ const styles = {
 		width: '25%',
 	},
 	uploadButton: {
-		margin: 0,
+		margin: '1% 0 0 0',
 		display: 'flex',
 		gap: 3,
 	},
@@ -446,7 +550,7 @@ const styles = {
 		margin: '0 15%'
 	},
 	questionsComp: {
-		margin: '0 5%'
+		margin: '0 10%'
 	},
 	previewImage: {
 		width: '100%',
@@ -457,145 +561,4 @@ const styles = {
 	createLayout: {
 		margin: '0 15%'
 	},
-}
-
-
-const optionTypes = ['correct_answer', 'wrong_answer1', 'wrong_answer2', 'wrong_answer3']
-function QuestionsSectionOfContribute (contributeArgs) {
-	const {
-		finalQuestions:questions,
-		addQuestion,
-		removeQuestion,
-		handleQuestionChange,
-		toggleImage,
-		isImageVisible,
-		totalNumberOfQuestions,
-		formData
-	} = contributeArgs
-	// console.log('questions:', questions)
-	return (
-		<div>
-			<div
-			style={styles.questionsComp}
-			>
-				<div className="vertical_scroll">
-					{/* {Array.isArray(questionArray) && questionArray?.map((q, index) => ( */}
-					{questions?.map((q, index) => (
-					<div className="c_form" key={index}>
-						<fieldset
-						// style={type==='create'?styles.createLayout:{}}
-						>
-							<div className="full field">
-								{/* questions */}
-								<textarea
-								className=""
-								placeholder={`Question ${index + 1}`}
-								value={q.question||''}
-								onChange={(e)=>handleQuestionChange(index, e)}
-								required
-								style={{background:!q.question?'#f3f3f3':null}}
-								name="question" />
-
-								{/* options */}
-								{Array.from({ length: 4 }, (_, i) => i).map(optionIndex => {
-									const optionFromFile = q?.options?.[optionIndex]
-									const optionTyped = q[optionTypes[optionIndex]]
-									// console.log(
-									// 	'\noptionTypes:', optionTypes,
-									// 	'\noptiontypes[i]', optionTypes[optionIndex],
-									// 	// '\nquestion:', q,
-									// 	'\noptionFromFile:', optionFromFile,
-									// 	'\noptionTyped:', optionTyped,
-									// )
-									return (
-									<div key={optionIndex}>
-										{/* correct answers */}
-										<input
-										className="c_form_option_input"
-										name={optionTypes[optionIndex]} type="text"
-										placeholder={ConvertToSentenceCase(optionTypes[optionIndex])}
-										value={optionFromFile||optionTyped||''}
-										onChange={(e)=>handleQuestionChange(index, e)}
-										required/>
-									</div>)})}
-
-								{/* images and switch buttons */}
-								<div>
-									{isImageVisible[index] ? (
-										<>
-											<div>
-												{/* {console.log(questions)} */}
-												<img
-													src={questions[index]?.previewImage}
-													alt={`Preview ${index +1}`}
-													style={styles.previewImage}
-												/>
-											</div>
-											<div style={{display: 'flex', gap: 10}}>
-												<input
-												className="image_upload image_file"
-												type="file"
-												accept="image/*"
-												name="image"
-												onChange={(e)=>handleQuestionChange(index, e)}
-												/>
-												<select
-												className="c_form_input c_form_input_select2"
-												value={questions[index]?.imageMode||''}
-												onChange={(e)=>handleQuestionChange(index, e)}
-												style={{background:questions.imageMode ?'#f3f3f3':null}}
-												name="imageMode">
-													<option value="" disabled>Mode</option>
-													<option value="side">Side</option>
-													<option value="top">Top</option>
-												</select>
-												<button
-												className="image_upload remove_question_image"
-												type="button"
-												onClick={() => toggleImage(index)}>
-													Remove Image
-												</button>
-											</div>
-										</>
-									) : (
-										<button
-										className="image_upload"
-										type="button"
-										onClick={() => toggleImage(index)}>
-											Add Image
-										</button>
-									)}
-								</div>
-								<button
-								style={{margin: '5px 0 50px 0'}}
-								className="image_upload remove_question_image"
-								type="button"
-								onClick={() => removeQuestion(index)}>
-									Remove Question {index+1}
-								</button>
-							</div>
-						</fieldset>
-					</div>
-					))}
-				</div>
-				{totalNumberOfQuestions ?
-				<div className="center_elements"
-				// style={
-				// 	// type==='create'?
-				// 	styles.createLayout
-				// 	// :{}
-				// 	}
-					>
-					<button
-					className="image_upload add_question"
-					type="button" onClick={addQuestion}>
-						Add New Question
-					</button>
-				</div>
-				:
-				null}
-			</div>
-			{/* <ShuffleQuestions {...args} /> */}
-		</div>
-	)
 }
