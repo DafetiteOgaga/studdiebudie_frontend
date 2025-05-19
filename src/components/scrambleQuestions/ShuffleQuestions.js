@@ -172,7 +172,7 @@ function ShuffleQuestions(args) {
 							value={q.question}
 							onChange={(e)=>fileUpload?handleFileQuestionChange(index, e):handleQuestionChange(index, e)}
 							required
-							style={{background: q.question?'#f3f3f3':null}}
+							style={{background: !q.question?'#f3f3f3':null}}
 							name="question" />
 
 							{/* correct answers */}
