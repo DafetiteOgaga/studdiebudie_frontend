@@ -1,6 +1,4 @@
-import React, { useState, useEffect, useMemo,
-	// useRef
-} from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import defaultImage from '../../statics/images/sample_image.png'
 import { useHandleFileUpload } from "../../hooks/FileReaderHandler";
 import { generateFilesAndDownload } from "../../hooks/fileDownloadHandlers/GenerateAndDownloadInZip";
@@ -8,6 +6,7 @@ import { ShuffleQuestions } from "./ShuffleQuestions";
 import { MoreInfo } from "../MoreInfo";
 import { ConvertCase } from "../../hooks/ConvertCase";
 import { PageHead } from "../PageHead";
+import { FetchFromServer } from "../../hooks/fetch/FetchFromServer";
 
 const serverOrigin = 'http://localhost:4000'
 
@@ -226,7 +225,7 @@ export default function Scramble() {
 	}, [totalFileUploadQuestions, totalNumberOfQuestions]);
 
 	// let cleanedData;
-	const submitHandler = (e) => {
+	const submitHandler = async (e) => {
 		e.preventDefault(); // prevent default page refresh
 		const cleanedData = {...formData}
 		const questions = []
@@ -247,30 +246,19 @@ export default function Scramble() {
 			}
 		});
 		cleanedData.postQuestions = questions
-		fetch(`${serverOrigin}/randomize/`, {
-			method: 'POST',
-			headers: {
-				'Content-Type': 'application/json',
-			},
-			body: JSON.stringify(cleanedData),
-		})
-		.then((response) => {
-			if (!response.ok) {
-				throw new Error('Network response was not ok');
-			}
-			return response.json();
-		})
-		.then((data) => {
-			console.log('Success:', data);
-			setDownloadLink(data?.downloadLink)
-			// Handle success response
-		})
-		.catch((error) => {
-			console.error('Error:', error);
-			// Handle error response
-		});
-		// console.log('Form submitted with data:', cleanedData);
-		alert('Submitted!');
+		const res = await FetchFromServer('/randomize', 'POST', cleanedData)
+		console.log('Form submitted with data:', cleanedData);
+		const alert1 = `\nResponse: \n ${JSON.stringify(res, null, 2)}`
+		alert(alert1);
+		if (res?.success) {
+			// console.log('downloadLink:', res.downloadLink)
+			setDownloadLink(res.downloadLink)
+			// setQuestions([questionObject])
+			// setTotalNumberOfQuestions(0)
+			// setTotalFileUploadQuestions(0)
+			// setFormData(formValues)
+			// setShowSubmitArray([false, false])
+		}
 	};
 	const fileQuestionsHandle = (fileQuestions) => {
 		setFormData((prev) => ({...prev, ...fileQuestions}))
