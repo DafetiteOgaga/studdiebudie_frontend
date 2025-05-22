@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react';
 import { ConvertCase } from '../../hooks/ConvertCase';
 import { QuestionInfo } from '../data/QuestionInfo';
+// import { useIsMobile } from '../../hooks/IsMobile';
+import { useIsMobile } from '../../hooks/IsMobile';
 // import { DateTimeID } from '../../hooks/DateTimeID';
 
 // const typeArray = ['type', 'primary/basic', 'secondary'];
@@ -30,6 +32,7 @@ function PreTest(args) {
 		primarySubjectArray,
 		secondarySubjectArray
 	} = QuestionInfo();
+	const { isMobile } = useIsMobile();
 	// const [info, setInfo] = useState(testInputs);
 	const [info, setInfo] = useState({});
 	// const dateTimeID = DateTimeID();
@@ -58,13 +61,14 @@ function PreTest(args) {
 	console.log('info:', info)
 	const classArray = (info?.typeCategory === 'primary/basic') ? primaryArray : (info?.typeCategory === 'secondary') ? secondaryArray : null;
 	const subjectArray = (info?.typeCategory === 'primary/basic') ? primarySubjectArray : (info?.typeCategory === 'secondary') ? secondarySubjectArray : null;
+	console.log({isMobile})
 	return (
 		<div className="row pretest_bg">
 			<div className="vertical_scroll">
 				<div className="c_form">
 					<fieldset>
 						<div className="full field">
-							<div style={styles.rowForm}>
+							<div className="rowForm">
 								{/* name */}
 								<input
 								className="c_form_option_input"
@@ -84,62 +88,69 @@ function PreTest(args) {
 							</div>
 
 							{/* typeCategory, classCategory, subject */}
-							<div style={styles.rowForm}>
-								{/* typeCategory */}
-								<select
-								// style={{width: '60%', background: formData.term ? '#f3f3f3':null}}
-								className="c_form_input"
-								value={info.typeCategory||''}
-								onChange={handleInfoChange}
-								name="typeCategory"
-								required>
-									{typeArray.map((type, index) => (
-										<option key={index} value={type==='type'?'':type} disabled={type==='type'?true:false}>
-											{ConvertCase(type||'')}
-										</option>
-									))}
-								</select>
+							<div className="rowForm">
+								<div className="rowForm rowForm2 divWidth">
+									{/* typeCategory */}
+									<select
+									// style={{width: '100%'}}
+									// style={{width: '60%', background: formData.term ? '#f3f3f3':null}}
+									className="c_form_input resetMarginTo1"
+									value={info.typeCategory||''}
+									onChange={handleInfoChange}
+									name="typeCategory"
+									required>
+										{typeArray.map((type, index) => (
+											<option key={index} value={type==='type'?'':type} disabled={type==='type'?true:false}>
+												{ConvertCase(type||'')}
+											</option>
+										))}
+									</select>
 
-								{/* classCategory */}
-								<select
-								// style={{width: '60%', background: formData.term ? '#f3f3f3':null}}
-								className="c_form_input"
-								value={info.classCategory||'Class'}
-								onChange={handleInfoChange}
-								disabled={!classArray}
-								name="classCategory"
-								required>
-									{classArray?.map((classType, index) => (
-										<option key={index} value={classType==='class'?'':classType}>
-											{ConvertCase(classType||'')}
-										</option>
-									))||(<option>Class</option>)}
-								</select>
+									{/* classCategory */}
+									<select
+									// style={{width: '60%'}}
+									// style={{width: '60%', background: formData.term ? '#f3f3f3':null}}
+									className="c_form_input resetMarginTo1"
+									value={info.classCategory||'Class'}
+									onChange={handleInfoChange}
+									disabled={!classArray}
+									name="classCategory"
+									required>
+										{classArray?.map((classType, index) => (
+											<option key={index} value={classType==='class'?'':classType}>
+												{ConvertCase(classType||'')}
+											</option>
+										))||(<option>Class</option>)}
+									</select>
+								</div>
 
-								{/* subject */}
-								<select
-								// style={{width: '60%', background: formData.term ? '#f3f3f3':null}}
-								className="c_form_input"
-								value={info.subject||'Subject'}
-								onChange={handleInfoChange}
-								disabled={!subjectArray}
-								name="subject"
-								required>
-									{subjectArray?.map((subjectType, index) => (
-										<option key={index} value={(subjectType==='subject')?'':subjectType}>
-											{ConvertCase(subjectType||'')}
-										</option>
-									))||(<option>Subject</option>)}
-								</select>
+								<div className="rowForm rowForm2">
+									{/* subject */}
+									<select
+									// style={{width: '30%'}}
+									className="c_form_input resetMarginTo1"
+									value={info.subject||'Subject'}
+									onChange={handleInfoChange}
+									disabled={!subjectArray}
+									name="subject"
+									required>
+										{subjectArray?.map((subjectType, index) => (
+											<option key={index} value={(subjectType==='subject')?'':subjectType}>
+												{ConvertCase(subjectType||'')}
+											</option>
+										))||(<option>Subject</option>)}
+									</select>
 
-								{/* duration */}
-								<input
-								className="c_form_option_input"
-								name="duration" type="duration"
-								placeholder="Duration"
-								value={info.duration||''}
-								onChange={handleInfoChange}
-								required/>
+									{/* duration */}
+									<input
+									// style={{width: '30%'}}
+									className="c_form_option_input"
+									name="duration" type="duration"
+									placeholder="Duration"
+									value={info.duration||''}
+									onChange={handleInfoChange}
+									required/>
+								</div>
 							</div>
 
 							{/* wrong answer3 */}
