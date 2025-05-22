@@ -7,6 +7,7 @@ import { MoreInfo } from "../MoreInfo";
 import { ConvertCase } from "../../hooks/ConvertCase";
 import { PageHead } from "../PageHead";
 import { FetchFromServer } from "../../hooks/fetch/FetchFromServer";
+import { useIsMobile } from "../../hooks/IsMobile";
 
 const serverOrigin = 'http://localhost:4000'
 
@@ -55,6 +56,7 @@ const termArray = ['term', 'none', 'first', 'second', 'third']
 export default function Scramble() {
 	// const numberOfQuestions = 2
 	// const inputRef = useRef();
+	const isMobile = useIsMobile();
 	const [showSubmitArray, setShowSubmitArray] = useState([false, false]);
 	const [downloadLink, setDownloadLink] = useState(null);
 	const [totalNumberOfQuestions, setTotalNumberOfQuestions] = useState(0)
@@ -369,9 +371,9 @@ export default function Scramble() {
 				<form onSubmit={submitHandler}>
 					<div className="col-sm-12" style={{padding: '3% 0 0.5% 0'}}>
 						<div className="c_form">
-							<fieldset style={{margin: '0 20%'}}>
+							<fieldset className="creae_fieldset">
 								<div className="full field">
-									<div style={styles.totalQs}>
+									<div className="totalQs">
 										{/* totalQs */}
 										<input
 										className="c_form_input" placeholder="No. of Questions"
@@ -390,7 +392,7 @@ export default function Scramble() {
 									</div>
 
 									{/* email, phone and subject */}
-									<div style={styles.rowForm}>
+									<div className="rowForm">
 										{/* email */}
 										<input
 										className="c_form_input" placeholder="Email Address"
@@ -413,39 +415,43 @@ export default function Scramble() {
 									</div>
 
 									{/* class, session, term, duration, totalQs and instruction */}
-									<div style={styles.rowForm}>
+									<div className="rowForm">
 
 										{/* class and sesion */}
-										<div style={{...styles.rowForm, width: '70%',}}>
+										<div className="rowForm rowForm2">
 											{/* class */}
 											<input
+											style={{width: '60%'}}
 											className="c_form_input" placeholder="Class"
 											value={formData.class} onChange={handleChange}
 											type="text" name="class" />
-										</div>
-									
-										{/* session */}
-										<input
-										className="c_form_input" placeholder="Session"
-										value={formData.session} onChange={handleChange}
-										required
-										type="text" name="session" />
 										
+									
+											{/* session */}
+											<input
+											style={{width: '60%'}}
+											className="c_form_input" placeholder="Session"
+											value={formData.session} onChange={handleChange}
+											required
+											type="text" name="session" />
+										</div>
 
-										{/* term */}
-										<select style={{width: '60%', background: !formData.term ? '#f3f3f3':null}}
-										className="c_form_input"
-										value={formData.term} onChange={handleChange}
-										name="term">
-											{termArray.map((term, index) => (
-												<option key={index} value={term==='term'?'':term} disabled={term==='term'?true:false}>
-													{ConvertCase(term||'')}
-												</option>
-											))}
-										</select>
+										<div className="rowForm rowForm2">
+											{/* term */}
+											<select
+											style={{width: '60%'}}
+											className="c_form_input"
+											value={formData.term} onChange={handleChange}
+											name="term">
+												{termArray.map((term, index) => (
+													<option key={index} value={term==='term'?'':term} disabled={term==='term'?true:false}>
+														{ConvertCase(term||'')}
+													</option>
+												))}
+											</select>
 
-										{/* duration, totalQs */}
-										{/* <div style={styles.rowForm}> */}
+											{/* duration, totalQs */}
+											{/* <div style={styles.rowForm}> */}
 											{/* duration */}
 											<input
 											style={{width: '60%'}}
@@ -453,12 +459,14 @@ export default function Scramble() {
 											value={formData.duration} onChange={handleChange}
 											required
 											type="tel" name="duration" />
+										</div>
 
 										{/* </div> */}
 
 										{/* <div style={{...styles.rowForm, width: '50%'}}> */}
 											{/* instruction */}
 											<input
+											style={{width: isMobile?null:'40%'}}
 											className="c_form_input" placeholder="Instruction"
 											value={formData.instruction} onChange={handleChange}
 											required
@@ -484,12 +492,12 @@ export default function Scramble() {
 					:
 					null}
 					{(totalNumberOfQuestions&&!isFile) ?
-						<div style={styles.questionsComp}>
+						<div style={isMobile?styles.questionsCompmobile:styles.questionsCompPC}>
 							<ShuffleQuestions {...args} />
 						</div>
 						:
-						<div style={styles.uploadButton}>
-							<div style={{display: 'flex', alignItems: 'center', gap: 10}}>
+						<div className="creae_fieldset">
+							<div className="uploadBtncreate">
 								<div style={{
 										display: 'flex',
 										alignItems: 'center',
@@ -512,7 +520,7 @@ export default function Scramble() {
 							</div>
 							{isFile ?
 								<>
-									<div style={styles.questionsComp}>
+									<div style={isMobile?styles.questionsCompmobile:styles.questionsCompPC}>
 										<ShuffleQuestions {...args} type="file" text={text} />
 									</div>
 								</>
@@ -540,17 +548,20 @@ const styles = {
 		display: 'flex',
 		gap: 10
 	},
-	totalQs: {
-		width: '25%',
-	},
-	uploadButton: {
-		margin: '0 20%'
-	},
+	// totalQs: {
+	// 	width: '25%',
+	// },
+	// uploadButton: {
+	// 	margin: '0 20%'
+	// },
 	downloadButton: {
 		margin: '0 15%'
 	},
-	questionsComp: {
+	questionsCompPC: {
 		marginTop: '5%'
+	},
+	questionsCompmobile: {
+		marginTop: '20%'
 	},
 }
 
