@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import defaultImage from '../../statics/images/sample_image.png'
+import { useIsMobile } from '../../hooks/IsMobile';
 
 // const questionObject = {
 // 	number: '',
@@ -37,7 +38,9 @@ function ShuffleQuestions(args) {
 		type,
 		text,
 		processedText,
+		fileMargin,
 	} = args;
+	const isMobile = useIsMobile();
 	const [editFileQuestions, setEditFileQuestions] = useState([questionObject]);
 	// console.log({type}, {text})
 	// const uploadedQuestions = text?.split?.(`Q${[Number]}`||`q${[Number]}`);
@@ -158,8 +161,9 @@ function ShuffleQuestions(args) {
 			return updated;
 		});
 	}
+	console.log(fileMargin)
 	return (
-		<div className="row">
+		<div className="row mobileQuestionRow" style={{margin: fileMargin?.margin||'-40px'}}>
 			<div className="vertical_scroll">
 				{Array.isArray(questionArray) && questionArray?.map((q, index) => (
 				<div className="c_form" key={index}>
@@ -274,7 +278,7 @@ function ShuffleQuestions(args) {
 			</div>
 			{totalNumberOfQuestions||totalFileUploadQuestions ?
 			<div className="center_elements"
-			style={type==='create'?styles.createLayout:{}}>
+			style={!isMobile?(type==='create'?styles.createLayout:{}):!!fileMargin?{marginBottom: 'auto'}:{}}>
 				<button
 				className="image_upload add_question"
 				type="button" onClick={addQuestion}>
