@@ -71,7 +71,7 @@ function TestQuestions(args) {
 		<div>
 			<div className="vertical_scroll">
 				<div className="c_form">
-					<div style={styles.rowSpaced}>
+					<div className='rowSpaced'>
 						<h5 style={{
 							color: 'rgb(218, 220, 221)',
 							fontSize: 16,
@@ -127,7 +127,7 @@ function TestQuestions(args) {
 											fontWeight: 400,
 											marginBottom: 8,
 										}}>
-											{answerOptionsArray[index]}: {option}
+											<span style={{color: '#d4a81e', fontWeight: 'bold'}}>{answerOptionsArray[index]}:</span> {option}
 										</p>
 									</div>
 								</div>
@@ -165,12 +165,12 @@ const styles = {
 		justifyContent: 'space-between',
 		// paddingBottom: 10,
 	},
-	rowSpaced: {
-		display: 'flex',
-		justifyContent: 'space-between',
-		alignItems: 'baseline',
-		paddingBottom: 10,
-	},
+	// rowSpaced: {
+	// 	display: 'flex',
+	// 	justifyContent: 'space-between',
+	// 	alignItems: 'baseline',
+	// 	paddingBottom: 10,
+	// },
 	rowed: {
 		display: 'flex',
 		// justifyContent: 'space-between',

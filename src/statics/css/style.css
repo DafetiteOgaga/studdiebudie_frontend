@@ -2504,9 +2504,22 @@ section.inner_banner h3 {
 	margin: 0 15%;
 	border-radius: 10px;
 }
+.testForm {
+	margin: 0 7%;
+}
 
 .pretest_bg {
 	padding-top: 60px;
+	justify-content: center;
+}
+.divWidth {
+	width: 60%;
+}
+.rowSpaced {
+	display: flex;
+	justify-content: space-between;
+	align-items: baseline;
+	padding-bottom: 10px;
 }
 
 .header_menu li {

@@ -496,4 +496,27 @@
         margin: 1px 0;
     }
 
+    .tests_bg {
+        margin: 0 5%;
+    }
+    .testForm {
+        margin: 0 5%;
+    }
+    .questionForm {
+        margin: 0;
+    }
+    .pretest_bg {
+        padding-top: 0;
+    }
+    .divWidth {
+        width: auto;
+    }
+    .resetMarginTo1 {
+        margin: 1px;
+    }
+    .rowSpaced {
+        flex-direction: column;
+        padding-bottom: 20px;
+    }
+
 }
