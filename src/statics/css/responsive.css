@@ -170,7 +170,7 @@
     }
 
 }
-/* mobile or only mobile */
+/* mobile only */
 @media (max-width: 767px) {
     .navbar-brand{
         margin-left: 10px;
@@ -234,8 +234,9 @@
     }
 
     .tab_menu {
-        padding: 13px;
+        padding: 5px;
         height: auto;
+        background: #f5f8f83a;
     }
     .tab_menu ul {
         width: auto;
@@ -247,11 +248,18 @@
     .ul_menu {
         display: grid;
         grid-template-columns: repeat(2, 1fr); /* Two columns */
-        padding-left: 40px;
+        /* padding-left: 40px; */
     }
     .tab_menu ul li {
-        width: auto;
+        width: 100%;
         padding: 5px 0;
+    }
+    .tab_menu ul li span {
+        font-size: 14px;
+        padding: 0 3px;
+    }
+    .tab_menu_ul {
+        gap: 5px;
     }
 
     .layout_padding_2 {
@@ -331,7 +339,7 @@
         position: relative;
     }
     .slide_text {
-        margin-top: 20%;
+        margin: 20% 0 10% 0;
     }
     .slide_text h3 span {
         font-size: 20px;
@@ -453,6 +461,33 @@
     }
     .center_elements {
         margin: 0 35px;
+    }
+
+    .create_bg {
+        padding-bottom: 20px;
+    }
+    .creae_fieldset {
+        margin: 0 5%;
+    }
+    .totalQs {
+        width: 55%;
+    }
+    .rowForm {
+        flex-direction: column;
+        gap: 0px;
+    }
+    .c_form_input {
+        margin: 0 0 5px 0;
+    }
+    .rowForm2 {
+        flex-direction: row;
+        display: flex;
+        gap: 10px;
+    }
+    .uploadBtncreate {
+        flex-direction: column;
+        align-items: start;
+        gap: 5px;
     }
 
 }

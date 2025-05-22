@@ -2468,6 +2468,28 @@ section.inner_banner h3 {
 	margin: 0 5%;
 	border-radius: 10px;
 }
+.creae_fieldset {
+	margin: 0 20%;
+}
+.totalQs {
+	width: 25%;
+}
+.rowForm {
+	flex-direction: row;
+	display: flex;
+	gap: 10px;
+}
+.uploadBtncreate {
+	display: flex;
+	align-items: center;
+	gap: 10px;
+}
+/* .uploadBtnCreate {
+	margin-bottom: 1%;
+	display: flex;
+	gap: 5;
+	align-items: center;
+} */
 
 .contribute_bg {
 	background: #12385b;
