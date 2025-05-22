@@ -6,11 +6,13 @@ import { FetchFromServer } from "../../hooks/fetch/FetchFromServer";
 import { PageHead } from "../PageHead";
 import { shuffleArray } from "../../hooks/shuffleQuestiond/shufflerHook";
 import { MemoCountdown } from '../../hooks/Countdown';
+import { useIsMobile } from "../../hooks/IsMobile";
 
 
 // const serverOrigin = 'http://localhost:4000'
 
 export default function Tests () {
+	const isMobile = useIsMobile();
 	const [submitText, setSubmitText] = useState('submit');
 	const [testQuestions, setTestQuestions] = useState([]);
 	const [duration, setDuration] = useState(null);
@@ -102,16 +104,18 @@ export default function Tests () {
 	console.log('formData:', formData);
 	console.log('testQuestions:', testQuestions);
 	console.log('duration:', duration);
+	const layoutType = testQuestions?.length
+	console.log({isMobile})
 	return (
 		<>
 			<PageHead {...{title: 'test'}} />
 			{/* <!-- body --> */}
 			<div className="section contact_section tests_bg">
 				<form onSubmit={submitHandler}>
-					<div style={styles.questionsComp}>
-						{testQuestions?.length?
+					<div className={layoutType?"questionForm":"testForm"}>
+						{layoutType?
 						<>
-							<div style={styles.countdown}>
+							<div style={!isMobile?styles.countdownPC:styles.countdownMobile}>
 								<MemoCountdown targetDate={targetDate} />
 							</div>
 							<TestQuestions {...args} />
@@ -149,14 +153,20 @@ const styles = {
 	downloadButton: {
 		margin: '0 15%'
 	},
-	questionsComp: {
-		margin: '0 7%',
-	},
-	countdown: {
+	// questionsComp: {
+	// 	margin: '0 7%',
+	// },
+	countdownPC: {
 		display: 'flex',
 		justifyContent: 'flex-end',
 		paddingBottom: 30,
 		marginRight: -20,
+	},
+	countdownMobile: {
+		display: 'flex',
+		justifyContent: 'flex-end',
+		paddingBottom: 30,
+		marginRight: -8,
 	},
 }
 
