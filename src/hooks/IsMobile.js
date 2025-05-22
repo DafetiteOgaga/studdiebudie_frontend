@@ -11,6 +11,7 @@ const useIsMobile = () => {
 		return () => mediaQuery.removeEventListener("change", handleResize);
 	}, []);
 
+	console.log('isMobile:', isMobile);
 	return isMobile;
 };
 export { useIsMobile };
