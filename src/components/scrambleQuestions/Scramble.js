@@ -521,19 +521,20 @@ export default function Scramble() {
 							{isFile ?
 								<>
 									<div style={isMobile?styles.questionsCompmobile:styles.questionsCompPC}>
-										<ShuffleQuestions {...args} type="file" text={text} />
+										<ShuffleQuestions {...args} fileMargin={{margin: 'auto'}} type="file" text={text} />
 									</div>
 								</>
 								:
 								null}
 						</div>
 					}
-					{showSubmit &&
-					// submit button
+					{/* {showSubmit && */}
+					{/* // submit button */}
 					<div className="center">
 						<button
 						type="submit" className="c_form_button">Send</button>
-					</div>}
+					</div>
+					{/* } */}
 				</form>
 				
 			</div>
