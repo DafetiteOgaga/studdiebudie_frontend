@@ -3,8 +3,10 @@ import Banner from "./Banner";
 import SectionBar from "./SectionBar";
 import WelcomeSection from "./WelcomeSection"
 import * as Ficons from "react-icons/fa";
+import { useIsMobile } from "../hooks/IsMobile";
 
 export default function Home() {
+	const isMobile = useIsMobile();
 	// console.log(Ficons)
 	const [lastScrollY, setLastScrollY] = useState(0);
 	useEffect(() => {
@@ -18,7 +20,7 @@ export default function Home() {
 	return (
 		<>
 			<Banner />
-			<SectionBar />
+			{!isMobile && <SectionBar />}
 			<WelcomeSection />
 		</>
 	);
