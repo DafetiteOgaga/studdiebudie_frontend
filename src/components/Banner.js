@@ -1,25 +1,28 @@
 import banner from "../statics/images/banner_img.png"
+import SectionBar from "./SectionBar"
+import { useIsMobile } from "../hooks/IsMobile"
 
 export default function Banner () {
+	const isMobile = useIsMobile()
 	return (
 		<>
-			<div className="pogoSlider">
+			<div>
 				<div
 				style={{
 					backgroundImage: `url(${banner})`,
-					backgroundSize: 'contain',
 				}}>
 					<div className="container">
 						<div className="row">
-							<div className="col-md-12">
+							<div>
 								<div className="slide_text">
 									<h3 style={{color: "lightblue"}}>
 										<br/>
 										The perfect place to <span style={{color: '#d4a81e'}}>create, scramble and mark </span> your test and  examiniation
 									</h3>
-									<br/>
+									<br/><br />
+									{isMobile && <SectionBar />}
 									{/* <h4>Free Educations</h4> */}
-									<br/>
+									{/* <br/> */}
 									<div className="full center">
 										{/* <a className="contact_bt" href="courses.html">Start a Course</a> */}
 									</div>
