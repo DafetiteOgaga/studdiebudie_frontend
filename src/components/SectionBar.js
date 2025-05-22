@@ -4,8 +4,10 @@ import i2 from "../statics/images/i2.png"
 import i3 from "../statics/images/i3.png"
 import i4 from "../statics/images/i4.png"
 import { ConvertCase } from "../hooks/ConvertCase"
+import { useIsMobile } from "../hooks/IsMobile"
 
 export default function SectionBar() {
+	const isMobile = useIsMobile()
 	const sectionArray = [
 		{
 			id: 1,
@@ -42,7 +44,7 @@ export default function SectionBar() {
 				<div className="row">
 					<div className="col-md-12">
 						<div className="tab_menu">
-							<ul className="ul_menu" style={{margin: '0.5rem 0'}}>
+							<ul className="ul_menu tab_menu_ul" style={{margin: isMobile?0:'0.5rem 0'}}>
 								{sectionArray.map((item, index) => (
 									<li key={index} className="menu-out" style={{backgroundColor: item.backgroundColor}}>
 										<Link to={item.link} className="menu-out-anchor">
