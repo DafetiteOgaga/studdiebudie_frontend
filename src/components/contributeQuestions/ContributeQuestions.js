@@ -6,6 +6,7 @@ import { ConvertCase } from "../../hooks/ConvertCase";
 import { PageHead } from "../PageHead";
 import { QuestionInfo } from "../data/QuestionInfo";
 import { QuestionsSectionOfContribute } from "./QuestionsSectionOfContribute";
+import { FetchFromServer } from "../../hooks/fetch/FetchFromServer";
 
 const serverOrigin = 'http://localhost:4000'
 
@@ -188,55 +189,15 @@ export default function ContributeQuestions() {
 	}, [totalNumberOfQuestions, totalNumberOfFileUploadQuestions]);
 
 	// let cleanedData;
-	const submitHandler = (e) => {
+	const submitHandler = async (e) => {
 		e.preventDefault(); // prevent default page refresh
 		let cleanedData = { ...formData };
 		console.log('formData:', formData);
 
-		// if (cleanedData.totalQs) {
-		// 	cleanedData.questions = cleanedData.questions.map((question) => {
-		// 	const options = [];
-		// 	const newQuestion = { ...question };
-
-		// 	Object.entries(question).forEach(([key, value]) => {
-		// 		if (optionTypes.includes(key)) {
-		// 		options.push(value);
-		// 		delete newQuestion[key]; // remove the original option field
-		// 		}
-		// 	});
-
-		// 	newQuestion.options = options;
-		// 	return newQuestion;
-		// 	});
-		// }
-
-
-
-		// cleanedData.postQuestions = questions
-		// fetch(`${serverOrigin}/randomize/`, {
-		// 	method: 'POST',
-		// 	headers: {
-		// 		'Content-Type': 'application/json',
-		// 	},
-		// 	body: JSON.stringify(cleanedData),
-		// })
-		// .then((response) => {
-		// 	if (!response.ok) {
-		// 		throw new Error('Network response was not ok');
-		// 	}
-		// 	return response.json();
-		// })
-		// .then((data) => {
-		// 	console.log('Success:', data);
-		// 	// setDownloadLink(data?.downloadLink)
-		// 	// Handle success response
-		// })
-		// .catch((error) => {
-		// 	console.error('Error:', error);
-		// 	// Handle error response
-		// });
+		const res = await FetchFromServer('/create-tests', 'POST', cleanedData)
 		console.log('Form submitted with data:', cleanedData);
-		alert('Submitted!');
+		const alert1 = `\nResponse: \n ${JSON.stringify(res, null, 2)}`
+		alert(alert1);
 	};
 	// const fileQuestionsHandle = (fileQuestions) => {
 	// 	setFormData((prev) => ({...prev, ...fileQuestions}))

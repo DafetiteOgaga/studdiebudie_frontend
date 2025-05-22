@@ -1,5 +1,5 @@
 // Countdown.js
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, memo } from 'react';
 
 const Countdown = ({ targetDate }) => {
 	const calculateTimeLeft = () => {
@@ -54,4 +54,4 @@ const styles = {
 		borderRadius: 5,
 	}
 }
-export { Countdown };
+export const MemoCountdown = memo(Countdown);

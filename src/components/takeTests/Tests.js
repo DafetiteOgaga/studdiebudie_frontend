@@ -4,6 +4,8 @@ import { PreTest } from "./PreTest";
 import { DateTimeID } from "../../hooks/DateTimeID";
 import { FetchFromServer } from "../../hooks/fetch/FetchFromServer";
 import { PageHead } from "../PageHead";
+import { shuffleArray } from "../../hooks/shuffleQuestiond/shufflerHook";
+import { MemoCountdown } from '../../hooks/Countdown';
 
 
 // const serverOrigin = 'http://localhost:4000'
@@ -42,17 +44,44 @@ export default function Tests () {
 		console.log('Response:', response);
 		if (response?.success) {
 			if (response?.goto) {
-				console.log('goto:', response.goto)
-				const getQuestions = await FetchFromServer(response.goto, 'GET')
+				console.log(
+					'\ngoto:', response.goto,
+					'\ninfo:', response.info
+				)
+				const getQuestions = await FetchFromServer(response.goto, 'POST', response.info)
 				if (getQuestions?.questions) {
 					console.log('getQuestions:', getQuestions)
-					setTestQuestions(getQuestions?.questions)
+					let shuffledQuestions = getQuestions?.questions
+					shuffledQuestions = shuffledQuestions.map((question) => {
+						const shuffledOptions = shuffleArray(question.options);
+						return {
+							...question,
+							options: shuffledOptions,
+						};
+					});
+					shuffledQuestions = shuffleArray(shuffledQuestions);
+					console.log(
+						'\noriginalQuestions:', getQuestions?.questions,
+						'\nshuffledQuestions:', shuffledQuestions
+					)
+					setTestQuestions(shuffledQuestions)
+					console.log('getQuestions.duration:', getQuestions?.duration)
 					setDuration(getQuestions?.duration)
 					// console.log('getQuestions:', getQuestions.questions)
 				}
 			}
 		}
-		alert('Submitted!');
+		const alert1 = `\nResponse: \n ${JSON.stringify(response, null, 2)}`
+		alert(alert1);
+		// if (res?.success) {
+		// 	// console.log('downloadLink:', res.downloadLink)
+		// 	setDownloadLink(res.downloadLink)
+		// 	// setQuestions([questionObject])
+		// 	// setTotalNumberOfQuestions(0)
+		// 	// setTotalFileUploadQuestions(0)
+		// 	// setFormData(formValues)
+		// 	// setShowSubmitArray([false, false])
+		// }
 	};
 
 	const submitButtonText = (text) => {
@@ -64,6 +93,12 @@ export default function Tests () {
 		duration,
 		submitButtonText,
 	}
+	let futureDate
+	const countdownHandler = (setduration = 1) => {
+		futureDate = new Date()
+		return futureDate.setHours(futureDate.getHours() + setduration);
+	}
+	const targetDate = useMemo(() => countdownHandler(Number(duration)), [duration]);
 	console.log('formData:', formData);
 	console.log('testQuestions:', testQuestions);
 	console.log('duration:', duration);
@@ -75,7 +110,12 @@ export default function Tests () {
 				<form onSubmit={submitHandler}>
 					<div style={styles.questionsComp}>
 						{testQuestions?.length?
-						<TestQuestions {...args} />
+						<>
+							<div style={styles.countdown}>
+								<MemoCountdown targetDate={targetDate} />
+							</div>
+							<TestQuestions {...args} />
+						</>
 						:
 						<PreTest {...args} />}
 					</div>
@@ -110,7 +150,13 @@ const styles = {
 		margin: '0 15%'
 	},
 	questionsComp: {
-		margin: '0 15%',
+		margin: '0 7%',
+	},
+	countdown: {
+		display: 'flex',
+		justifyContent: 'flex-end',
+		paddingBottom: 30,
+		marginRight: -20,
 	},
 }
 

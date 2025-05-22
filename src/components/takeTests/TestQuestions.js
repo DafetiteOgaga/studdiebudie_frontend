@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
 import defaultImage from '../../statics/images/sample_image.png'
-import { Countdown } from '../../hooks/Countdown';
 
 const answerOptionsArray = ['a', 'b', 'c', 'd'];
 const questionObject = {
@@ -65,11 +64,6 @@ function TestQuestions(args) {
 	}, [selectedAnswers])
 	const userChoice = selectedAnswers.find(item => item.question === testQuestions[QuestionNumber].question)?.answer
 	const choiceLetterIndex = testQuestions[QuestionNumber].options.findIndex(option => option === userChoice);
-	let futureDate
-	const countdownHandler = (setduration = 1) => {
-		futureDate = new Date()
-		return futureDate.setHours(futureDate.getHours() + setduration);
-	}
 	// console.log('userChoice: ', userChoice);
 	// console.log('choiceLetterIndex: ', choiceLetterIndex);
 	submitButtonText('submit')
@@ -77,9 +71,6 @@ function TestQuestions(args) {
 		<div>
 			<div className="vertical_scroll">
 				<div className="c_form">
-					<div style={styles.countdown}>
-						<Countdown targetDate={countdownHandler(Number(duration))} />
-					</div>
 					<div style={styles.rowSpaced}>
 						<h5 style={{
 							color: 'rgb(218, 220, 221)',
@@ -188,12 +179,6 @@ const styles = {
 	},
 	imageContainer: {
 		paddingBottom: 15,
-	},
-	countdown: {
-		display: 'flex',
-		justifyContent: 'flex-end',
-		paddingBottom: 30,
-		marginRight: -100,
 	},
 };
 export { TestQuestions };
