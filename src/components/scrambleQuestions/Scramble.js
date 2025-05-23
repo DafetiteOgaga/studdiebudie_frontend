@@ -371,7 +371,7 @@ export default function Scramble() {
 				<form onSubmit={submitHandler}>
 					<div className="col-sm-12" style={{padding: '3% 0 0.5% 0'}}>
 						<div className="c_form">
-							<fieldset className="creae_fieldset">
+							<fieldset className="create_fieldset">
 								<div className="full field">
 									<div className="totalQs">
 										{/* totalQs */}
@@ -496,7 +496,7 @@ export default function Scramble() {
 							<ShuffleQuestions {...args} />
 						</div>
 						:
-						<div className="creae_fieldset">
+						<div className="create_fieldset">
 							<div className="uploadBtncreate">
 								<div style={{
 										display: 'flex',
@@ -513,7 +513,7 @@ export default function Scramble() {
 								</div>
 								{isFile ?
 									<div>
-										<input type="file" accept=".txt,.docx" onChange={handleFileChange}/>
+										<input className="uploadFileInput" type="file" accept=".txt,.docx" onChange={handleFileChange}/>
 									</div>
 									:
 									null}
