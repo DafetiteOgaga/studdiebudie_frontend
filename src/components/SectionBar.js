@@ -51,7 +51,7 @@ export default function SectionBar() {
 											<span className="icon">
 												<img src={item.icon} alt={item.name} />
 											</span>
-											<span>{ConvertCase(item.name)}</span>
+											<span style={{lineHeight: 1.2}}>{ConvertCase(item.name)}</span>
 										</Link>
 									</li>))}
 							</ul>
