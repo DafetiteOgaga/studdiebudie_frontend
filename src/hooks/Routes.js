@@ -1,5 +1,5 @@
 // src/Routes.js
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route, Navigate } from 'react-router-dom';
 import Home from '../components/index';
 import Scramble from '../components/scrambleQuestions/Scramble';
 import ContactUs from '../components/ContactUs';
@@ -14,7 +14,7 @@ function AppRoutes() {
 			<Route path="/tests" element={<Tests />} />
 			<Route path="/contribute" element={<ContributeQuestions />} />
 			<Route path="/contact" element={<ContactUs />} />
-			{/* <Route path="/history" element={<History />} /> */}
+			<Route path="*" element={<Navigate to="/" />} />
 		</Routes>
 	);
 }
