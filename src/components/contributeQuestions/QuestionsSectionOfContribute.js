@@ -1,7 +1,5 @@
 const { ConvertToSentenceCase } = require("../../hooks/ConvertCase")
 
-
-
 const optionTypes = ['correct_answer', 'wrong_answer1', 'wrong_answer2', 'wrong_answer3']
 function QuestionsSectionOfContribute (contributeArgs) {
 	const {
