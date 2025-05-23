@@ -736,7 +736,7 @@ a.navbar-brand img {
 .tab_menu ul li {
     width: 14.25%;
     float: left;
-    padding: 25px 0;
+    padding: 10px 0;
     display: flex;
     justify-content: center;
 }
@@ -2468,7 +2468,7 @@ section.inner_banner h3 {
 	margin: 0 5%;
 	border-radius: 10px;
 }
-.creae_fieldset {
+.create_fieldset {
 	margin: 0 20%;
 }
 .totalQs {
@@ -2497,6 +2497,10 @@ section.inner_banner h3 {
 	margin: 0 12%;
 	border-radius: 10px;
 }
+.contribute_fieldset {
+	margin: 0 2%;
+}
+
 
 .tests_bg {
 	background: #12385b;
