@@ -14,22 +14,19 @@ function QuestionsSectionOfContribute (contributeArgs) {
 		totalNumberOfQuestions,
 		formData
 	} = contributeArgs
-	// console.log('questions:', questions)
+	console.log('\nquestions.length:', questions.length)
 	return (
 		<div
 		style={{marginTop: '5%'}}
 		>
 			<div
-			style={styles.questionsComp}
-			>
+			className="questionForm">
 				<div className="vertical_scroll">
 					{/* {Array.isArray(questionArray) && questionArray?.map((q, index) => ( */}
 					{questions?.map((q, index) => (
 					<div className="c_form" key={index}>
 						{/* {console.log('q:', q)} */}
-						<fieldset
-						// style={type==='create'?styles.createLayout:{}}
-						>
+						<fieldset>
 							<div className="full field">
 								{/* questions */}
 								<textarea
@@ -123,14 +120,8 @@ function QuestionsSectionOfContribute (contributeArgs) {
 					</div>
 					))}
 				</div>
-				{(totalNumberOfQuestions||formData?.questions?.length!==0) ?
-				<div className="center_elements"
-				// style={
-				// 	// type==='create'?
-				// 	styles.createLayout
-				// 	// :{}
-				// 	}
-					>
+				{(questions?.length!==0) ?
+				<div className="center_elements centerAddQuestionBtn">
 					<button
 					className="image_upload add_question"
 					type="button" onClick={addQuestion}>
@@ -163,16 +154,18 @@ const styles = {
 	downloadButton: {
 		margin: '0 15%'
 	},
-	questionsComp: {
-		margin: '0 10%'
-	},
+	// questionsComp: {
+	// 	margin: '0 10%'
+	// },
 	previewImage: {
 		width: '100%',
 		height: 'auto',
 		maxWidth: 200,
 		maxHeight: 200,
 	},
-	createLayout: {
-		margin: '0 15%'
-	},
+	// createLayout: {
+	// 	// margin: '0 15%'
+	// 	display: 'flex',
+	// 	justifyContent: 'center',
+	// },
 }
