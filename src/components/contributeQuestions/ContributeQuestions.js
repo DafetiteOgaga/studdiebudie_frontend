@@ -371,18 +371,12 @@ export default function ContributeQuestions() {
 			<PageHead {...{title: 'Contribute questions'}} />
 			{/* <!-- body --> */}
 			<div className="section contact_section contribute_bg">
-				<form onSubmit={submitHandler} style={{
-					margin: '0 5%',
-				}}>
-				<div className="col-sm-12"
-				// style={{padding: '3% 0 0.5% 0'}}
-				>
+				<form onSubmit={submitHandler} className="testForm">
+				<div className="col-sm-12 removePadding">
 						<div className="c_form">
-							<fieldset
-							// style={{paddingBottom: '5%'}}
-							>
+							<fieldset>
 								<div className="full field">
-									<div style={styles.totalQs}>
+									<div className="totalQs">
 										{/* totalQs */}
 										<input
 										className="c_form_input" placeholder="No. of Questions"
@@ -391,7 +385,7 @@ export default function ContributeQuestions() {
 										disabled={!!isFile}
 										type="tel" name="totalQs" />
 									</div>
-									<div style={styles.rowForm}>
+									<div className="rowForm">
 										{/* typeCategory */}
 										<select
 										// style={{width: '60%', background: formData.term ? '#f3f3f3':null}}
@@ -451,7 +445,7 @@ export default function ContributeQuestions() {
 						<QuestionsSectionOfContribute {...contributeArgs} />
 						:
 						<>
-							<div style={styles.uploadButton}>
+							<div className="contribute_fieldset">
 								<div style={{
 										display: 'flex',
 										alignItems: 'center',
@@ -467,7 +461,7 @@ export default function ContributeQuestions() {
 								</div>
 								{isFile ?
 									<div>
-										<input type="file" accept=".txt,.docx" onChange={handleFileChange}/>
+										<input className="uploadFileInput" type="file" accept=".txt,.docx" onChange={handleFileChange}/>
 									</div>
 									:
 									null}
