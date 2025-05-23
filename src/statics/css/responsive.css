@@ -230,7 +230,12 @@
     }
 
     a.navbar-brand img {
-        height: auto;
+        height: 50px;
+        margin-left: 13px;
+        width: 100px;
+    }
+    .top-header .navbar {
+        padding: 0;
     }
 
     .tab_menu {
@@ -319,7 +324,7 @@
     }
     .top-header {
         background-image: none;
-        background-color: #ffffffc9;
+        /* background-color: #ffffffc9; */
     }
     .about-main-info div.full > img {
         height: auto;
