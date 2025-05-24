@@ -20,7 +20,7 @@ export default function Banner () {
 										The perfect place to <span style={{color: '#d4a81e'}}>create, scramble and mark </span> your test and  examiniation
 									</h3>
 									<br/><br />
-									{isMobile && <><SectionBar /></>}
+									{isMobile && <><br /><SectionBar /></>}
 									{/* <h4>Free Educations</h4> */}
 									{/* <br/> */}
 									<div className="full center">
