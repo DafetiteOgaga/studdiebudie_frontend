@@ -114,7 +114,7 @@ const HamburgerMenu = ({ menuOpen, setMenuOpen, location }) => {
 	}, [menuOpen, setMenuOpen]);
 	return (
 		<div ref={menuRef}>
-			<div className="menu-iconx" onClick={() => setMenuOpen(!menuOpen)}>
+			<div className="burger-menu-icon" onClick={() => setMenuOpen(!menuOpen)}>
 				{menuOpen ?
 					(<>
 						<div style={{display: 'flex', justifyContent:'flex-end'}}>
