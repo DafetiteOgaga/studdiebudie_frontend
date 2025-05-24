@@ -393,15 +393,20 @@ a.navbar-brand img {
 	width: 140px;
 }
 
-.top-header .navbar .navbar-collapse ul li a.active {
-	background: transparent;
-	color: #d4a81e;
-}
 .top-header .navbar .navbar-collapse ul li a:hover,
-.top-header .navbar .navbar-collapse ul li a:focus {
+.top-header .navbar .navbar-collapse ul li a:focus,
+.burger-menu-icon ul li a:hover,
+.burger-menu-icon ul li a:focus,
+.top-header .navbar .navbar-collapse ul li a.active,
+.burger-menu-icon ul li a.active {
 	background: transparent;
 	color: #d4a81e;
 }
+
+.burger-menu-icon {
+	cursor: pointer;
+	display: none;
+  }
 
 .search_icon.nav-link img {
 	width: 25px;
