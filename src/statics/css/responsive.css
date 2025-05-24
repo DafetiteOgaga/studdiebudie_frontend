@@ -179,6 +179,31 @@
     .top-header .navbar .navbar-collapse ul li a{
         padding: 5px 15px;
     }
+    .isMobile {
+        display: flex;
+        /* flex-direction: row; */
+        justify-content: space-between;
+        align-items: baseline;
+    }
+    .mobile_header ul {
+        flex-direction: row;
+        background: #000;
+    }
+    .mobile_header a {
+        font-size: x-small;
+    }
+    .hamburgerMenu {
+        margin-right: 25px;
+    }
+    .navbar-nav {
+        background: #ece9e2c7;
+        /* margin-top: -10px; */
+        padding: 2px 8px;
+        border-radius: 10px 0 10px 10px;
+    }
+    .nav-link {
+        padding: 0px 5px;
+    }
     .lbox-details h1{
         font-size: 24px;
     }
@@ -248,7 +273,9 @@
     }
     ul {
         justify-items: center;
-        margin-left: -40px;
+        /* margin-left: -40px; */
+        /* margin-left: -130px; */
+        gap: 0px;
     }
     .ul_menu {
         display: grid;
@@ -554,6 +581,10 @@
         word-wrap: break-word;
         white-space: normal;
         overflow-wrap: anywhere;
+    }
+
+    .burger-menu-icon {
+        display: block;
     }
 
 }
