@@ -2,8 +2,15 @@
 
 const serverOrigin = 'http://localhost:4000';
 
+// console.log('serverOrigin:', serverOrigin);
 async function FetchFromServer(endpoint, method = 'GET', body = null) {
+	// console.log('FetchFromServer called')
 	try {
+			// console.log(
+			// 	'\nendpoint:', endpoint,
+			// 	'\nmethod:', method,
+			// 	'\nbody:', body ? JSON.stringify(body, null, 2) : 'No body provided'
+			// )
 			const response = await fetch(`${serverOrigin}${endpoint}/`, {
 			method: method.toUpperCase(),
 			headers: {
