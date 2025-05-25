@@ -1,14 +1,8 @@
 /* only small desktops */
 /* tablets */
 @media (min-width: 992px) and (max-width: 1190px) {
-    .countdown{
-        height: 285px;
-    }
     .top-header .navbar .navbar-collapse ul li a{
         font-size: 14px;
-    }
-    .lbox-details h2{
-        font-size: 26px;
     }
     .contact_bt {
         margin-top: 25px;
@@ -16,18 +10,8 @@
     .slide_text {
         margin-top: 70px;
     }
-	.social_icon {
-    margin-bottom: 30px;
-    }
     .top-header .navbar .navbar-collapse ul li a {
         padding: 7px 15px;
-    }
-
-    .team_member_img .social_icon_team {
-        top: 0;
-        left: 0;
-        width: 300px;
-        height: 100%;
     }
 
     a.navbar-brand img {
@@ -49,38 +33,8 @@
     .top-header .navbar .navbar-collapse ul li a{
         padding: 5px 15px;
     }
-    .about-img{
-        margin-bottom: 30px;
-        margin-top: 30px;
-    }
-    .gallery-box ul li{
-        width: 33.33%;
-    }
     .top-header{
         position: relative;
-    }
-    .lbox-details{
-        display: block;
-        position: relative;
-        width: 100%;
-    }
-    .countdown #timer div#days, .countdown #timer div#hours, .countdown #timer div#minutes, .countdown #timer div#seconds{
-        position: inherit;
-        margin: 12px 0px;
-    }
-    .lbox-details::before{
-        background: rgba(0,0,0,0.9);
-    }
-    .countdown{
-        height: 188px;
-        border-radius: 0px;
-    }
-    .countdown #timer div{
-        width: 23%;
-        font-size: 24px;
-    }
-    figure.effect-service h2{
-        font-size: 12px;
     }
     .top-header {
         background-image: none;
@@ -118,34 +72,6 @@
         width: 100%;
         margin-bottom: 30px;
     }
-    .carousel a.carousel-control-prev {
-        left: 20px;
-    }
-    .carousel a.carousel-control-next {
-        right: 20px;
-        }
-        .team_member_img img {
-
-        border: solid #ece9e2 10px;
-        border-radius: 100%;
-        width: 210px;
-        height: 210px;
-
-    }
-    .team_member_img .social_icon_team {
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-    }
-
-    #team_slider p {
-        padding: 0;
-    }
-
-    .social_icon {
-        margin-bottom: 30px;
-    }
 
     .heading_main h2 {
         font-size: 35px;
@@ -162,17 +88,10 @@
         padding: 0 30px;
     }
 
-    .blog_img_popular h4 {
-        text-align: center;
-        font-size: 13px;
-        min-height: 55px;
-        line-height: 55px !important;
-    }
-
 }
 /* mobile only */
 @media (max-width: 767px) {
-    .navbar-brand{
+    .navbar-brand {
         margin-left: 10px;
         margin-right: 10px;
     }
@@ -196,54 +115,45 @@
         margin-right: 25px;
     }
     .navbar-nav {
-        background: #ece9e2c7;
-        padding: 2px 8px;
-        border-radius: 10px 0 10px 10px;
+        background: #ece9e29f;
+        /* background: #ffba18c7; */
+        border-radius: 15px 0 0 0;
+        margin-right: -30px;
+        padding-bottom: 430%;
     }
+
+    @keyframes slideInMenuRight {
+        from {
+            transform: translateX(100%);
+            opacity: 0;
+        }
+        to {
+            transform: translateX(0);
+            opacity: 1;
+        }
+    }
+
+    @keyframes slideOutMenuLeft {
+        from {
+            transform: translateX(0);
+            opacity: 1;
+        }
+        to {
+            transform: translateX(100%);
+            opacity: 0;
+        }
+    }
+    .slideInMenuRight {
+        animation: slideInMenuRight 0.5s ease-in-out forwards;
+    }
+    .slideOutMenuLeft {
+        animation: slideOutMenuLeft 0.5s ease-in-out forwards;
+    }
+
     .nav-link {
-        padding: 15px 5px;
-    }
-    .lbox-details h1{
-        font-size: 24px;
-    }
-    .lbox-details h2{
-        font-size: 18px;
-    }
-    .lbox-details p strong{
-        font-size: 20px;
-    }
-    .title-box h2{
-        font-size: 38px;
-    }
-    .about-main-info h2{
-        font-size: 24px;
-    }
-    .about-img{
-        margin-bottom: 30px;
-    }
-    .main-timeline-box .separline::before{
-        left: 15px !important;
-    }
-    .main-timeline-box .iconBackground{
-        left: 15px !important;
-    }
-    .main-timeline-box .timeline-text-content{
-        margin-left: 0px;
-    }
-    .main-timeline-box .reverse .timeline-text-content{
-        margin-right: 0px;
-    }
-    .main-timeline-box .time-line-date-content{
-        margin-right: 0px;
-    }
-    .main-timeline-box .time-line-date-content p{
-        float: left;
-    }
-    .main-timeline-box .timeline-element{
-        padding: 0px 15px;
-    }
-    .gallery-box ul li {
-        width: 48%;
+        padding: 15px 30px;
+        font-weight: 600;
+        /* background: #000; */
     }
     .top-header{
         border-radius: 0%;
@@ -313,48 +223,12 @@
         padding-bottom: 15px;
     }
 
-    .lbox-details{
-        position: relative;
-        width: 100%;
-        padding: 5% 0%;
-    }
-    .about-m{
-        margin-top: 30px;
-    }
-    .countdown #timer div#days, .countdown #timer div#hours, .countdown #timer div#minutes, .countdown #timer div#seconds{
-        position: inherit;
-        margin: 12px 0px;
-    }
-    .lbox-details::before{
-        background: rgba(0,0,0,0.9);
-    }
-    .countdown{
-        height: 188px;
-        border-radius: 0px;
-    }
-    .countdown #timer div{
-        width: 23%;
-        font-size: 24px;
-    }
-    .about-m{
-        margin-bottom: 30px;
-    }
-    .timeLine .row .item{
-        margin-bottom: 30px;
-    }
-    .filter-button-group button{
-        margin-bottom: 5px;
-    }
     .navbar-brand img {
         width: 210px;
     }
     .top-header {
         background-image: none;
         /* background-color: #ffffffc9; */
-    }
-    .about-main-info div.full > img {
-        height: auto;
-        margin-bottom: 20px;
     }
     .search-box {
         position: absolute;
@@ -389,15 +263,7 @@
     .padText {
         padding: 5px 0;
     }
-    /* .slide_text h3 {
-        font-size: 55px;
-        font-weight: 600;
-        padding: 0;
-        line-height: 45px !important;
-        text-align: center;
-        color: #fff;
-    } */
-    
+
     .contact_bt {
         width: 90px;
         height: 35px;
@@ -418,69 +284,13 @@
         width: 100%;
         /* justify-content: center; */
     }
-    h3.small_heading {
-        font-size: 20px;
-        font-weight: 600;
-        line-height: normal;
-        margin-top: 25px;
-    }
     #demo .img-responsive {
         margin: 10px 0;
         width: 100%;
     }
-	.team_member_img img {
-
-        border: solid #ece9e2 20px;
-        border-radius: 100%;
-        width: 280px;
-        height: 280px;
-
-    }
-    .team_member_img.text_align_center {
-
-        width: 280px;
-        margin: 0 auto;
-        display: flex;
-        justify-content: center;
-        float: none;
-
-    }
-
-    .bottom_menu {
-
-        float: right;
-        width: 100%;
-        justify-content: center;
-        display: flex;
-
-    }
-
-    .carousel a.carousel-control-prev {
-        left: 20px;
-    }
-
-    .carousel a.carousel-control-next {
-        right: 20px;
-    }
 
     .footer_blog {
         margin-top: 25px;
-    }
-	.team_member_img .social_icon_team {
-
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 280px;
-        height: 280px;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        border-radius: 100%;
-        background: rgba(244,56,102,0.7);
-        opacity: 0;
-        transition: ease all 0.2s;
-
     }
     .footer_bottom p.crp {
         /* float: left; */
@@ -543,6 +353,9 @@
     .contribute_bg {
         margin: 0 5%;
     }
+    .tests_bg {
+        padding: 40px 10px 30px 10px;
+    }
     /* .testForm {
         margin: 0 5%;
     } */
@@ -583,7 +396,19 @@
     }
 
     .burger-menu-icon {
-        display: block;
+        display: flex;
     }
+    .menu_display {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .burger-menu-icon ul li a:hover,
+    .burger-menu-icon ul li a:focus,
+    .burger-menu-icon ul li a.active {
+        background: #12385bc0;
+        color: #d4a81e;
+    }
+   
 
 }
