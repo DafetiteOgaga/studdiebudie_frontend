@@ -16,7 +16,7 @@ const headerMenus = [
 ]
 
 export default function Header () {
-	const [menuOpen, setMenuOpen] = useState(0);
+	const [menuOpen, setMenuOpen] = useState(-1);
 	const isMobile = useIsMobile();
 	const location = useLocation().pathname.split("/")[1];
 	const [isVisible, setIsVisible] = useState(true);
