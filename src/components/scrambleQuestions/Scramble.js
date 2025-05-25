@@ -492,7 +492,7 @@ export default function Scramble() {
 					:
 					null}
 					{(totalNumberOfQuestions&&!isFile) ?
-						<div style={isMobile?styles.questionsCompmobile:styles.questionsCompPC}>
+						<div>
 							<ShuffleQuestions {...args} />
 						</div>
 						:
@@ -520,7 +520,7 @@ export default function Scramble() {
 							</div>
 							{isFile ?
 								<>
-									<div style={isMobile?styles.questionsCompmobile:styles.questionsCompPC}>
+									<div>
 										<ShuffleQuestions {...args} fileMargin={{margin: 'auto'}} type="file" text={text} />
 									</div>
 								</>
@@ -549,20 +549,8 @@ const styles = {
 		display: 'flex',
 		gap: 10
 	},
-	// totalQs: {
-	// 	width: '25%',
-	// },
-	// uploadButton: {
-	// 	margin: '0 20%'
-	// },
 	downloadButton: {
 		margin: '0 15%'
-	},
-	questionsCompPC: {
-		marginTop: '5%'
-	},
-	questionsCompmobile: {
-		marginTop: '20%'
 	},
 }
 

@@ -16,11 +16,13 @@ export default function Banner () {
 							<div>
 								<div className="slide_text slide_text_banner">
 									<h3 style={{color: "lightblue"}}>
-										<br/>
-										The perfect place to <span style={{color: '#d4a81e'}}>create, scramble and mark </span> your test and  examiniation
+										<br />
+										The perfect place to <span style={{color: '#d4a81e'}}>take tests,</span> <span style={{color: '#00C2CB'}}>create and scramble </span> your test and exam questions
 									</h3>
-									<br/><br />
-									{isMobile && <><br /><SectionBar /></>}
+									<br />
+									<br />
+									<br />
+									{isMobile && <><SectionBar /></>}
 									{/* <h4>Free Educations</h4> */}
 									{/* <br/> */}
 									<div className="full center">
