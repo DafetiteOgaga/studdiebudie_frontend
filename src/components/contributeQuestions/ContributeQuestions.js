@@ -191,8 +191,11 @@ export default function ContributeQuestions() {
 	// let cleanedData;
 	const submitHandler = async (e) => {
 		e.preventDefault(); // prevent default page refresh
-		let cleanedData = { ...formData };
-		console.log('formData:', formData);
+		const cleanedData = { ...formData };
+		console.log(
+			'\nformData:', formData,
+			'\ncleanedData:', cleanedData,
+		);
 
 		const res = await FetchFromServer('/create-tests', 'POST', cleanedData)
 		console.log('Form submitted with data:', cleanedData);
