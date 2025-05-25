@@ -115,7 +115,7 @@ export default function Tests () {
 					<div className={layoutType?"questionForm":"testForm"}>
 						{layoutType?
 						<>
-							<div style={!isMobile?styles.countdownPC:styles.countdownMobile}>
+							<div style={{...styles.countdown, ...!isMobile?styles.countdownPC:styles.countdownMobile}}>
 								<MemoCountdown targetDate={targetDate} />
 							</div>
 							<TestQuestions {...args} />
@@ -153,20 +153,15 @@ const styles = {
 	downloadButton: {
 		margin: '0 15%'
 	},
-	// questionsComp: {
-	// 	margin: '0 7%',
-	// },
-	countdownPC: {
+	countdown: {
 		display: 'flex',
 		justifyContent: 'flex-end',
+	},
+	countdownPC: {
 		paddingBottom: 30,
-		marginRight: -20,
 	},
 	countdownMobile: {
-		display: 'flex',
-		justifyContent: 'flex-end',
-		paddingBottom: 30,
-		marginRight: -8,
+		paddingBottom: 20,
 	},
 }
 
