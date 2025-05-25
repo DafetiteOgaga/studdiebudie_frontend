@@ -166,7 +166,8 @@ function ShuffleQuestions(args) {
 		<div className="row mobileQuestionRow" style={{margin: fileMargin?.margin||'-40px'}}>
 			<div className="vertical_scroll">
 				{Array.isArray(questionArray) && questionArray?.map((q, index) => (
-				<div className="c_form" key={index}>
+				<div style={isMobile?styles.questionsCompmobile:styles.questionsCompPC}
+				className="c_form" key={index}>
 					<fieldset style={type==='create'?styles.createLayout:{}}>
 						<div className="full field">
 							{/* questions */}
@@ -300,6 +301,12 @@ const styles = {
 	},
 	createLayout: {
 		margin: '0 15%'
-	}
+	},
+	questionsCompPC: {
+		marginTop: '5%'
+	},
+	questionsCompmobile: {
+		marginTop: '20%'
+	},
 };
 export { ShuffleQuestions };
