@@ -1,3 +1,4 @@
+import { useIsMobile } from "../../hooks/IsMobile"
 const { ConvertToSentenceCase } = require("../../hooks/ConvertCase")
 
 const optionTypes = ['correct_answer', 'wrong_answer1', 'wrong_answer2', 'wrong_answer3']
@@ -12,6 +13,7 @@ function QuestionsSectionOfContribute (contributeArgs) {
 		totalNumberOfQuestions,
 		formData
 	} = contributeArgs
+	const isMobile = useIsMobile()
 	console.log('\nquestions.length:', questions.length)
 	return (
 		<div
@@ -119,7 +121,7 @@ function QuestionsSectionOfContribute (contributeArgs) {
 					))}
 				</div>
 				{(questions?.length!==0) ?
-				<div className="center_elements centerAddQuestionBtn">
+				<div className={`center_elements centerAddQuestionBtn ${!isMobile?'uploadButtons_row':''}`}>
 					<button
 					className="image_upload add_question"
 					type="button" onClick={addQuestion}>
