@@ -375,7 +375,7 @@ export default function ContributeQuestions() {
 			{/* <!-- body --> */}
 			<div className="section contact_section contribute_bg">
 				<form onSubmit={submitHandler} className="testForm">
-				<div className="col-sm-12 removePadding">
+					<div className="col-sm-12 removePadding">
 						<div className="c_form">
 							<fieldset className="contribute_fieldset">
 								<div className="full field">
@@ -448,7 +448,7 @@ export default function ContributeQuestions() {
 						<QuestionsSectionOfContribute {...contributeArgs} />
 						:
 						<>
-							<>
+							<div className="uploadButtons_row">
 								<div style={{
 										display: 'flex',
 										alignItems: 'center',
@@ -468,7 +468,7 @@ export default function ContributeQuestions() {
 									</div>
 									:
 									null}
-							</>
+							</div>
 							<QuestionsSectionOfContribute {...contributeArgs} />
 						</>
 					// {/* </> */}
