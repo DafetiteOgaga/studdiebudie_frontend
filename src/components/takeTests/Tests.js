@@ -111,7 +111,7 @@ export default function Tests () {
 			<PageHead {...{title: 'test'}} />
 			{/* <!-- body --> */}
 			<div className="section contact_section tests_bg">
-				<form onSubmit={submitHandler}>
+				<form onSubmit={submitHandler} className="t_Form">
 					<div className={layoutType?"questionForm":"testForm"}>
 						{layoutType?
 						<>
