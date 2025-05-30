@@ -51,7 +51,7 @@ export default function SectionBar() {
 											<span className="icon">
 												<img src={item.icon} alt={item.name} />
 											</span>
-											<span style={{lineHeight: 1.2}}>{ConvertCase(item.name)}</span>
+											<span style={styles.itemText}>{ConvertCase(item.name)}</span>
 										</Link>
 									</li>))}
 							</ul>
@@ -61,4 +61,11 @@ export default function SectionBar() {
 			</div>
 		</div>
 	)
+}
+
+const styles = {
+	itemText: {
+		lineHeight: 1.2,
+		color: '#000',
+	}
 }
