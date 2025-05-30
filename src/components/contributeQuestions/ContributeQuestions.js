@@ -377,7 +377,7 @@ export default function ContributeQuestions() {
 				<form onSubmit={submitHandler} className="testForm">
 				<div className="col-sm-12 removePadding">
 						<div className="c_form">
-							<fieldset>
+							<fieldset className="contribute_fieldset">
 								<div className="full field">
 									<div className="totalQs">
 										{/* totalQs */}
@@ -448,7 +448,7 @@ export default function ContributeQuestions() {
 						<QuestionsSectionOfContribute {...contributeArgs} />
 						:
 						<>
-							<div className="contribute_fieldset">
+							<>
 								<div style={{
 										display: 'flex',
 										alignItems: 'center',
@@ -468,7 +468,7 @@ export default function ContributeQuestions() {
 									</div>
 									:
 									null}
-							</div>
+							</>
 							<QuestionsSectionOfContribute {...contributeArgs} />
 						</>
 					// {/* </> */}
