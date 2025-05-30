@@ -21,7 +21,7 @@ export default function ContactUs() {
 			{/* <!-- end head --> */}
 			{/* <!-- body --> */}
 			<div className="section contact_section"
-			style={{background: "#12385b"}}
+			style={{background: "#132835"}}
 			>
 				<div className="container">
 					<div className="row">
@@ -53,7 +53,7 @@ export default function ContactUs() {
 								</form>
 							</div>
 						</div>
-					</div>			  
+					</div>
 				</div>
 			</div>
 			{/* <!-- end body --> */}

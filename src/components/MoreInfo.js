@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { FaInfoCircle } from "react-icons/fa";
 
-const iconColor = "#002147"
+const iconColor = "#193c4b"
 const infoText = "Here is some sample information..."
 function MoreInfo({ info = infoText }) {
 	const [isHovered, setIsHovered] = useState(false);
