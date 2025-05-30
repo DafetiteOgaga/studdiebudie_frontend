@@ -161,13 +161,15 @@ function ShuffleQuestions(args) {
 			return updated;
 		});
 	}
-	console.log(fileMargin)
+	console.log({fileMargin})
 	return (
-		<div className="row mobileQuestionRow" style={{margin: fileMargin?.margin||'-40px'}}>
-			<div className="vertical_scroll">
+		<div className="row mobileQuestionRow">
+			<div className="vertical_scroll"
+			style={{marginTop: isMobile?40:undefined}}
+			>
 				{Array.isArray(questionArray) && questionArray?.map((q, index) => (
-				<div style={isMobile?styles.questionsCompmobile:styles.questionsCompPC}
-				className="c_form" key={index}>
+				<div style={!isMobile?styles.questionsCompPC:{margin: fileMargin?.margin||{...styles.questionsCompMobileIndexX}}}
+				className="c_form mobileQuestionMargin" key={index}>
 					<fieldset style={type==='create'?styles.createLayout:{}}>
 						<div className="full field">
 							{/* questions */}
@@ -305,8 +307,11 @@ const styles = {
 	questionsCompPC: {
 		marginTop: '5%'
 	},
-	questionsCompmobile: {
-		marginTop: '20%'
+	questionsCompMobileIndex0: {
+		marginTop: '10%'
+	},
+	questionsCompMobileIndexX: {
+		marginTop: 0,
 	},
 };
 export { ShuffleQuestions };
