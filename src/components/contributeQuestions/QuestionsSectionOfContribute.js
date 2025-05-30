@@ -24,7 +24,7 @@ function QuestionsSectionOfContribute (contributeArgs) {
 					{questions?.map((q, index) => (
 					<div className="c_form" key={index}>
 						{/* {console.log('q:', q)} */}
-						<fieldset>
+						<fieldset className="contribute_fieldset">
 							<div className="full field">
 								{/* questions */}
 								<textarea
