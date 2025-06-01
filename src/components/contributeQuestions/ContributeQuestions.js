@@ -8,8 +8,6 @@ import { QuestionInfo } from "../data/QuestionInfo";
 import { QuestionsSectionOfContribute } from "./QuestionsSectionOfContribute";
 import { FetchFromServer } from "../../hooks/fetch/FetchFromServer";
 
-const serverOrigin = 'http://localhost:4000'
-
 const formValues = {
 	subject: "",
 	typeCategory: "",
