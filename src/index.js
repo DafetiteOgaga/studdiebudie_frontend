@@ -7,10 +7,13 @@ import { HashRouter as Router } from 'react-router-dom';
 import { BrowserRouter } from 'react-router-dom';
 // import 'bootstrap/dist/css/bootstrap.min.css';
 
+const isGithub = window.location.hostname.includes('github.io');
+const basename = isGithub ? '/eshuflFrontend' : '/';
+
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-  // <BrowserRouter basename="/eshuflFrontend">
-  <BrowserRouter>
+  <BrowserRouter basename={basename}>
+  {/* // <BrowserRouter> */}
     <React.StrictMode>
       <App />
     </React.StrictMode>
