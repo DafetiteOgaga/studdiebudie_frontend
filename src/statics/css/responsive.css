@@ -331,11 +331,22 @@
     }
     .c_form_input {
         margin: 0 0 5px 0;
+        text-align: left;
     }
     .rowForm2 {
         flex-direction: row;
         display: flex;
         gap: 10px;
+    }
+    .remove_question_image {
+        display: flex;
+        justify-content: start;
+    }
+    .image_upload {
+        text-align: left;
+    }
+    .LeftAlign {
+        align-self: flex-start;
     }
     .uploadBtncreate {
         flex-direction: column;
