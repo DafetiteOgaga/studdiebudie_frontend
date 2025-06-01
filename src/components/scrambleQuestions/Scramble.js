@@ -6,10 +6,9 @@ import { ShuffleQuestions } from "./ShuffleQuestions";
 import { MoreInfo } from "../MoreInfo";
 import { ConvertCase } from "../../hooks/ConvertCase";
 import { PageHead } from "../PageHead";
-import { FetchFromServer } from "../../hooks/fetch/FetchFromServer";
+import { FetchFromServer, serverOrigin } from "../../hooks/fetch/FetchFromServer";
 import { useIsMobile } from "../../hooks/IsMobile";
 
-const serverOrigin = 'http://localhost:4000'
 
 const formValues = {
 	school: "",
