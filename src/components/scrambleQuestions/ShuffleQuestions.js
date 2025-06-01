@@ -163,9 +163,9 @@ function ShuffleQuestions(args) {
 	}
 	console.log({fileMargin})
 	return (
-		<div className="row mobileQuestionRow">
+		<div className="mobileQuestionRow">
 			<div className="vertical_scroll"
-			style={{marginTop: isMobile?40:undefined}}
+			style={isMobile?styles.verticalContainer:undefined}
 			>
 				{Array.isArray(questionArray) && questionArray?.map((q, index) => (
 				<div style={!isMobile?styles.questionsCompPC:{margin: fileMargin?.margin||{...styles.questionsCompMobileIndexX}}}
@@ -223,37 +223,41 @@ function ShuffleQuestions(args) {
 								{isImageVisible[index] ? (
 									<>
 										<div>
-											{console.log(questions)}
 											<img
 												src={fileUpload?editFileQuestions[index].previewImage:questions[index].previewImage}
 												alt={`Preview ${index + 1}`}
-												style={styles.previewImage}
+												style={{...styles.previewImage, ...(!isMobile?styles.previewImagePC:{})}}
 											/>
 										</div>
-										<div style={{display: 'flex', gap: 10}}>
+										<div style={!isMobile?styles.imageUploadContainerPC:styles.imageUploadContainerMobile}>
 											<input
 											className="image_upload image_file"
 											type="file" accept="image/*"
 											name="image"
 											onChange={(e)=>fileUpload?handleFileQuestionChange(index, e):handleQuestionChange(index, e)}
 											/>
-											<select
-											className="c_form_input c_form_input_select2"
-											value={q.imageMode}
-											onChange={(e)=>fileUpload?handleFileQuestionChange(index, e):handleQuestionChange(index, e)}
-											style={{background: q.imageMode ? '#f3f3f3':null}}
-											name="imageMode">
-												<option value="" disabled>Mode</option>
-												<option value="side">Side</option>
-												<option value="top">Top</option>
-											</select>
-											<button
-											className="image_upload remove_question_image"
-											type="button"
-											onClick={() => toggleImage(index)}
-											>
-												Remove Image
-											</button>
+											<div style={{display: 'flex', gap: 3, marginTop: isMobile?5:undefined}}>
+												<select
+												className="c_form_input c_form_input_select2"
+												value={q.imageMode}
+												onChange={(e)=>fileUpload?handleFileQuestionChange(index, e):handleQuestionChange(index, e)}
+												style={{
+													background: q.imageMode ? '#f3f3f3':null,
+													margin: isMobile?0:undefined
+												}}
+												name="imageMode">
+													<option value="" disabled>Mode</option>
+													<option value="side">Side</option>
+													<option value="top">Top</option>
+												</select>
+												<button
+												className="image_upload remove_question_image"
+												type="button"
+												onClick={() => toggleImage(index)}
+												>
+													Remove Image
+												</button>
+											</div>
 										</div>
 									</>
 								) : (
@@ -298,11 +302,21 @@ const styles = {
 	previewImage: {
 		width: '100%',
 		height: 'auto',
-		maxWidth: 200,
-		maxHeight: 200,
+		padding: 5,
+		borderRadius: 10,
 	},
+	previewImagePC: {
+		maxWidth: 300,
+		maxHeight: 300,
+	},
+	// previewImageMobile: {
+	// 	width: '100%',
+	// 	height: 'auto',
+	// 	padding: 5,
+	// 	borderRadius: 10,
+	// },
 	createLayout: {
-		margin: '0 15%'
+		margin: '0 28%'
 	},
 	questionsCompPC: {
 		marginTop: '5%'
@@ -312,6 +326,19 @@ const styles = {
 	},
 	questionsCompMobileIndexX: {
 		marginTop: 0,
+	},
+	verticalContainer: {
+		marginTop: 40,
+		// margin: '40px -120px 0 -120px',
+	},
+	imageUploadContainerPC: {
+		display: 'flex',
+		gap: 3,
+	},
+	imageUploadContainerMobile: {
+		display: 'flex',
+		flexDirection: 'column',
+		// gap: 3,
 	},
 };
 export { ShuffleQuestions };
