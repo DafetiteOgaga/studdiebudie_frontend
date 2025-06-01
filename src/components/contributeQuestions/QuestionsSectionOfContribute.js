@@ -1,5 +1,7 @@
 import { useIsMobile } from "../../hooks/IsMobile"
-const { ConvertToSentenceCase } = require("../../hooks/ConvertCase")
+const { ConvertToSentenceCase, ConvertCase } = require("../../hooks/ConvertCase")
+
+const imageScapeOption = ['mode', 'side', 'top']
 
 const optionTypes = ['correct_answer', 'wrong_answer1', 'wrong_answer2', 'wrong_answer3']
 function QuestionsSectionOfContribute (contributeArgs) {
@@ -91,9 +93,14 @@ function QuestionsSectionOfContribute (contributeArgs) {
 														margin: isMobile?0:undefined
 													}}
 													name="imageMode">
-														<option value="" disabled>Mode</option>
+														{imageScapeOption.map((option, i) => (
+															<option key={i} disabled={!i} value={!i?'':option}>
+																{ConvertCase(option)}
+															</option>
+														))}
+														{/* <option value="" disabled>Mode</option>
 														<option value="side">Side</option>
-														<option value="top">Top</option>
+														<option value="top">Top</option> */}
 													</select>
 													<button
 													className="image_upload remove_question_image"
