@@ -70,10 +70,10 @@ function QuestionsSectionOfContribute (contributeArgs) {
 												<img
 													src={questions[index]?.previewImage}
 													alt={`Preview ${index +1}`}
-													style={styles.previewImage}
+													style={{...styles.previewImage, ...(!isMobile?styles.previewImagePC:{})}}
 												/>
 											</div>
-											<div style={{display: 'flex', gap: 10}}>
+											<div style={!isMobile?styles.imageUploadContainerPC:styles.imageUploadContainerMobile}>
 												<input
 												className="image_upload image_file"
 												type="file"
@@ -81,22 +81,27 @@ function QuestionsSectionOfContribute (contributeArgs) {
 												name="image"
 												onChange={(e)=>handleQuestionChange(index, e)}
 												/>
-												<select
-												className="c_form_input c_form_input_select2"
-												value={questions[index]?.imageMode||''}
-												onChange={(e)=>handleQuestionChange(index, e)}
-												style={{background:questions.imageMode ?'#f3f3f3':null}}
-												name="imageMode">
-													<option value="" disabled>Mode</option>
-													<option value="side">Side</option>
-													<option value="top">Top</option>
-												</select>
-												<button
-												className="image_upload remove_question_image"
-												type="button"
-												onClick={() => toggleImage(index)}>
-													Remove Image
-												</button>
+												<div style={{display: 'flex', gap: 3, marginTop: isMobile?5:undefined}}>
+													<select
+													className="c_form_input c_form_input_select2"
+													value={questions[index]?.imageMode||''}
+													onChange={(e)=>handleQuestionChange(index, e)}
+													style={{
+														background: q.imageMode ? '#f3f3f3':null,
+														margin: isMobile?0:undefined
+													}}
+													name="imageMode">
+														<option value="" disabled>Mode</option>
+														<option value="side">Side</option>
+														<option value="top">Top</option>
+													</select>
+													<button
+													className="image_upload remove_question_image"
+													type="button"
+													onClick={() => toggleImage(index)}>
+														Remove Image
+													</button>
+												</div>
 											</div>
 										</>
 									) : (
@@ -154,18 +159,23 @@ const styles = {
 	downloadButton: {
 		margin: '0 15%'
 	},
-	// questionsComp: {
-	// 	margin: '0 10%'
-	// },
 	previewImage: {
 		width: '100%',
 		height: 'auto',
-		maxWidth: 200,
-		maxHeight: 200,
+		padding: 5,
+		borderRadius: 10,
 	},
-	// createLayout: {
-	// 	// margin: '0 15%'
-	// 	display: 'flex',
-	// 	justifyContent: 'center',
-	// },
+	previewImagePC: {
+		maxWidth: 300,
+		maxHeight: 300,
+	},
+	imageUploadContainerPC: {
+		display: 'flex',
+		gap: 3,
+	},
+	imageUploadContainerMobile: {
+		display: 'flex',
+		flexDirection: 'column',
+		// gap: 3,
+	},
 }
