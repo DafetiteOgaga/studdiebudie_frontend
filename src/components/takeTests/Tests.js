@@ -8,9 +8,6 @@ import { shuffleArray } from "../../hooks/shuffleQuestiond/shufflerHook";
 import { MemoCountdown } from '../../hooks/Countdown';
 import { useIsMobile } from "../../hooks/IsMobile";
 
-
-// const serverOrigin = 'http://localhost:4000'
-
 export default function Tests () {
 	const isMobile = useIsMobile();
 	const [submitText, setSubmitText] = useState('submit');
