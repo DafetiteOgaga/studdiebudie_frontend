@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import defaultImage from '../../statics/images/sample_image.png'
 import { useIsMobile } from '../../hooks/IsMobile';
+import { ConvertCase } from '../../hooks/ConvertCase';
 
 // const questionObject = {
 // 	number: '',
@@ -13,6 +14,8 @@ import { useIsMobile } from '../../hooks/IsMobile';
 // 	previewImage: defaultImage,
 // 	imageMode: '',
 // }
+
+const imageScapeOption = ['mode', 'side', 'top']
 
 function ShuffleQuestions(args) {
 	// const [questionArrayState, setQuestionArrayState] = useState([]);
@@ -163,13 +166,14 @@ function ShuffleQuestions(args) {
 	}
 	console.log({fileMargin})
 	return (
-		<div className="mobileQuestionRow">
-			<div className="vertical_scroll"
-			style={isMobile?styles.verticalContainer:undefined}
-			>
+		<div
+		style={isMobile?styles.verticalContainerMobile:fileUpload?styles.verticalContainerPCwFile:styles.verticalContainerPCwoFile}
+		className="mobileQuestionRow">
+			<div className="vertical_scroll">
 				{Array.isArray(questionArray) && questionArray?.map((q, index) => (
-				<div style={!isMobile?styles.questionsCompPC:{margin: fileMargin?.margin||{...styles.questionsCompMobileIndexX}}}
-				className="c_form mobileQuestionMargin" key={index}>
+				<div
+				// style={(!isMobile&&!fileUpload)?styles.questionsCompPCwoFile:(!isMobile&&fileUpload)?styles.questionsCompPCwFile:{margin: fileMargin?.margin||{...styles.questionsCompMobileIndexX}}}
+				className="c_form" key={index}>
 					<fieldset style={type==='create'?styles.createLayout:{}}>
 						<div className="full field">
 							{/* questions */}
@@ -246,9 +250,14 @@ function ShuffleQuestions(args) {
 													margin: isMobile?0:undefined
 												}}
 												name="imageMode">
-													<option value="" disabled>Mode</option>
+													{imageScapeOption.map((option, i) => (
+															<option key={i} disabled={!i} value={!i?'':option}>
+																{ConvertCase(option)}
+															</option>
+														))}
+													{/* <option value="" disabled>Mode</option>
 													<option value="side">Side</option>
-													<option value="top">Top</option>
+													<option value="top">Top</option> */}
 												</select>
 												<button
 												className="image_upload remove_question_image"
@@ -285,7 +294,7 @@ function ShuffleQuestions(args) {
 			</div>
 			{totalNumberOfQuestions||totalFileUploadQuestions ?
 			<div className="center_elements"
-			style={!isMobile?(type==='create'?styles.createLayout:{}):!!fileMargin?{marginBottom: 'auto'}:{}}>
+			style={!isMobile?(fileUpload?undefined:styles.addQuestionBtnPC):styles.addQuestionBtnMobile}>
 				<button
 				className="image_upload add_question"
 				type="button" onClick={addQuestion}>
@@ -309,17 +318,21 @@ const styles = {
 		maxWidth: 300,
 		maxHeight: 300,
 	},
-	// previewImageMobile: {
-	// 	width: '100%',
-	// 	height: 'auto',
-	// 	padding: 5,
-	// 	borderRadius: 10,
-	// },
 	createLayout: {
-		margin: '0 28%'
+		margin: '0 5%'
 	},
-	questionsCompPC: {
-		marginTop: '5%'
+	addQuestionBtnPC: {
+		margin: '0 5%',
+	},
+	addQuestionBtnMobile: {
+		display: 'flex',
+		justifyContent: 'center'
+	},
+	questionsCompPCwoFile: {
+		margin: '5% 10% 0 10%',
+	},
+	questionsCompPCwFile: {
+		margin: '5% -10% 0 -10%',
 	},
 	questionsCompMobileIndex0: {
 		marginTop: '10%'
@@ -327,9 +340,14 @@ const styles = {
 	questionsCompMobileIndexX: {
 		marginTop: 0,
 	},
-	verticalContainer: {
+	verticalContainerPCwFile: {
+		margin: '5% -10% 0 -10%'
+	},
+	verticalContainerPCwoFile: {
+		margin: '5% 10% 0 10%'
+	},
+	verticalContainerMobile: {
 		marginTop: 40,
-		// margin: '40px -120px 0 -120px',
 	},
 	imageUploadContainerPC: {
 		display: 'flex',
