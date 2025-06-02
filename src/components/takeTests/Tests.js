@@ -14,6 +14,7 @@ export default function Tests () {
 	const [testQuestions, setTestQuestions] = useState([]);
 	const [duration, setDuration] = useState(null);
 	const [formData, setFormData] = useState({})
+	const [isNoTest, setIsNoTest] = useState(null);
 	const dateTimeID = DateTimeID();
 	const toggleImage = (index) => {
 		// console.log('image toggled to:', !isImageVisible)
@@ -48,6 +49,7 @@ export default function Tests () {
 					'\ninfo:', response.info
 				)
 				const getQuestions = await FetchFromServer(response.goto, 'POST', response.info)
+				console.log('getQuestions:', getQuestions)
 				if (getQuestions?.questions) {
 					console.log('getQuestions:', getQuestions)
 					let shuffledQuestions = getQuestions?.questions
@@ -67,6 +69,11 @@ export default function Tests () {
 					console.log('getQuestions.duration:', getQuestions?.duration)
 					setDuration(getQuestions?.duration)
 					// console.log('getQuestions:', getQuestions.questions)
+				}
+				else if (getQuestions?.error) {
+					setIsNoTest(getQuestions.error)
+					// console.error(getQuestions.error);
+					// alert(`Error: ${getQuestions.error}`);
 				}
 			}
 		}
@@ -103,6 +110,15 @@ export default function Tests () {
 	console.log('duration:', duration);
 	const layoutType = testQuestions?.length
 	console.log({isMobile})
+	console.log('isNoTest:', isNoTest);
+	useEffect(() => {
+		if (isNoTest) {
+			const delay = setTimeout(() => {
+				setIsNoTest(null);
+			}, 5000);
+			return () => clearTimeout(delay);
+		}
+	}, [isNoTest])
 	return (
 		<>
 			<PageHead {...{title: 'test'}} />
@@ -120,6 +136,7 @@ export default function Tests () {
 						:
 						<PreTest {...args} />}
 					</div>
+					{isNoTest && <p style={styles.noTest}>{isNoTest}</p>}
 					{/* // submit button */}
 					<div className="center">
 						<button
@@ -159,6 +176,12 @@ const styles = {
 	},
 	countdownMobile: {
 		paddingBottom: 20,
+	},
+	noTest: {
+		color: 'red',
+		fontWeight: "bold",
+		fontSize: 16,
+		textAlign: 'center',
 	},
 }
 
