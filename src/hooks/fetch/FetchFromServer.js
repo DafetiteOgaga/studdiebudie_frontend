@@ -2,7 +2,7 @@
 
 const serverOrigin = process.env.REACT_APP_API_BASE_URL;
 
-// console.log('serverOrigin:', serverOrigin);
+console.log('serverOrigin:', serverOrigin);
 async function FetchFromServer(endpoint, method = 'GET', body = null) {
 	// console.log('FetchFromServer called')
 	try {
