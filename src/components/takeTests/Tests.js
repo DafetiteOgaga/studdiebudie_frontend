@@ -22,8 +22,6 @@ export default function Tests () {
 		// setIsImageVisible((prev) => prev.map((visible, i) => (i === index ? !visible : visible)));
 	};
 
-	// let getQuestions
-	// let cleanedData;
 	const submitHandler = async (e) => {
 		e.preventDefault(); // prevent default page refresh
 		console.log('pretest:', !!formData?.pretest)
@@ -72,22 +70,9 @@ export default function Tests () {
 				}
 				else if (getQuestions?.error) {
 					setIsNoTest(getQuestions.error)
-					// console.error(getQuestions.error);
-					// alert(`Error: ${getQuestions.error}`);
 				}
 			}
 		}
-		const alert1 = `\nResponse: \n ${JSON.stringify(response, null, 2)}`
-		alert(alert1);
-		// if (res?.success) {
-		// 	// console.log('downloadLink:', res.downloadLink)
-		// 	setDownloadLink(res.downloadLink)
-		// 	// setQuestions([questionObject])
-		// 	// setTotalNumberOfQuestions(0)
-		// 	// setTotalFileUploadQuestions(0)
-		// 	// setFormData(formValues)
-		// 	// setShowSubmitArray([false, false])
-		// }
 	};
 
 	const submitButtonText = (text) => {
@@ -136,7 +121,7 @@ export default function Tests () {
 						:
 						<PreTest {...args} />}
 					</div>
-					{isNoTest && <p style={styles.noTest}>{isNoTest}</p>}
+					{isNoTest &&  <p style={{...styles.noTest, ...isMobile?styles.noTestMobile:styles.noTestPC}}>{isNoTest}</p>}
 					{/* // submit button */}
 					<div className="center">
 						<button
@@ -179,9 +164,15 @@ const styles = {
 	},
 	noTest: {
 		color: 'red',
-		fontWeight: "bold",
-		fontSize: 16,
+		fontWeight: 450,
 		textAlign: 'center',
+		margin: 0,
+	},
+	noTestMobile: {
+		fontSize: 14,
+	},
+	noTestPC: {
+		fontSize: 16,
 	},
 }
 
