@@ -9,7 +9,6 @@ import { PageHead } from "../PageHead";
 import { FetchFromServer, serverOrigin } from "../../hooks/fetch/FetchFromServer";
 import { useIsMobile } from "../../hooks/IsMobile";
 
-
 const formValues = {
 	school: "",
 	email: "",
@@ -34,27 +33,9 @@ const questionObject = {
 	imageMode: '',
 }
 
-const txtContent = "School: Altaviz High\nSubject: Math\nQuestion 1: ...";
-const docContent = {
-	school: "School: Altaviz High",
-	subject: "Subject: Physics",
-	question1: "Question 1: Describe Newton's 2nd Law.",
-	question2: "Question 2: What is acceleration due to gravity?",
-}
-
-const fileDownloadHandler = (type) => {
-	if (type==='txt') {
-		generateFilesAndDownload(txtContent, type, 'myText')
-	} else {
-		generateFilesAndDownload(docContent, type, 'myText')
-	}
-}
-
 const termArray = ['term', 'none', 'first', 'second', 'third']
 
 export default function Scramble() {
-	// const numberOfQuestions = 2
-	// const inputRef = useRef();
 	const isMobile = useIsMobile();
 	const [showSubmitArray, setShowSubmitArray] = useState([false, false]);
 	const [downloadLink, setDownloadLink] = useState(null);
@@ -70,16 +51,6 @@ export default function Scramble() {
 	// const [UploadedContent, setUploadedContent] = useState(null)
 
 	const { text, processedText, handleFileChange } = useHandleFileUpload();
-	// console.log({reference})
-	// if (reference&&inputRef.current.value) {
-	// 	inputRef.current.value = ''
-	// 	setReference(0)
-	// }
-	// const useResponseHandler = (e) => {
-	// 	const response = useHandleFileUpload(e)
-	// 	console.log('response:', response)
-	// 	setUploadedContent(response)
-	// }
 	let infoItems
 	const toggleFile = () => {
 		setIsFile((prev) => {
@@ -171,13 +142,6 @@ export default function Scramble() {
 			// setTotalNumberOfQuestions(prev=>prev+1)
 		}
 	};
-	// useEffect(() => {
-	// 	console.log('fileUploadQuestions:', fileUploadQuestions)
-	// 	console.log('fileUploadQuestions:', fileUploadQuestions.length)
-	// 	if (fileUploadQuestions.length) {setTotalFileUploadQuestions(fileUploadQuestions.length-1)}
-	// 	if (questions.length) {setTotalNumberOfQuestions(questions.length-1)}
-	// }, [fileUploadQuestions, questions])
-
 	useEffect(() => {
 		const newQuestions = Array.from({ length: totalNumberOfQuestions }, () => ({
 			number: '',
@@ -209,9 +173,6 @@ export default function Scramble() {
 				totalQs: Number(prev.totalQs)-1
 			}));
 		}
-		// } else {
-		// 	// setQuestions(updatedQuestions);
-		// }
 	};
 
 	const toggleImage = (index) => {
@@ -230,8 +191,6 @@ export default function Scramble() {
 		e.preventDefault(); // prevent default page refresh
 		const cleanedData = {...formData}
 		const questions = []
-		// console.log('formData:', formData)
-		// console.log('cleanedData1:', cleanedData)
 		Object.entries(formData).forEach(([key, value]) => {
 			// console.log('\n', {key}, {value}, typeof(value))
 			if (!isNaN(Number(key))) {
@@ -254,11 +213,6 @@ export default function Scramble() {
 		if (res?.success) {
 			// console.log('downloadLink:', res.downloadLink)
 			setDownloadLink(res.downloadLink)
-			// setQuestions([questionObject])
-			// setTotalNumberOfQuestions(0)
-			// setTotalFileUploadQuestions(0)
-			// setFormData(formValues)
-			// setShowSubmitArray([false, false])
 		}
 	};
 	const fileQuestionsHandle = (fileQuestions) => {
@@ -287,11 +241,6 @@ export default function Scramble() {
 		text: null,
 		processedText,
 	}
-	// console.log('image toggled to:', isImageVisible)
-	// console.log({totalFileUploadQuestions})
-	// console.log({newFileUploadQuestions})
-	// console.log({schoolData})
-	// let infoItems
 	infoItems = useMemo(() => {
 		if (!schoolData) return null;
 
@@ -299,16 +248,10 @@ export default function Scramble() {
 		return Object.assign({}, ...lines.map((item, index) => {
 			const [key, value] = item.includes(':') ? item.split(':') : [null, item.trim()];
 			return {...(key?{[key.toLowerCase().trim()]: value.trim()}:{[index]: item})}
-			// return key
-			// 	? { [key.toLowerCase().trim()]: value.trim() }
-			// 	: { [index]: item };
 		}));
 	}, [schoolData]);
 
 	useEffect(() => {
-		// console.log('infoItems:', infoItems)
-		// console.log('infoItems.subject:', infoItems?.subject)
-		// console.log({formData})
 		if (!infoItems) return;
 
 		setFormData((prev) => ({
@@ -330,43 +273,11 @@ export default function Scramble() {
 			return updated;
 		});
 	}, [infoItems]);
-	// console.log('infoItems:', infoItems)
-	// const [NoOfQs, setNoOfQs] = useState({
-	// 	required: true,
-	// 	disabled: false,
-	// });
-	  
-	// useEffect(() => {
-	// 	setNoOfQs({
-	// 		required: !isFile,
-	// 		disabled: !!isFile,
-	// 	});
-	// }, [infoItems, isFile]);
-	// console.log('NoOfQs:', NoOfQs)
-	// console.log(
-	// // 	'\nisimageVisible:', isImageVisible,
-	// // 	'\ntotalNumberOfQuestions', totalNumberOfQuestions,
-	// // 	'\ntotalFileUploadQuestions:', totalFileUploadQuestions,
-	// 	// '\nformData:', formData,
-	// )
-	// const completeDownloadLink = `${serverOrigin}${downloadLink}`
-	// console.log('completeDownloadLink:', completeDownloadLink)
-	// const showSubmit = Object.keys(formData).map((key, index) => (isNaN(Number(key))?`1-${key}`:`2-${key}`))
-	// const showSubmitArray = Object.keys(formData).some((key, index) => (!isNaN(Number(key))))
-	const showSubmit = showSubmitArray.every((item => item))
-	// console.log(
-	// 	'\nshowSubmitArray:', showSubmitArray,
-	// 	'\nshowSubmit:', showSubmit,
-	// )
 	return (
 		<>
 			<PageHead {...{title: 'create/scramble'}} />
 			{/* <!-- body --> */}
-			<div className="section contact_section create_bg"
-			// style={{
-				
-			// }}
-			>
+			<div className="section contact_section create_bg">
 				<form onSubmit={submitHandler}>
 					<div className="col-sm-12" style={{padding: '3% 0 0.5% 0'}}>
 						<div className="c_form">
@@ -424,8 +335,6 @@ export default function Scramble() {
 											className="c_form_input" placeholder="Class"
 											value={formData.class} onChange={handleChange}
 											type="text" name="class" />
-										
-									
 											{/* session */}
 											<input
 											style={{width: '60%'}}
@@ -434,7 +343,6 @@ export default function Scramble() {
 											required
 											type="text" name="session" />
 										</div>
-
 										<div className="rowForm rowForm2">
 											{/* term */}
 											<select
@@ -449,8 +357,6 @@ export default function Scramble() {
 												))}
 											</select>
 
-											{/* duration, totalQs */}
-											{/* <div style={styles.rowForm}> */}
 											{/* duration */}
 											<input
 											style={{width: '60%'}}
@@ -459,34 +365,35 @@ export default function Scramble() {
 											required
 											type="tel" name="duration" />
 										</div>
-
-										{/* </div> */}
-
-										{/* <div style={{...styles.rowForm, width: '50%'}}> */}
-											{/* instruction */}
-											<input
-											style={{width: isMobile?null:'40%'}}
-											className="c_form_input" placeholder="Instruction"
-											value={formData.instruction} onChange={handleChange}
-											required
-											type="text" name="instruction" />
-										{/* </div> */}
+										{/* instruction */}
+										<input
+										style={{width: isMobile?null:'40%'}}
+										className="c_form_input" placeholder="Instruction"
+										value={formData.instruction} onChange={handleChange}
+										required
+										type="text" name="instruction" />
 									</div>
 								</div>
 							</fieldset>
 						</div>
 					</div>
 					{downloadLink ?
-					<div style={{...styles.uploadButton, marginBottom: '1%', display: 'flex', gap: 5, alignItems: 'center'}}>
-						<MoreInfo info="Download information ..." />
-						<a
-						href={`${serverOrigin}${downloadLink}`}
-						download
-						className="image_upload downloadBtn"
-						role="button"
-						>
-							Download File
-						</a>
+					<div className="create_fieldset" style={{padding: '0 0 1% 0'}}>
+						<div style={{
+								display: 'flex',
+								alignItems: 'center',
+								gap: 3,
+							}}>
+							<MoreInfo info="Download information ..." />
+							<a
+							href={`${serverOrigin}${downloadLink}`}
+							download
+							className="image_upload downloadBtn"
+							role="button"
+							>
+								Download File
+							</a>
+						</div>
 					</div>
 					:
 					null}
@@ -527,8 +434,7 @@ export default function Scramble() {
 								null}
 						</div>
 					}
-					{/* {showSubmit && */}
-					{/* // submit button */}
+					{/* submit button */}
 					<div className="center">
 						<button
 						type="submit" className="c_form_button">Send</button>
@@ -541,15 +447,3 @@ export default function Scramble() {
 		</>
 	);
 }
-
-const styles = {
-	rowForm: {
-		flexDirection: 'row',
-		display: 'flex',
-		gap: 10
-	},
-	downloadButton: {
-		margin: '0 15%'
-	},
-}
-
