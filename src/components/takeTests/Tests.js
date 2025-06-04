@@ -49,6 +49,7 @@ export default function Tests () {
 				const getQuestions = await FetchFromServer(response.goto, 'POST', response.info)
 				console.log('getQuestions:', getQuestions)
 				if (getQuestions?.questions) {
+					alert("Test questions are ready!\nClick 'ok' to start.");
 					console.log('getQuestions:', getQuestions)
 					let shuffledQuestions = getQuestions?.questions
 					shuffledQuestions = shuffledQuestions.map((question) => {

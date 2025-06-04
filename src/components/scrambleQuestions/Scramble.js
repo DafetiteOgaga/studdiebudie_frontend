@@ -207,8 +207,8 @@ export default function Scramble() {
 		cleanedData.postQuestions = questions
 		const res = await FetchFromServer('/randomize', 'POST', cleanedData)
 		console.log('Form submitted with data:', cleanedData);
-		const alert1 = `\nResponse: \n ${JSON.stringify(res, null, 2)}`
-		alert(alert1);
+		// const alert1 = `\nResponse: \n ${JSON.stringify(res, null, 2)}`
+		alert("Success\nClick 'Download File' to download the shuffled questions");
 		if (res?.success) {
 			setDownloadLink(res.downloadLink)
 		}
