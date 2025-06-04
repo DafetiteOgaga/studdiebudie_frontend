@@ -12,7 +12,9 @@ const headerMenus = [
 	{ name: "scramble", link: "/scramble" },
 	{ name: "take test", link: "/tests" },
 	{ name: "contribute", link: "/contribute" },
-	{ name: "contact us", link: "/contact" },
+	// { name: "contact us", link: "/contact" },
+	{ name: "contact us", link: "#" },
+	{ name: "score board", link: "#" },
 ]
 
 export default function Header () {
