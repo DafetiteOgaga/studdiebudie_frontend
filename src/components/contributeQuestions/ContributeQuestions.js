@@ -197,8 +197,8 @@ export default function ContributeQuestions() {
 
 		const res = await FetchFromServer('/create-tests', 'POST', cleanedData)
 		console.log('Form submitted with data:', cleanedData);
-		const alert1 = `\nResponse: \n ${JSON.stringify(res, null, 2)}`
-		alert(alert1);
+		// const alert1 = `\nResponse: \n ${JSON.stringify(res, null, 2)}`
+		alert(`${ConvertCase(res?.success||'')}\n${res?.message||''}`);
 	};
 	// const fileQuestionsHandle = (fileQuestions) => {
 	// 	setFormData((prev) => ({...prev, ...fileQuestions}))
