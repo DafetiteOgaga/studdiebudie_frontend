@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useMemo } from "react";
 import defaultImage from '../../statics/images/sample_image.png'
 import { useHandleFileUpload } from "../../hooks/FileReaderHandler";
-import { generateFilesAndDownload } from "../../hooks/fileDownloadHandlers/GenerateAndDownloadInZip";
 import { ShuffleQuestions } from "./ShuffleQuestions";
 import { MoreInfo } from "../MoreInfo";
 import { ConvertCase } from "../../hooks/ConvertCase";
@@ -20,6 +19,7 @@ const formValues = {
 	totalQs: "",
 	session: "",
 	instruction: "",
+	noOfTypes: "",
 }
 const questionObject = {
 	number: '',
@@ -54,9 +54,7 @@ export default function Scramble() {
 	let infoItems
 	const toggleFile = () => {
 		setIsFile((prev) => {
-			// console.log('prev:', prev)
 			if (prev===true) {
-				// setFormData(formValues)
 				infoItems = null
 			} else {
 				setTotalFileUploadQuestions(0)
@@ -89,7 +87,7 @@ export default function Scramble() {
 	const handleChange = (e) => {
 		const { name, value } = e.target;
 		if (name === 'totalQs') {
-			setTotalNumberOfQuestions(Number(value))
+			setTotalNumberOfQuestions(!isNaN(Number(value))?Number(value):0)
 			setTotalFileUploadQuestions(Number(0))
 			setFormData(formValues)
 			if (!value) {
@@ -106,10 +104,23 @@ export default function Scramble() {
 				});
 			}
 		}
-		setFormData((prev) => ({
-			...prev,
-			[name]: value,
-		}));
+		if (name === 'totalQs') {
+			setFormData((prev) => ({
+				...prev,
+				[name]: !isNaN(Number(value))?Number(value):0,
+			}))
+		}
+		else if (name === 'noOfTypes') {
+				setFormData((prev) => ({
+					...prev,
+					[name]: (!isNaN(Number(value))&&value!==''&&Number(value)>0&&Number(value)<=26)?Number(value):'',
+				}))
+		} else {
+			setFormData((prev) => ({
+				...prev,
+				[name]: value,
+			}))
+		}
 	};
 
 	const addQuestion = () => {
@@ -272,6 +283,11 @@ export default function Scramble() {
 			return updated;
 		});
 	}, [infoItems]);
+	// console.log('formData:', formData);
+	// console.log(
+	// 	'\ntotalNumberOfQuestions:', totalNumberOfQuestions,
+	// 	'\nfileUploadQuestions:', fileUploadQuestions,
+	// )
 	return (
 		<>
 			<PageHead {...{title: 'create/scramble'}} />
@@ -321,6 +337,13 @@ export default function Scramble() {
 										className="c_form_input" placeholder="Subject"
 										value={formData.subject} onChange={handleChange}
 										type="text" name="subject" />
+
+										{/* noOfTypes */}
+										<input
+										className="c_form_input" placeholder="No. of Types"
+										value={formData.noOfTypes} onChange={handleChange}
+										required
+										type="tel" name="noOfTypes" />
 									</div>
 
 									{/* class, session, term, duration, totalQs and instruction */}
