@@ -102,7 +102,6 @@ function ShuffleQuestions(args) {
 		if (newQuestions) {
 			// console.log('newQuestions:', newQuestions)
 			setEditFileQuestions(newQuestions);
-			// setFormData(prev => ({...prev, ...newQuestions}));
 		}
 	}, [text]);
 	// if (text?.length) {questionArray = questionArrayState}
