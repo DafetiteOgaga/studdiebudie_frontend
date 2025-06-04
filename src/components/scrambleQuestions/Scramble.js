@@ -274,7 +274,6 @@ export default function Scramble() {
 			return updated;
 		});
 	}, [infoItems]);
-	const fileUpload = text?.length
 	return (
 		<>
 			<PageHead {...{title: 'create/scramble'}} />
@@ -428,14 +427,4 @@ export default function Scramble() {
 			{/* <!-- end body --> */}
 		</>
 	);
-}
-
-const styles = {
-	addQuestionBtnPC: {
-		margin: '0 5%',
-	},
-	addQuestionBtnMobile: {
-		display: 'flex',
-		justifyContent: 'center'
-	},
 }
