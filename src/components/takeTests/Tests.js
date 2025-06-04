@@ -16,11 +16,6 @@ export default function Tests () {
 	const [formData, setFormData] = useState({})
 	const [isNoTest, setIsNoTest] = useState(null);
 	const dateTimeID = DateTimeID();
-	const toggleImage = (index) => {
-		// console.log('image toggled to:', !isImageVisible)
-		console.log('index:', index)
-		// setIsImageVisible((prev) => prev.map((visible, i) => (i === index ? !visible : visible)));
-	};
 
 	const submitHandler = async (e) => {
 		e.preventDefault(); // prevent default page refresh
