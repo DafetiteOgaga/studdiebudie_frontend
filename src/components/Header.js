@@ -1,10 +1,9 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import appLogo from "../statics/images/dafelogoWhiteTransparent.png"
 import search from "../statics/images/search_icon.png"
 import { ConvertCase } from '../hooks/ConvertCase';
 import { useIsMobile } from '../hooks/IsMobile';
-import { FaBars, FaTimes } from 'react-icons/fa';
 
 const headerMenus = [
 	// { name: "scramble questions", link: "/scramble" },
@@ -60,85 +59,16 @@ export default function Header () {
 							</div>
 						</>
 						:
-						null
-						// <div
-						// className='hamburgerMenu'>
-						// 	<HamburgerMenu
-						// 	menuOpen={menuOpen} setMenuOpen={setMenuOpen} location={location} lastScrollY={lastScrollY} />
-						// </div>
-					}
+						null}
 				</div>
 			</nav>
 		</header>
 	)
 }
 
-// const HamburgerMenu = ({ menuOpen, setMenuOpen, location, lastScrollY }) => {
-// 	const iconSize = 27
-// 	// const [isCloseMenu, setIsCloseMenu] = useState(false);
-// 	const menuRef = useRef(null);
-// 	useEffect(() => {
-// 		const handleClickOutside = (event) => {
-// 		  	// If menu is open AND the click is outside the menu container
-// 			if (menuOpen && menuRef.current && !menuRef.current.contains(event.target)) {
-// 				setMenuOpen(0);
-// 			}
-// 		};
-// 		document.addEventListener("mousedown", handleClickOutside);
-// 		return () => {
-// 			document.removeEventListener("mousedown", handleClickOutside);
-// 		};
-// 	}, [menuOpen, setMenuOpen]);
-
-// 	const handleMenuClicks = () => {
-// 		setMenuOpen(prev => {
-// 			let returnVal
-// 			if (prev===1) returnVal = 0
-// 			else if (prev===0) returnVal = 1
-// 			else returnVal = 1
-// 			// console.log('menuOpen from', prev, 'to', !prev);
-// 			// setIsCloseMenu(prev);
-// 			return returnVal
-// 		});
-// 	}
-// 	const menuIndex = Number(menuOpen)
-// 	const hamburgerColor = '#888'
-// 	// console.log('\nisCloseMenu:', isCloseMenu);
-// 	return (
-// 		<div ref={menuRef}>
-// 			<div className="burger-menu-icon" onClick={() => handleMenuClicks()}>
-// 				<div className='menu_display'>
-// 					{(menuOpen===1) ?
-// 						<>
-// 							<div style={styles.menuIconPostion}>
-// 								<FaTimes size={iconSize} color={hamburgerColor} />
-// 							</div>
-// 						</>
-// 						:
-// 						(menuOpen===0) ?
-// 						<>
-// 							<div style={styles.menuIconPostion}>
-// 								<FaBars size={iconSize} color={hamburgerColor} />
-// 							</div>
-// 						</>
-// 						:
-// 						<FaBars size={iconSize} color={hamburgerColor} />
-// 					}
-// 					<HeaderMenu location={location} index={menuIndex} menuOpen={menuOpen} />
-// 				</div>
-// 			</div>
-// 		</div>
-// 	);
-// };
-
 const HeaderMenu = ({location, index}) => {
 	const isMobile = useIsMobile();
 	const menuSlides = ['slideOutMenuLeft', 'slideInMenuRight']
-	// console.log(
-	// 	'\nHeaderMenu index:', index,
-	// 	'\nmenuOpen:', menuOpen,
-	// 	'\nmenuSlides[index]:', menuSlides[index],
-	// )
 	return (
 		<>
 			{
@@ -168,11 +98,4 @@ const HeaderMenu = ({location, index}) => {
 			</ul>}
 		</>
 	)
-}
-
-const styles = {
-	menuIconPostion: {
-		display: 'flex',
-		justifyContent: 'flex-end'
-	},
 }
