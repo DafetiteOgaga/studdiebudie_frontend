@@ -1205,3 +1205,13 @@ footer.footer-box p {
 	width: 110px;
 	height: 41px;
 }
+
+.dafetiteHeader {
+	transition: all 0.3s ease-in-out;
+	background: linear-gradient(135deg, #132835, #1c3a4a, rgb(164, 224, 226), rgb(221, 193, 111), rgb(212, 168, 30));
+	border-radius: 50px;
+	box-shadow: 2px 4px 10px #132835;
+}
+.dafetiteHeader:hover, .dafetiteHeader:active {
+	width: 150px;
+}
