@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import appLogo from "../statics/images/logo.png"
+import appLogo from "../statics/images/dafelogoWhiteTransparent.png"
 import search from "../statics/images/search_icon.png"
 import { ConvertCase } from '../hooks/ConvertCase';
 import { useIsMobile } from '../hooks/IsMobile';
@@ -43,7 +43,7 @@ export default function Header () {
 			style={{padding: '5px 0'}}>
 				<div className={!isMobile?"container-fluid navC":"isMobile"}>
 					<Link className="navbar-brand" to="/">
-						<img src={appLogo} alt="images"/>
+						<img style={styles.logo} src={appLogo} alt="images"/>
 					</Link>
 					{!isMobile ?
 						<>
@@ -172,5 +172,10 @@ const styles = {
 	menuIconPostion: {
 		display: 'flex',
 		justifyContent: 'flex-end'
+	},
+	logo: {
+		background: 'linear-gradient(135deg, #132835, #1c3a4a, rgb(164, 224, 226), rgb(221, 193, 111), rgb(212, 168, 30))',
+		borderRadius: 50,
+		boxShadow: '2px 4px 10px #132835',
 	}
 }
