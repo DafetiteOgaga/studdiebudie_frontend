@@ -211,7 +211,6 @@ export default function Scramble() {
 		const alert1 = `\nResponse: \n ${JSON.stringify(res, null, 2)}`
 		alert(alert1);
 		if (res?.success) {
-			// console.log('downloadLink:', res.downloadLink)
 			setDownloadLink(res.downloadLink)
 		}
 	};
