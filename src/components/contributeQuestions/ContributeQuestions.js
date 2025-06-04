@@ -8,12 +8,6 @@ import { QuestionInfo } from "../data/QuestionInfo";
 import { QuestionsSectionOfContribute } from "./QuestionsSectionOfContribute";
 import { FetchFromServer } from "../../hooks/fetch/FetchFromServer";
 
-const formValues = {
-	subject: "",
-	typeCategory: "",
-	classCategory: "",
-	totalQs: "",
-}
 const questionObject = {
 	options: ['', '', '', ''],
 	number: '',
@@ -27,7 +21,6 @@ const questionObject = {
 const optionTypes = ['correct_answer', 'wrong_answer1', 'wrong_answer2', 'wrong_answer3']
 export default function ContributeQuestions() {
 	const { typeArray, primaryArray, secondaryArray, primarySubjectArray, secondarySubjectArray } = QuestionInfo();
-	const [showSubmitArray, setShowSubmitArray] = useState([false, false]);
 	const [totalNumberOfFileUploadQuestions, setTotalNumberOfFileUploadQuestions] = useState(0)
 	const [totalNumberOfQuestions, setTotalNumberOfQuestions] = useState(0)
 	const [questions, setQuestions] = useState([]);
@@ -37,15 +30,7 @@ export default function ContributeQuestions() {
 	const [isFile, setIsFile] = useState(false)
 	const { text, processedText, handleFileChange } = useHandleFileUpload();
 	const toggleFile = () => {
-		setIsFile((prev) => {
-			console.log('prev:', prev)
-			if (prev===true) {
-				// setFormData(formValues)
-				// infoItems = null
-			}
-			// setFormData(formValues)
-			return !prev
-		})
+		setIsFile((prev) => !prev)
 	}
 	const handleQuestionChange = (index, e) => {
 		console.log({index})
@@ -59,8 +44,6 @@ export default function ContributeQuestions() {
 		// let updatedQuestions = [...questions];
 		let updatedQuestions = [...questions];
 		console.log('updatedQuestions ########## (1):', updatedQuestions)
-		// console.log('updatedQuestions:', updatedQuestions)
-		// if (totalFileUploadQuestions) updatedQuestions = [...fileUploadQuestions]
 		console.log('AAAAAAAAAA',
 			'\nupdatedQuestions:', updatedQuestions,
 			'\nupdatedQuestions[index]:', updatedQuestions[index],
@@ -107,12 +90,6 @@ export default function ContributeQuestions() {
 		// console.log('questions ########## (1):', questions)
 		setQuestions(updatedQuestions);
 		setFormData((prev) => ({...prev, questions: [...updatedQuestions]}))
-		setShowSubmitArray(prev => {
-			const updated = [...prev];
-			updated[1] = true;
-			return updated;
-		});
-		// }
 	};
 	const handleChange = (e) => {
 		const { name, value } = e.target;
@@ -122,19 +99,6 @@ export default function ContributeQuestions() {
 				return num > 0 ? num : 0;
 			});
 			setFormData({})
-			if (!value) {
-				setShowSubmitArray(prev => {
-					const updated = [...prev];
-					updated[0] = false;
-					return updated;
-				});
-			} else if (value) {
-				setShowSubmitArray(prev => {
-					const updated = [...prev];
-					updated[0] = true;
-					return updated;
-				});
-			}
 		}
 		if (name === 'totalQs') {
 			setFormData((prev) => ({
@@ -200,11 +164,6 @@ export default function ContributeQuestions() {
 		// const alert1 = `\nResponse: \n ${JSON.stringify(res, null, 2)}`
 		alert(`${ConvertCase(res?.success||'')}\n${res?.message||''}`);
 	};
-	// const fileQuestionsHandle = (fileQuestions) => {
-	// 	setFormData((prev) => ({...prev, ...fileQuestions}))
-	// }
-	const showSubmit = showSubmitArray.every((item => item))
-	const uploadedQuestions = text?.split(/(?:Q|q)\d+[.:]/)
 	let fileInfo, finalQuestions = questions
 	const filePresent = isFile && processedText?.length > 0
 	// let testQ
@@ -320,8 +279,6 @@ export default function ContributeQuestions() {
 	const removeQuestion = (index) => {
 		console.log('removeQuestion:', index)
 		const updatedQuestions = [...questions];
-		// console.log({fileUploadQuestions}, {updatedQuestions})
-		// if (totalFileUploadQuestions) {updatedQuestions = [...fileUploadQuestions]}
 		updatedQuestions.splice(index, 1);
 		console.log('questions ########## (3):', questions)
 		setQuestions(updatedQuestions)
@@ -331,11 +288,6 @@ export default function ContributeQuestions() {
 				totalQs: Number(prev.totalQs)-1
 			}));
 		}
-		// setFormData((prev) => ({
-		// 	...prev,
-		// 	totalQs: Number(prev.totalQs)-1,
-		// 	questions: updatedQuestions,
-		// }));
 	};
 	console.log(
 		'\nquestions[index]:', questions[0],
@@ -440,9 +392,6 @@ export default function ContributeQuestions() {
 					</div>
 					<>
 					{!filePresent&&finalQuestions?.length ?
-					// totalNumberOfQuestions ?
-					// <>
-					// <>
 						<QuestionsSectionOfContribute {...contributeArgs} />
 						:
 						<>
@@ -468,12 +417,8 @@ export default function ContributeQuestions() {
 									null}
 							</div>
 							<QuestionsSectionOfContribute {...contributeArgs} />
-						</>
-					// {/* </> */}
-					}
+						</>}
 					</>
-					{/* // } */}
-					{/* {showSubmit && */}
 					{/* // submit button */}
 					<div className="center">
 						<button
@@ -481,40 +426,8 @@ export default function ContributeQuestions() {
 					</div>
 					{/* } */}
 				</form>
-				
 			</div>
 			{/* <!-- end body --> */}
 		</>
 	);
-}
-
-const styles = {
-	rowForm: {
-		flexDirection: 'row',
-		display: 'flex',
-		gap: 10
-	},
-	totalQs: {
-		width: '25%',
-	},
-	uploadButton: {
-		margin: '1% 0 0 0',
-		display: 'flex',
-		gap: 3,
-	},
-	downloadButton: {
-		margin: '0 15%'
-	},
-	questionsComp: {
-		margin: '0 10%'
-	},
-	previewImage: {
-		width: '100%',
-		height: 'auto',
-		maxWidth: 200,
-		maxHeight: 200,
-	},
-	createLayout: {
-		margin: '0 15%'
-	},
 }
