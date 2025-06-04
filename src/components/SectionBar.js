@@ -30,11 +30,18 @@ export default function SectionBar() {
 			link: '/contribute',
 			backgroundColor: 'rgb(212, 168, 30)'
 		},
+		// {
+		// 	id: 4,
+		// 	name: 'contact us',
+		// 	icon: i4,
+		// 	link: '/contact',
+		// 	backgroundColor: '#095a83'
+		// },
 		{
 			id: 4,
 			name: 'contact us',
 			icon: i4,
-			link: '/contact',
+			link: '#',
 			backgroundColor: '#095a83'
 		}
 	]
