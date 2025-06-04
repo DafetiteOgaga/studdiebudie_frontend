@@ -139,7 +139,6 @@ export default function Scramble() {
 				...prev,
 				totalQs: Number(prev.totalQs)+1
 			}));
-			// setTotalNumberOfQuestions(prev=>prev+1)
 		}
 	};
 	useEffect(() => {
