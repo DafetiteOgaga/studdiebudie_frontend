@@ -1186,6 +1186,15 @@ footer.footer-box p {
 	margin: -8px 0;
 }
 
+.center_downloadBtn {
+	margin: 10px 0 0 0;
+}
+/* .downloadBtnBorder {
+	border: solid 1px #d4a81e;
+	padding: 2px;
+	border-radius: 5px;
+} */
+
 
 .dafetite {
 	height: 40px;
