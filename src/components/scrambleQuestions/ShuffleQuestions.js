@@ -295,7 +295,7 @@ function ShuffleQuestions(args) {
 				</div>
 				))}
 			</div>
-			{totalNumberOfQuestions||totalFileUploadQuestions &&
+			{(totalNumberOfQuestions||totalFileUploadQuestions) &&
 			<div className="center_elements"
 			style={!isMobile?(fileUpload?undefined:styles.addQuestionBtnPC):styles.addQuestionBtnMobile}>
 				<button
