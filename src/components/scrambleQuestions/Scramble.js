@@ -6,7 +6,7 @@ import { ShuffleQuestions } from "./ShuffleQuestions";
 import { MoreInfo } from "../MoreInfo";
 import { ConvertCase } from "../../hooks/ConvertCase";
 import { PageHead } from "../PageHead";
-import { FetchFromServer, serverOrigin } from "../../hooks/fetch/FetchFromServer";
+import { FetchFromServer } from "../../hooks/fetch/FetchFromServer";
 import { useIsMobile } from "../../hooks/IsMobile";
 
 const formValues = {
@@ -240,6 +240,7 @@ export default function Scramble() {
 		type: 'create',
 		text: null,
 		processedText,
+		downloadLink,
 	}
 	infoItems = useMemo(() => {
 		if (!schoolData) return null;
@@ -377,26 +378,6 @@ export default function Scramble() {
 							</fieldset>
 						</div>
 					</div>
-					{downloadLink ?
-					<div className="create_fieldset" style={{padding: '0 0 1% 0'}}>
-						<div style={{
-								display: 'flex',
-								alignItems: 'center',
-								gap: 3,
-							}}>
-							<MoreInfo info="Download information ..." />
-							<a
-							href={`${serverOrigin}${downloadLink}`}
-							download
-							className="image_upload downloadBtn"
-							role="button"
-							>
-								Download File
-							</a>
-						</div>
-					</div>
-					:
-					null}
 					{(totalNumberOfQuestions&&!isFile) ?
 						<div>
 							<ShuffleQuestions {...args} />

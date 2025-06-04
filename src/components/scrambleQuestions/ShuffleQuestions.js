@@ -2,6 +2,8 @@ import { useEffect, useState } from 'react';
 import defaultImage from '../../statics/images/sample_image.png'
 import { useIsMobile } from '../../hooks/IsMobile';
 import { ConvertCase } from '../../hooks/ConvertCase';
+import { MoreInfo } from "../MoreInfo";
+import { serverOrigin } from "../../hooks/fetch/FetchFromServer";
 
 // const questionObject = {
 // 	number: '',
@@ -41,6 +43,7 @@ function ShuffleQuestions(args) {
 		type,
 		text,
 		processedText,
+		downloadLink,
 		fileMargin,
 	} = args;
 	const isMobile = useIsMobile();
@@ -292,7 +295,7 @@ function ShuffleQuestions(args) {
 				</div>
 				))}
 			</div>
-			{totalNumberOfQuestions||totalFileUploadQuestions ?
+			{(totalNumberOfQuestions||totalFileUploadQuestions) &&
 			<div className="center_elements"
 			style={!isMobile?(fileUpload?undefined:styles.addQuestionBtnPC):styles.addQuestionBtnMobile}>
 				<button
@@ -300,9 +303,27 @@ function ShuffleQuestions(args) {
 				type="button" onClick={addQuestion}>
 					Add New Question
 				</button>
-			</div>
-			:
-			null}
+			</div>}
+			{downloadLink &&
+				<div className="center_downloadBtn"
+				style={!isMobile?(fileUpload?undefined:styles.addQuestionBtnPC):styles.addQuestionBtnMobile}>
+					<div className="downloadBtnBorder"
+					style={{
+						display: 'flex',
+						alignItems: 'center',
+						gap: 3,
+					}}>
+						<MoreInfo info="Download information ..." />
+						<a
+						href={`${serverOrigin}${downloadLink}`}
+						download
+						className="image_upload downloadBtn"
+						role="button"
+						>
+							Download File
+						</a>
+					</div>
+				</div>}
 		</div>
 	)
 }
