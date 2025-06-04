@@ -205,7 +205,7 @@
 
     .layout_padding_2 {
         padding-top: 0;
-        /* justify-content: center; */
+        padding-bottom: 30px;
     }
     .align_left {
         justify-content: center;
