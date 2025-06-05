@@ -24,9 +24,6 @@ export default function WelcomeSection() {
 									time. Join Dafetite today - where testing meets innovation!
 								</p>
 							</div>
-							{/* <div className="full">
-								<a className="hvr-radial-out button-theme" href="#s">About more</a>
-							</div> */}
 						</div>
 					</div>
 					<div className="col-md-6 pad_bottom">
