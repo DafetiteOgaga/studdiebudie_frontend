@@ -115,16 +115,16 @@
         margin-right: 25px;
     }
     .navbar-nav {
-        background: #ece9e29f;
         /* background: #ffba18c7; */
-        border-radius: 15px 0 0 0;
-        margin-right: -30px;
-        padding-bottom: 430%;
+        background: #ece9e29f;
+        margin-right: 50%;
+        border-radius: 0 15px 0 0;
+        padding-bottom: 50%;
     }
 
-    @keyframes slideInMenuRight {
+    @keyframes slideMenuOutReveal {
         from {
-            transform: translateX(100%);
+            transform: translateX(-100%);
             opacity: 0;
         }
         to {
@@ -133,28 +133,32 @@
         }
     }
 
-    @keyframes slideOutMenuLeft {
+    @keyframes slideMenuInHide {
         from {
             transform: translateX(0);
             opacity: 1;
         }
         to {
-            transform: translateX(100%);
+            transform: translateX(-100%);
             opacity: 0;
         }
     }
-    .slideInMenuRight {
-        animation: slideInMenuRight 0.5s ease-in-out forwards;
+    .slideMenuOutReveal {
+        animation: slideMenuOutReveal 0.5s ease-in-out forwards;
     }
-    .slideOutMenuLeft {
-        animation: slideOutMenuLeft 0.5s ease-in-out forwards;
+    .slideMenuInHide {
+        animation: slideMenuInHide 0.5s ease-in-out forwards;
     }
 
     .nav-link {
         padding: 15px 30px;
         font-weight: 600;
+        text-wrap: nowrap;
         /* background: #000; */
     }
+    /* .top-header .header-nav .navbar-nav .nav-item .nav-link {
+        color: #000;
+    } */
     .top-header{
         border-radius: 0%;
     }
@@ -431,9 +435,13 @@
         flex-direction: column;
     }
 
+    .top-header .header-nav .navbar-nav .nav-item .nav-link:hover,
+    .top-header .header-nav .navbar-nav .nav-item .nav-link:focus,
+    .top-header .header-nav .navbar-nav .nav-item .nav-link:active,
     .burger-menu-icon ul li a:hover,
     .burger-menu-icon ul li a:focus,
-    .burger-menu-icon ul li a.active {
+    .burger-menu-icon ul li a.active,
+    .selectedMenu {
         background: #132835c0;
         color: #d4a81e;
     }
