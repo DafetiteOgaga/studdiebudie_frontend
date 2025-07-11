@@ -3,21 +3,21 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-import { HashRouter as Router } from 'react-router-dom';
-import { BrowserRouter } from 'react-router-dom';
+import { BrowserRouter, HashRouter } from 'react-router-dom';
 // import 'bootstrap/dist/css/bootstrap.min.css';
 
-const isGithub = window.location.hostname.includes('github.io');
-const basename = isGithub ? '/eshuflFrontend' : '/';
+// const isGithub = window.location.hostname.includes('github.io');
+// const basename = isGithub ? '/eshuflFrontend' : '/';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-  <BrowserRouter basename={basename}>
+  // <BrowserRouter basename={basename}>
+  <HashRouter>
   {/* // <BrowserRouter> */}
     <React.StrictMode>
       <App />
     </React.StrictMode>
-  </BrowserRouter>
+  </HashRouter>
 );
 
 // If you want to start measuring performance in your app, pass a function
