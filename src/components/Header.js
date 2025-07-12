@@ -64,7 +64,8 @@ export default function Header () {
 					<Link className="navbar-brand" style={{zIndex: 1000}}
 					onClick={isMobile?mobileHeaderMenu:null}
 					to={`${!isMobile?"/":"#"}`}>
-						<img className='dafetiteHeader' src={appLogo} alt="images"/>
+						<h1 className='gradient-text' style={isMobile?{fontSize: 25}:{}}>StuddieBudie</h1>
+						{/* <img className='dafetiteHeader' src={appLogo} alt="images"/> */}
 					</Link>
 					{!isMobile ?
 						<>
