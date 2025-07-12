@@ -1211,3 +1211,15 @@ footer.footer-box p {
 .dafetiteHeader:hover, .dafetiteHeader:active {
 	width: 150px;
 }
+
+.navbar-brand h1 {
+	font-size: 35px;
+	font-weight: 600;
+	/* color: #d4a81e; */
+	/* color: linear-gradient(135deg, #132835, #1c3a4a, rgb(164, 224, 226), rgb(221, 193, 111), rgb(212, 168, 30)); */
+}
+.gradient-text {
+	background: linear-gradient(135deg, #132835, #284a5c, rgb(221, 193, 111), rgb(212, 168, 30));
+	-webkit-background-clip: text;
+	-webkit-text-fill-color: transparent;
+}
