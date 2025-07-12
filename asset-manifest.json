@@ -1,0 +1,23 @@
+{
+  "files": {
+    "main.css": "/eshuflFrontend/static/css/main.029e5b8b.css",
+    "main.js": "/eshuflFrontend/static/js/main.3df50c53.js",
+    "static/js/488.2164a802.chunk.js": "/eshuflFrontend/static/js/488.2164a802.chunk.js",
+    "static/media/banner_img.png": "/eshuflFrontend/static/media/banner_img.0e906b6c766548f748a8.png",
+    "static/media/img2.png": "/eshuflFrontend/static/media/img2.960d543d8d245f230963.png",
+    "static/media/img10.png": "/eshuflFrontend/static/media/img10.2256798fd93c3a42e5ae.png",
+    "static/media/i4.png": "/eshuflFrontend/static/media/i4.3c907841096010b1d203.png",
+    "static/media/dafelogoWhiteTransparent.png": "/eshuflFrontend/static/media/dafelogoWhiteTransparent.9e22063262c522af2111.png",
+    "static/media/sample_image.png": "/eshuflFrontend/static/media/sample_image.9e22063262c522af2111.png",
+    "static/media/i1.png": "/eshuflFrontend/static/media/i1.1d0a181aae6609c384b2.png",
+    "static/media/i2.png": "/eshuflFrontend/static/media/i2.b87f7b57f4845447026f.png",
+    "index.html": "/eshuflFrontend/index.html",
+    "main.029e5b8b.css.map": "/eshuflFrontend/static/css/main.029e5b8b.css.map",
+    "main.3df50c53.js.map": "/eshuflFrontend/static/js/main.3df50c53.js.map",
+    "488.2164a802.chunk.js.map": "/eshuflFrontend/static/js/488.2164a802.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.029e5b8b.css",
+    "static/js/main.3df50c53.js"
+  ]
+}
