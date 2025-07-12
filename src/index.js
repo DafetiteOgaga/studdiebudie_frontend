@@ -6,9 +6,6 @@ import reportWebVitals from './reportWebVitals';
 import { BrowserRouter, HashRouter } from 'react-router-dom';
 // import 'bootstrap/dist/css/bootstrap.min.css';
 
-// const isGithub = window.location.hostname.includes('github.io');
-// const basename = isGithub ? '/eshuflFrontend' : '/';
-
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   // <BrowserRouter basename={basename}>
