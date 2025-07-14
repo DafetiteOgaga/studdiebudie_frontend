@@ -158,8 +158,8 @@ export default function ContributeQuestions() {
 			'\nformData:', formData,
 			'\ncleanedData:', cleanedData,
 		);
-
-		const res = await FetchFromServer('/create-tests', 'POST', cleanedData)
+		const endpoint = 'contribute/subjects'
+		const res = await FetchFromServer(endpoint, 'POST', cleanedData)
 		console.log('Form submitted with data:', cleanedData);
 		// const alert1 = `\nResponse: \n ${JSON.stringify(res, null, 2)}`
 		alert(`${ConvertCase(res?.success||'')}\n${res?.message||''}`);
