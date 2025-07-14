@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from "react";
+import React, { useState, useEffect, useMemo, useRef } from "react";
 import defaultImage from '../../statics/images/sample_image.png'
 import { useHandleFileUpload } from "../../hooks/FileReaderHandler";
 import { ShuffleQuestions } from "./ShuffleQuestions";
@@ -50,6 +50,7 @@ export default function Scramble() {
 	const [isFile, setIsFile] = useState(false)
 	// const [UploadedContent, setUploadedContent] = useState(null)
 
+	let deleteIndexArray = useRef([])
 	const { text, processedText, handleFileChange } = useHandleFileUpload();
 	let infoItems
 	const toggleFile = () => {
@@ -170,13 +171,18 @@ export default function Scramble() {
 	const removeQuestion = (index) => {
 		console.log('removeQuestion:', index)
 		const updatedQuestions = totalFileUploadQuestions?[...fileUploadQuestions]:[...questions];
-		console.log({fileUploadQuestions}, {updatedQuestions})
-		// if (totalFileUploadQuestions) {updatedQuestions = [...fileUploadQuestions]}
+		// console.log({questions})
+		// console.log({fileUploadQuestions})
 		updatedQuestions.splice(index, 1);
+		// console.log({updatedQuestions})
+		// if (totalFileUploadQuestions) {updatedQuestions = [...fileUploadQuestions]}
+		
 		// if (totalFileUploadQuestions) {
 		if (totalFileUploadQuestions) {
+			// console.log('totalFileUploadQuestions:')
 			setNewFileUploadQuestions(updatedQuestions)
 		} else {
+			// console.log('totalNumberOfQuestions:')
 			setQuestions(updatedQuestions)
 			setFormData((prev) => ({
 				...prev,
@@ -185,47 +191,93 @@ export default function Scramble() {
 		}
 	};
 
-	const toggleImage = (index) => {
-		// console.log('image toggled to:', !isImageVisible)
+	const toggleImage = (index, question, remove=false) => {
+		console.log('image toggled to:', isImageVisible)
 		console.log('index:', index)
-		setIsImageVisible((prev) => prev.map((visible, i) => (i === index ? !visible : visible))
-		);
+		if (remove) {
+			console.log('removing question:', question)
+			setIsImageVisible((prev) => prev.map((item) => item === question? false : item));
+		} else {
+			setIsImageVisible((prev) => prev.map((visible, i) => (i === index ? question : visible)))
+		}
 	};
 
+	const setImageVisibility = () => {
+		const numberOfQuestions = totalFileUploadQuestions || totalNumberOfQuestions;
+		const visibleItems = isImageVisible.filter(item => item);
+		let visibleItemsLength = visibleItems.length-1;
+		if (visibleItemsLength < 0) visibleItemsLength = 0;
+		const remainingCount = numberOfQuestions - visibleItemsLength;
+		console.log(
+			'\nvisibleItems:', visibleItems,
+			'\nnumberOfQuestions:', numberOfQuestions,
+			'\nvisibleItemsLength:', visibleItemsLength,
+			'\nremainingCount:', remainingCount,
+		)
+		const falseArray = Array(remainingCount).fill(false);
+		setIsImageVisible(visibleItemsLength?[...visibleItems, ...falseArray]:[...falseArray]);
+	}
 	useEffect(() => {
-		setIsImageVisible(Array(totalFileUploadQuestions?totalFileUploadQuestions:totalNumberOfQuestions).fill(false));
+		setImageVisibility()
 	}, [totalFileUploadQuestions, totalNumberOfQuestions]);
+
+	useEffect(() => {
+		if (downloadLink) {
+			const delay = setTimeout(() => {
+				setDownloadLink(null);
+			}, 1000*60*60*5); // 5 hours
+			return () => clearTimeout(delay);
+		}
+	}, [downloadLink])
 
 	// let cleanedData;
 	const submitHandler = async (e) => {
 		e.preventDefault(); // prevent default page refresh
 		const cleanedData = {...formData}
 		const questions = []
-		Object.entries(formData).forEach(([key, value]) => {
+		Object.entries(cleanedData).forEach(([key, value]) => {
 			// console.log('\n', {key}, {value}, typeof(value))
 			if (!isNaN(Number(key))) {
-				// console.log('key:', Number(key))
-				questions.push({
-					...value,
-					index: Number(key)+1,
-				})
-				delete cleanedData[key]
+				// console.log('checking value:', value.question)
+				if (deleteIndexArray.current.includes(value.question)) {
+					console.log(`removing ${value.question} from cleanedData`)
+					delete cleanedData[key]
+				} else {
+					// console.log('key1:', Number(key))
+					questions.push({
+						...value,
+						index: Number(key)+1,
+					})
+					delete cleanedData[key]
+				}
 			}
 			if (typeof(value) === 'object'&&!value.question) {
 				delete cleanedData[key]
 			}
 		});
 		cleanedData.postQuestions = questions
-		const res = await FetchFromServer('/randomize', 'POST', cleanedData)
+		console.log('cleanedData:', cleanedData);
+		// return;
+		const endpoint = 'shufflequestions/shuffle'
+		const res = await FetchFromServer(endpoint, 'POST', cleanedData)
 		console.log('Form submitted with data:', cleanedData);
 		// const alert1 = `\nResponse: \n ${JSON.stringify(res, null, 2)}`
 		alert("Success\nClick 'Download File' to download the shuffled questions");
 		if (res?.success) {
 			setDownloadLink(res.downloadLink)
+			deleteIndexArray.current = [];
 		}
 	};
 	const fileQuestionsHandle = (fileQuestions) => {
+		// console.log('updating formData with fileQuestions:')
 		setFormData((prev) => ({...prev, ...fileQuestions}))
+		// setImageVisibility()
+	}
+	
+	const removeQuestionFromArray = (question) => {
+		console.log('removeQuestionFromArray called')
+		deleteIndexArray.current.push(question);
+		console.log(`added ${question} to be delete array removed`);
 	}
 	const args = {
 		questions,
@@ -250,6 +302,8 @@ export default function Scramble() {
 		text: null,
 		processedText,
 		downloadLink,
+		removeQuestionFromArray,
+		setImageVisibility,
 	}
 	infoItems = useMemo(() => {
 		if (!schoolData) return null;
@@ -288,6 +342,10 @@ export default function Scramble() {
 	// 	'\ntotalNumberOfQuestions:', totalNumberOfQuestions,
 	// 	'\nfileUploadQuestions:', fileUploadQuestions,
 	// )
+	// console.log('isImageVisible:', isImageVisible);
+	// console.log('formData:', formData);
+	// console.log('deleteIndexArray.current:', deleteIndexArray.current);
+	// console.log('newFileUploadQuestions:', newFileUploadQuestions);
 	return (
 		<>
 			<PageHead {...{title: 'create/scramble'}} />
