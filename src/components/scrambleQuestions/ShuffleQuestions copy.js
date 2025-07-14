@@ -36,7 +36,7 @@ function ShuffleQuestions(args) {
 		questionObject,
 		setSchoolData,
 		formData,
-		setFormData,
+		// setFormData,
 		fileQuestionsHandle,
 		showSubmitArray,
 		setShowSubmitArray,
@@ -45,12 +45,9 @@ function ShuffleQuestions(args) {
 		processedText,
 		downloadLink,
 		fileMargin,
-		removeQuestionFromArray,
-		setImageVisibility,
 	} = args;
 	const isMobile = useIsMobile();
 	const [editFileQuestions, setEditFileQuestions] = useState([questionObject]);
-	// const [rerender, setRerender] = useState(false);
 	// console.log({type}, {text})
 	// const uploadedQuestions = text?.split?.(`Q${[Number]}`||`q${[Number]}`);
 	// const uploadedQuestions = text?.split(/(?:Q|q)\d+[.:]/)  // split using Q1., Q2: etc.
@@ -114,49 +111,53 @@ function ShuffleQuestions(args) {
 		let updatedQuestions = [...editFileQuestions];
 		updatedQuestions[index]["number"] = index + 1; // auto-add/update question number
 		if (name === "image") {
-			const file = files && files[0];
-
-			if (file instanceof File) {
-				// updatedQuestions[index].image = null
-				// updatedQuestions[index].previewImage = null
-				console.log('File selected:', file);
-				updatedQuestions[index].image = file; // store actual file
-				updatedQuestions[index].previewImage = URL.createObjectURL(file); // store preview URL
-				// console.log('image (before a):', updatedQuestions[index])
-				// console.log('image (before):', updatedQuestions[index].image)
-				// if (!updatedQuestions[index].image) {
-				// 	console.log('image (after):', updatedQuestions[index].image)
-				// 	updatedQuestions[index].image = file; // store actual file
-				// 	updatedQuestions[index].previewImage = URL.createObjectURL(file); // store preview URL
-				// }
-			}
-			// else {
-			// 	console.log('No valid file selected');
-			// 	console.warn("No valid file selected for image");
-			// }
+			const file = files[0];
+			updatedQuestions[index].image = file; // assign image file object
+			updatedQuestions[index].previewImage = URL.createObjectURL(file); // assign preview URL for the image
 		} else {
 			updatedQuestions[index][name] = value;
-			// console.log('name:', name, 'value:', value)
 		}
 		// console.log({updatedQuestions})
-		// console.log('newFileUploadQuestions (questions):', newFileUploadQuestions)
+		console.log('newFileUploadQuestions (questions):', newFileUploadQuestions)
+		// console.log('updatedQuestions:', updatedQuestions)
+		// setFormData(newFileUploadQuestions??updatedQuestions);
 		setEditFileQuestions(newFileUploadQuestions??updatedQuestions);
-		// setRerender(prev => !prev); // trigger re-render
 	};
 	const fileUpload = text?.length
 	if (fileUpload) {
 		const total = newFileUploadQuestions?(newFileUploadQuestions.length):(uploadedQuestionsLength-1)
-		// console.log('newFileUploadQuestions (fileUpload):', newFileUploadQuestions)
+		// const total = newFileUploadQuestions?(newFileUploadQuestions.length):(uploadedQuestionsLength-1)
+		// console.log(newFileUploadQuestions?'newFileUploadQuestions': 'editFileQuestions')
+		// console.log({newFileUploadQuestions})
+		// console.log('total num passed up:', total)
+		// console.log(formData)
+		// console.log('questionArray1:', questionArray)
+		// console.log('newFileUploadQuestions:', newFileUploadQuestions)
+		// console.log('formData:', formData)
+		// questionArray = newFileUploadQuestions??formData
 		questionArray = newFileUploadQuestions??editFileQuestions
 		setTotalFileUploadQuestions(total)
 		setFileUploadQuestions(questionArray)
+		// setFileUploadQuestions(newFileUploadQuestions??editFileQuestions)
 		setSchoolData(info.question)
 		// console.log('questionArray2:', questionArray)
 	}
 	useEffect(() => {
 		fileQuestionsHandle(editFileQuestions)
 	}, [editFileQuestions])
-
+	// console.log('info:', info)
+	// console.log('fileQuestions:', fileQuestions)
+	// console.log('one:', uploadedQuestions?.[1])
+	// console.log('uploadedQuestions:', uploadedQuestions?.length)
+	// // console.log({questionArrayState})
+	// console.log({editFileQuestions})
+	// console.log('fileQuestions?.[0]:', fileQuestions?.[0])
+	// console.log({editFileQuestions})
+	// console.log({newFileUploadQuestions})
+	// console.log('info:', info)
+	// console.log({type})
+	// console.log('\nquestions:', questions)
+	
 	// console.log('formData2:', formData)
 	if (fileUpload && !showSubmitArray[1]) {
 		setShowSubmitArray(prev => {
@@ -170,27 +171,25 @@ function ShuffleQuestions(args) {
 		const updatedQuestionsImages = [...editFileQuestions];
 		updatedQuestionsImages[index].image = null;
 		updatedQuestionsImages[index].previewImage = defaultImage; // reset to default image
-		setImageVisibility()
 		setEditFileQuestions(updatedQuestionsImages);
 		console.log(`question ${index + 1} image removed`);
 		// fileUpload?handleFileQuestionChange(index, e):handleQuestionChange(index, e)
 	}
-	// console.log('editFileQuestions (final):', editFileQuestions)
+	const removeQuestionFromArray = (index) => {
+		console.log('removeQuestionFromArray called')
+		delete formData[index];
+		console.log(`question ${index + 1} removed`);
+	}
+	// console.log({fileMargin})
+	console.log('newFileUploadQuestions:', newFileUploadQuestions)
+	console.log('editFileQuestions:', editFileQuestions)
+	console.log('questionArray:', questionArray)
 	return (
 		<div
 		style={isMobile?styles.verticalContainerMobile:fileUpload?styles.verticalContainerPCwFile:styles.verticalContainerPCwoFile}
 		className="mobileQuestionRow">
 			<div className="vertical_scroll">
-				{Array.isArray(questionArray) && questionArray?.map((q, index) => {
-					const showImagePreview = isImageVisible.some((item) => {
-						// console.log('item:', item)
-						return (q.question.includes(item)&&(item !== false))})
-					console.log(
-						'\nshowImagePreview:', showImagePreview,
-						'\nisImageVisible:', isImageVisible,
-						'\nq.question:', q.question,
-					)
-					return (
+				{Array.isArray(questionArray) && questionArray?.map((q, index) => (
 				<div
 				// style={(!isMobile&&!fileUpload)?styles.questionsCompPCwoFile:(!isMobile&&fileUpload)?styles.questionsCompPCwFile:{margin: fileMargin?.margin||{...styles.questionsCompMobileIndexX}}}
 				className="c_form" key={index}>
@@ -244,7 +243,7 @@ function ShuffleQuestions(args) {
 
 							{/* images and switch buttons */}
 							<div>
-								{showImagePreview ? (
+								{isImageVisible[index] ? (
 									<>
 										<div>
 											{/* image preview */}
@@ -284,7 +283,7 @@ function ShuffleQuestions(args) {
 												className="image_upload remove_question_image"
 												type="button"
 												onClick={() => {
-													toggleImage(index, q.question, true);
+													toggleImage(index);
 													removeUploadedImage(index);
 												}}
 												>
@@ -298,7 +297,7 @@ function ShuffleQuestions(args) {
 									<button
 									className="image_upload"
 									type="button"
-									onClick={() => toggleImage(index, q.question)}
+									onClick={() => toggleImage(index)}
 									>
 										Add Image
 									</button>
@@ -311,7 +310,7 @@ function ShuffleQuestions(args) {
 							type="button"
 							onClick={() => {
 								removeQuestion(index);
-								removeQuestionFromArray(q.question);
+								removeQuestionFromArray(index);
 							}}
 							>
 								Remove Question {index + 1}
@@ -319,7 +318,7 @@ function ShuffleQuestions(args) {
 						</div>
 					</fieldset>
 				</div>
-				)})}
+				))}
 			</div>
 			{(totalNumberOfQuestions||totalFileUploadQuestions) ?
 			<div className="center_elements"
@@ -369,7 +368,7 @@ const styles = {
 		margin: '0 5%'
 	},
 	addQuestionBtnPC: {
-		margin: '10px 5% 0 5%',
+		margin: '0 5%',
 	},
 	addQuestionBtnMobile: {
 		display: 'flex',
@@ -407,3 +406,5 @@ const styles = {
 	},
 };
 export { ShuffleQuestions };
+
+// 38, 121, 169-186, 249, 257, 265, 281, 285-288, 296, 306, 311-314, 

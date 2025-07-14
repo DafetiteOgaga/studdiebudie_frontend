@@ -23,12 +23,19 @@ export default function Tests () {
 		let cleanedData = {}
 		let endpoint
 		if (!!formData?.pretest) {
-			endpoint = '/pre-tests'
+			// endpoint = '/pre-tests'
+			endpoint = 'taketest/pretest'
 			const { pretest, ...rest } = formData;
 			cleanedData = { ...rest, id: dateTimeID };
 		} else {
 			endpoint = '/take-tests'
 			cleanedData = { ...formData };
+			console.log(
+				'\nformData:', formData,
+				'\nformData?.pretest:', !!formData?.pretest,
+				'\ncleanedData:', cleanedData,
+				'\nendpoint:', endpoint,
+			)
 		}
 
 		const response = await FetchFromServer(endpoint, 'POST', cleanedData)
