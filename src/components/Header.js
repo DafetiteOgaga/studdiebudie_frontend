@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState, Fragment } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import appLogo from "../statics/images/dafelogoWhiteTransparent.png"
 import search from "../statics/images/search_icon.png"
@@ -55,7 +55,7 @@ export default function Header () {
 	const mobileHeaderMenu = () => {
 		setMenuOpen(prev => !prev)
 	}
-	console.log('ismenuopen:', menuOpen)
+	// console.log('ismenuopen:', menuOpen)
 	return (
 		<header className={`top-header ${isVisible ? "show-header" : "hide-header"}`}>
 			<nav className={`${!isMobile?'navbar':''} header-nav navbar-expand-lg`}
@@ -64,7 +64,7 @@ export default function Header () {
 					<Link className="navbar-brand" style={{zIndex: 1000}}
 					onClick={isMobile?mobileHeaderMenu:null}
 					to={`${!isMobile?"/":"#"}`}>
-						<h1 className='gradient-text' style={isMobile?{fontSize: 25}:{}}>StuddieBudie</h1>
+						<h1 data-text="StuddieBudie" className='gradient-text' style={isMobile?{fontSize: 25}:{}}>StuddieBudie</h1>
 						{/* <img className='dafetiteHeader' src={appLogo} alt="images"/> */}
 					</Link>
 					{!isMobile ?
@@ -72,12 +72,12 @@ export default function Header () {
 							<div className="justify-content-end header_menu" id="navbar-wd">
 								<HeaderMenu location={location} />
 							</div>
-							<div className="search-box">
+							{/* <div className="search-box">
 								<input type="text" className="search-txt" placeholder="Search"/>
 								<a href="#s" className="search-btn">
 									<img src={search} alt="#" />
 								</a>
-							</div>
+							</div> */}
 						</>
 						:
 						null}
@@ -116,7 +116,7 @@ const HeaderMenu = ({location, index}) => {
 					const scoreBoard = headerMenus.length - 2 === index
 					const contactUs = headerMenus.length - 1 === index
 					return (
-						<>
+						<Fragment key={index}>
 							{isMobile&&(scoreBoard||contactUs) &&
 							<div style={{
 								display: 'flex',
@@ -145,7 +145,7 @@ const HeaderMenu = ({location, index}) => {
 									</>
 								</Link>
 							</li>
-						</>
+						</Fragment>
 					)
 				})}
 			</ul>}
