@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.css": "/studdiebudie_frontend/static/css/main.3a391f23.css",
-    "main.js": "/studdiebudie_frontend/static/js/main.c37ee622.js",
+    "main.css": "/studdiebudie_frontend/static/css/main.526b8152.css",
+    "main.js": "/studdiebudie_frontend/static/js/main.7c9a4995.js",
     "static/js/488.565ffcc9.chunk.js": "/studdiebudie_frontend/static/js/488.565ffcc9.chunk.js",
     "static/media/banner_img.png": "/studdiebudie_frontend/static/media/banner_img.0e906b6c766548f748a8.png",
     "static/media/img2.png": "/studdiebudie_frontend/static/media/img2.960d543d8d245f230963.png",
@@ -12,12 +12,12 @@
     "static/media/i1.png": "/studdiebudie_frontend/static/media/i1.1d0a181aae6609c384b2.png",
     "static/media/i2.png": "/studdiebudie_frontend/static/media/i2.b87f7b57f4845447026f.png",
     "index.html": "/studdiebudie_frontend/index.html",
-    "main.3a391f23.css.map": "/studdiebudie_frontend/static/css/main.3a391f23.css.map",
-    "main.c37ee622.js.map": "/studdiebudie_frontend/static/js/main.c37ee622.js.map",
+    "main.526b8152.css.map": "/studdiebudie_frontend/static/css/main.526b8152.css.map",
+    "main.7c9a4995.js.map": "/studdiebudie_frontend/static/js/main.7c9a4995.js.map",
     "488.565ffcc9.chunk.js.map": "/studdiebudie_frontend/static/js/488.565ffcc9.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.3a391f23.css",
-    "static/js/main.c37ee622.js"
+    "static/css/main.526b8152.css",
+    "static/js/main.7c9a4995.js"
   ]
 }
