@@ -5,22 +5,9 @@ import { ConvertCase } from '../../hooks/ConvertCase';
 import { MoreInfo } from "../MoreInfo";
 import { serverOrigin } from "../../hooks/fetch/FetchFromServer";
 
-// const questionObject = {
-// 	number: '',
-// 	question: '',
-// 	correct_answer: '',
-// 	wrong_answer1: '',
-// 	wrong_answer2: '',
-// 	wrong_answer3: '',
-// 	image: null,
-// 	previewImage: defaultImage,
-// 	imageMode: '',
-// }
-
-const imageScapeOption = ['mode', 'side', 'top']
+const imageScapeOption = ['side', 'top']
 
 function ShuffleQuestions(args) {
-	// const [questionArrayState, setQuestionArrayState] = useState([]);
 	const {
 		questions,
 		totalNumberOfQuestions,
@@ -47,6 +34,8 @@ function ShuffleQuestions(args) {
 		fileMargin,
 		removeQuestionFromArray,
 		setImageVisibility,
+		generateUniqueId,
+		setIsReload,
 	} = args;
 	const isMobile = useIsMobile();
 	const [editFileQuestions, setEditFileQuestions] = useState([questionObject]);
@@ -63,28 +52,11 @@ function ShuffleQuestions(args) {
 	const uploadedQuestionsLength = processedText?.length
 	// const uploadedQuestionsLength = uploadedQuestions?.length
 	let questionArray = questions
-	// useEffect(() => {
-	// 	const newQuestions = Array.from({ length: (uploadedQuestions?.length - 1) }, () => ({
-	// 		number: '',
-	// 		question: '',
-	// 		correct_answer: '',
-	// 		wrong_answer1: '',
-	// 		wrong_answer2: '',
-	// 		wrong_answer3: '',
-	// 		image: null,
-	// 		previewImage: defaultImage,
-	// 		imageMode: '',
-	// 	}));
-	// 	setQuestionArrayState(newQuestions);
-	// }, [text]);
-	// if (text?.length) {questionArray = questionObject}
-	// if (text?.length) {questionArray = questionArrayState}
 	// const numberOfQuestions =
 	// console.log('uploadedQuestions:', uploadedQuestions)
 	let info, fileQuestions
 	if (processedText) {[info, ...fileQuestions] = processedText}
 	// if (uploadedQuestions) {[info, ...fileQuestions] = uploadedQuestions}
-	// if (text?.length) {questionArray = questionArrayState}
 	useEffect(() => {
 		// const newQuestions = Array.from({ length: (uploadedQuestions?.length - 1) }, () => fileQuestions.map((q, index) => {
 		const newQuestions = fileQuestions?.map((q, index) => {
@@ -99,7 +71,8 @@ function ShuffleQuestions(args) {
 				wrong_answer3: wrong_answer3.trim(),
 				image: null,
 				previewImage: defaultImage,
-				imageMode: '',
+				imageMode: 'side', // default to 'side'
+				uniqueId: generateUniqueId(),
 			})
 		})
 		if (newQuestions) {
@@ -107,7 +80,6 @@ function ShuffleQuestions(args) {
 			setEditFileQuestions(newQuestions);
 		}
 	}, [text]);
-	// if (text?.length) {questionArray = questionArrayState}
 	const handleFileQuestionChange = (index, e) => {
 		const { name, value, files } = e.target;
 		// let updatedQuestions = [...formData];
@@ -146,12 +118,11 @@ function ShuffleQuestions(args) {
 	const fileUpload = text?.length
 	if (fileUpload) {
 		const total = newFileUploadQuestions?(newFileUploadQuestions.length):(uploadedQuestionsLength-1)
-		// console.log('newFileUploadQuestions (fileUpload):', newFileUploadQuestions)
+		console.log('newFileUploadQuestions (fileUpload):', newFileUploadQuestions)
 		questionArray = newFileUploadQuestions??editFileQuestions
 		setTotalFileUploadQuestions(total)
 		setFileUploadQuestions(questionArray)
 		setSchoolData(info.question)
-		// console.log('questionArray2:', questionArray)
 	}
 	useEffect(() => {
 		fileQuestionsHandle(editFileQuestions)
@@ -165,30 +136,51 @@ function ShuffleQuestions(args) {
 			return updated;
 		});
 	}
-	const removeUploadedImage = (index, e) => {
+	const removeUploadedImage = (index, questionID, e) => {
 		console.log('removeUploadedImage called')
 		const updatedQuestionsImages = [...editFileQuestions];
+		console.log('updatedQuestionsImages:', updatedQuestionsImages)
+		console.log(`updatedQuestionsImages.${[index]}.image:`, updatedQuestionsImages[index].image)
+		console.log(`updatedQuestionsImages${[index]}.previewImage:`, updatedQuestionsImages[index].previewImage)
 		updatedQuestionsImages[index].image = null;
 		updatedQuestionsImages[index].previewImage = defaultImage; // reset to default image
-		setImageVisibility()
+		console.log(`updatedQuestionsImages.${[index]}.image:`, updatedQuestionsImages[index].image)
+		console.log(`updatedQuestionsImages${[index]}.previewImage:`, updatedQuestionsImages[index].previewImage)
+		console.log('from removeUploadedImage in shufflequestions:')
 		setEditFileQuestions(updatedQuestionsImages);
 		console.log(`question ${index + 1} image removed`);
+		setImageVisibility(questionID)
+		questionArray = updatedQuestionsImages
 		// fileUpload?handleFileQuestionChange(index, e):handleQuestionChange(index, e)
 	}
 	// console.log('editFileQuestions (final):', editFileQuestions)
+	console.log('editFileQuestions:', editFileQuestions)
+	console.log('questionArray:', questionArray)
+	// questionArray = [...questionArray, editFileQuestions]
+	// useEffect(() => {
+	// 	console.log('Reloading questions due to questionArray change:', questionArray)
+	// 	setIsReload(prev => !prev)
+	// }, [questionArray])
 	return (
 		<div
 		style={isMobile?styles.verticalContainerMobile:fileUpload?styles.verticalContainerPCwFile:styles.verticalContainerPCwoFile}
 		className="mobileQuestionRow">
 			<div className="vertical_scroll">
 				{Array.isArray(questionArray) && questionArray?.map((q, index) => {
-					const showImagePreview = isImageVisible.some((item) => {
-						// console.log('item:', item)
-						return (q.question.includes(item)&&(item !== false))})
+					// const isImagePresent = fileUpload?editFileQuestions[index].previewImage:questions[index].previewImage
+					const isImagePresent = fileUpload?editFileQuestions[index]:questions[index]
+					const isImageNamePresent = isImagePresent?.image?.name;
+					const isImagePreviewNotDefault = isImagePresent?.previewImage !== defaultImage;
+					const showImagePreview = isImageVisible.some((item) => (typeof item === 'string' && q.uniqueId.includes(item)))
 					console.log(
+						'\nisImagePresent:', isImagePresent,
+						'\nisImageNamePresent:', isImageNamePresent, 'at number:', index+1,
+						'\nisImagePreviewNotDefault:', isImagePreviewNotDefault,
 						'\nshowImagePreview:', showImagePreview,
 						'\nisImageVisible:', isImageVisible,
-						'\nq.question:', q.question,
+						'\nquestion.uniqueId:', q.uniqueId,
+						'\nitem.uniqueId:', isImagePresent?.uniqueId,
+						// '\ndefaultImage:', defaultImage,
 					)
 					return (
 				<div
@@ -244,7 +236,7 @@ function ShuffleQuestions(args) {
 
 							{/* images and switch buttons */}
 							<div>
-								{showImagePreview ? (
+								{(showImagePreview||isImagePreviewNotDefault) ? (
 									<>
 										<div>
 											{/* image preview */}
@@ -274,18 +266,18 @@ function ShuffleQuestions(args) {
 												}}
 												name="imageMode">
 													{imageScapeOption.map((option, i) => (
-															<option key={i} disabled={!i} value={!i?'':option}>
-																{ConvertCase(option)}
-															</option>
-														))}
+														<option key={i} value={option}>
+															{ConvertCase(option)}
+														</option>
+													))}
 												</select>
 												{/* remove image button */}
 												<button
 												className="image_upload remove_question_image"
 												type="button"
 												onClick={() => {
-													toggleImage(index, q.question, true);
-													removeUploadedImage(index);
+													toggleImage(index, q.uniqueId, true);
+													removeUploadedImage(index, q.uniqueId);
 												}}
 												>
 													Remove Image
@@ -298,7 +290,7 @@ function ShuffleQuestions(args) {
 									<button
 									className="image_upload"
 									type="button"
-									onClick={() => toggleImage(index, q.question)}
+									onClick={() => toggleImage(index, q.uniqueId)}
 									>
 										Add Image
 									</button>
@@ -310,8 +302,8 @@ function ShuffleQuestions(args) {
 							className="image_upload remove_question_image"
 							type="button"
 							onClick={() => {
-								removeQuestion(index);
-								removeQuestionFromArray(q.question);
+								removeQuestion(index, q.uniqueId);
+								removeQuestionFromArray(q.uniqueId);
 							}}
 							>
 								Remove Question {index + 1}
