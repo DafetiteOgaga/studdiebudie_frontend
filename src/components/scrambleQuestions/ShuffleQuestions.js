@@ -160,7 +160,6 @@ function ShuffleQuestions(args) {
 	// useEffect(() => {
 	// 	console.log('Reloading questions due to questionArray change:', questionArray)
 	// 	setIsReload(prev => !prev)
-	// }, [questionArray])
 	return (
 		<div
 		style={isMobile?styles.verticalContainerMobile:fileUpload?styles.verticalContainerPCwFile:styles.verticalContainerPCwoFile}
