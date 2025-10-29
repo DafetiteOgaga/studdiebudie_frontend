@@ -7,9 +7,6 @@ export default function Footer() {
 				<div className="container">
 					<div className="row">
 						<div className="col-12 text-center">
-							{/* <p className="crp">&copy; Copyrights {todayYear} - Developed by
-								<a href="https://dafetiteogaga.github.io/dafetite/"><img src={dafetite} alt="dafetite" className="dafetite" /></a>
-							</p> */}
 							<DafetiteFooter />
 						</div>
 					</div>
