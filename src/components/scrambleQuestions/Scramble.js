@@ -8,6 +8,15 @@ import { PageHead } from "../PageHead";
 import { FetchFromServer } from "../../hooks/fetch/FetchFromServer";
 import { useIsMobile } from "../../hooks/IsMobile";
 
+function generateUniqueId() {
+	// Get date & time down to seconds
+	const now = new Date();
+	const timestamp = now.toISOString().replace(/[-:.TZ]/g, '').slice(0, 14);
+	// Generate 6–8 random alphanumeric characters
+	const randomPart = Math.random().toString(36).substring(2, 10);
+	return `${timestamp}${randomPart}`;
+}
+
 const formValues = {
 	school: "",
 	email: "",
@@ -30,7 +39,8 @@ const questionObject = {
 	wrong_answer3: '',
 	image: null,
 	previewImage: defaultImage,
-	imageMode: '',
+	imageMode: 'side',
+	uniqueId: generateUniqueId(),
 }
 
 const termArray = ['term', 'none', 'first', 'second', 'third']
@@ -48,6 +58,7 @@ export default function Scramble() {
 	const [totalFileUploadQuestions, setTotalFileUploadQuestions] = useState(0)
 	const [isImageVisible, setIsImageVisible] = useState([Array(totalFileUploadQuestions?totalFileUploadQuestions:totalNumberOfQuestions).fill(false)]);
 	const [isFile, setIsFile] = useState(false)
+	// const [isReload, setIsReload] = useState(false);
 	// const [UploadedContent, setUploadedContent] = useState(null)
 
 	let deleteIndexArray = useRef([])
@@ -138,7 +149,8 @@ export default function Scramble() {
 				wrong_answer3: '',
 				image: null,
 				previewImage: defaultImage,
-				imageMode: '',
+				imageMode: 'side',
+				uniqueId: generateUniqueId(),
 			}
 		]
 		// setQuestions();
@@ -163,27 +175,38 @@ export default function Scramble() {
 			wrong_answer3: '',
 			image: null,
 			previewImage: defaultImage,
-			imageMode: '',
+			imageMode: 'side',
+			uniqueId: generateUniqueId(),
 		}));
 		setQuestions(newQuestions);
 	}, [totalNumberOfQuestions]);
 
-	const removeQuestion = (index) => {
-		console.log('removeQuestion:', index)
+	const removeQuestion = (index, questionID) => {
+		console.log('removeQuestion called with\nindex:', index, '\nquestionID:', questionID)
+		// console.log('removeQuestion:', index)
 		const updatedQuestions = totalFileUploadQuestions?[...fileUploadQuestions]:[...questions];
 		// console.log({questions})
 		// console.log({fileUploadQuestions})
-		updatedQuestions.splice(index, 1);
+		// updatedQuestions.splice(index, 1);
+		console.log('updatedQuestions1:', updatedQuestions)
+		const filteredQuestions = updatedQuestions.filter((item, i) => {
+			if (item.uniqueId === questionID) {
+				console.log(`removing question with ${item.uniqueId}`)
+				console.log(`removing ${item.question} from questions`)
+				return false;
+			}
+			return item.uniqueId !== questionID});
+		setImageVisibility(questionID);
+		console.log('filteredQuestions:', filteredQuestions)
 		// console.log({updatedQuestions})
 		// if (totalFileUploadQuestions) {updatedQuestions = [...fileUploadQuestions]}
 		
 		// if (totalFileUploadQuestions) {
 		if (totalFileUploadQuestions) {
 			// console.log('totalFileUploadQuestions:')
-			setNewFileUploadQuestions(updatedQuestions)
+			setNewFileUploadQuestions(filteredQuestions)
 		} else {
-			// console.log('totalNumberOfQuestions:')
-			setQuestions(updatedQuestions)
+			setQuestions(filteredQuestions)
 			setFormData((prev) => ({
 				...prev,
 				totalQs: Number(prev.totalQs)-1
@@ -191,21 +214,29 @@ export default function Scramble() {
 		}
 	};
 
-	const toggleImage = (index, question, remove=false) => {
+	const toggleImage = (index, questionID, remove=false) => {
 		console.log('image toggled to:', isImageVisible)
 		console.log('index:', index)
 		if (remove) {
-			console.log('removing question:', question)
-			setIsImageVisible((prev) => prev.map((item) => item === question? false : item));
+			console.warn('may not need to use toggleImage fxn in remove image button')
 		} else {
-			setIsImageVisible((prev) => prev.map((visible, i) => (i === index ? question : visible)))
+			console.log('questionID:', questionID)
+			setIsImageVisible((prev) => prev.map((visible, i) => (i === index ? questionID : visible)))
 		}
 	};
 
-	const setImageVisibility = () => {
+	const setImageVisibility = (questionID=null) => {
+		console.log('questionID:', questionID)
+		console.log('isImageVisible:', isImageVisible)
 		const numberOfQuestions = totalFileUploadQuestions || totalNumberOfQuestions;
-		const visibleItems = isImageVisible.filter(item => item);
-		let visibleItemsLength = visibleItems.length-1;
+		const visibleItems = (isImageVisible).filter(item => {
+			if (item === false) return false;
+			if (questionID&&item.includes(questionID)) {
+				return false
+			}
+			return true});
+		let visibleItemsLength = questionID?visibleItems.length:visibleItems.length-1;
+		console.log('initial visibleItemsLength:', visibleItemsLength)
 		if (visibleItemsLength < 0) visibleItemsLength = 0;
 		const remainingCount = numberOfQuestions - visibleItemsLength;
 		console.log(
@@ -216,8 +247,11 @@ export default function Scramble() {
 		)
 		const falseArray = Array(remainingCount).fill(false);
 		setIsImageVisible(visibleItemsLength?[...visibleItems, ...falseArray]:[...falseArray]);
+		// console.log('\nReloading app'.repeat(5))
+		// setIsReload(prev => !prev)
 	}
 	useEffect(() => {
+		console.log('from useeffect:')
 		setImageVisibility()
 	}, [totalFileUploadQuestions, totalNumberOfQuestions]);
 
@@ -239,7 +273,7 @@ export default function Scramble() {
 			// console.log('\n', {key}, {value}, typeof(value))
 			if (!isNaN(Number(key))) {
 				// console.log('checking value:', value.question)
-				if (deleteIndexArray.current.includes(value.question)) {
+				if (deleteIndexArray.current.includes(value.uniqueId)) {
 					console.log(`removing ${value.question} from cleanedData`)
 					delete cleanedData[key]
 				} else {
@@ -271,13 +305,12 @@ export default function Scramble() {
 	const fileQuestionsHandle = (fileQuestions) => {
 		// console.log('updating formData with fileQuestions:')
 		setFormData((prev) => ({...prev, ...fileQuestions}))
-		// setImageVisibility()
 	}
 	
-	const removeQuestionFromArray = (question) => {
+	const removeQuestionFromArray = (questionID) => {
 		console.log('removeQuestionFromArray called')
-		deleteIndexArray.current.push(question);
-		console.log(`added ${question} to be delete array removed`);
+		deleteIndexArray.current.push(questionID);
+		console.log(`added ${questionID} to be delete array removed`);
 	}
 	const args = {
 		questions,
@@ -304,6 +337,8 @@ export default function Scramble() {
 		downloadLink,
 		removeQuestionFromArray,
 		setImageVisibility,
+		generateUniqueId,
+		// setIsReload,
 	}
 	infoItems = useMemo(() => {
 		if (!schoolData) return null;
@@ -338,13 +373,9 @@ export default function Scramble() {
 		});
 	}, [infoItems]);
 	// console.log('formData:', formData);
-	// console.log(
-	// 	'\ntotalNumberOfQuestions:', totalNumberOfQuestions,
-	// 	'\nfileUploadQuestions:', fileUploadQuestions,
-	// )
 	// console.log('isImageVisible:', isImageVisible);
 	// console.log('formData:', formData);
-	// console.log('deleteIndexArray.current:', deleteIndexArray.current);
+	console.log('deleteIndexArray.current:', deleteIndexArray.current);
 	// console.log('newFileUploadQuestions:', newFileUploadQuestions);
 	return (
 		<>
@@ -441,7 +472,15 @@ export default function Scramble() {
 											<input
 											style={{width: '60%'}}
 											className="c_form_input" placeholder="Duration"
-											value={formData.duration} onChange={handleChange}
+											value={formData.duration}
+											// onChange={handleChange}
+											onChange={(e) => {
+												const value = e.target.value;
+												// Allow only numbers and one decimal point
+												if (/^\d*\.?\d*$/.test(value)) {
+													handleChange(e);
+												}
+											}}
 											required
 											type="tel" name="duration" />
 										</div>
@@ -497,13 +536,11 @@ export default function Scramble() {
 					{/* submit button */}
 					<div className="center">
 						<button
-						type="submit" className="c_form_button">Send</button>
+						style={{textWrap: 'nowrap', padding: '0 1%', width: 'fit-content'}}
+						type="submit" className="c_form_button">Scramble Questions</button>
 					</div>
-					{/* } */}
 				</form>
-				
 			</div>
-			{/* <!-- end body --> */}
 		</>
 	);
 }

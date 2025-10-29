@@ -4,7 +4,7 @@ import "./statics/css/style.css"
 import "./statics/css/responsive.css"
 import Header from './components/Header';
 import AppRoutes from './hooks/Routes';
-import ShortFooter from './components/ShortFooter';
+import Footer from './components/Footer';
 import { Analytics } from "@vercel/analytics/react"
 
 function App() {
@@ -14,7 +14,7 @@ function App() {
       <div className='app_content'>
         <AppRoutes />
       </div>
-      <ShortFooter />
+      <Footer />
       <Analytics />
     </div>
   );
