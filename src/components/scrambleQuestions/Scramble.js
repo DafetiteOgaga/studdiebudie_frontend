@@ -472,7 +472,15 @@ export default function Scramble() {
 											<input
 											style={{width: '60%'}}
 											className="c_form_input" placeholder="Duration"
-											value={formData.duration} onChange={handleChange}
+											value={formData.duration}
+											// onChange={handleChange}
+											onChange={(e) => {
+												const value = e.target.value;
+												// Allow only numbers and one decimal point
+												if (/^\d*\.?\d*$/.test(value)) {
+													handleChange(e);
+												}
+											}}
 											required
 											type="tel" name="duration" />
 										</div>
@@ -528,13 +536,11 @@ export default function Scramble() {
 					{/* submit button */}
 					<div className="center">
 						<button
-						type="submit" className="c_form_button">Send</button>
+						style={{textWrap: 'nowrap', padding: '0 1%', width: 'fit-content'}}
+						type="submit" className="c_form_button">Scramble Questions</button>
 					</div>
-					{/* } */}
 				</form>
-				
 			</div>
-			{/* <!-- end body --> */}
 		</>
 	);
 }
